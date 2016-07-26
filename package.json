@@ -1,0 +1,67 @@
+{
+  "name": "cinema_browser",
+  "version": "1.0.0",
+  "description": "Repository for Cinema browser",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack --watch",
+    "build": "webpack",
+    "postinstall": "typings install && webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/karelhala/cinema_browser"
+  },
+  "author": "Kare Hala",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/karelhala/cinema_browser/issues"
+  },
+  "homepage": "http://karelhala.github.io/cinema_browser",
+  "devDependencies": {
+    "angular": "1.5.5",
+    "angular-animate": "^1.5.5",
+    "angular-aria": "^1.5.5",
+    "angular-material": "^1.0.8",
+    "angular-messages": "^1.5.5",
+    "angular-mocks": "^1.5.5",
+    "angular-route": "^1.5.5",
+    "angular-sanitize": "^1.5.5",
+    "angular-timeline": "^1.2.1",
+    "angular-ui-select": "^0.12.100",
+    "bootstrap-combobox": "^1.0.2",
+    "browser-sync": "2.11.1",
+    "browser-sync-spa": "1.0.3",
+    "browser-sync-webpack-plugin": "1.0.1",
+    "copy-webpack-plugin": "1.1.1",
+    "css-loader": "^0.23.1",
+    "event-stream": "3.2.1",
+    "extract-text-webpack-plugin": "1.0.1",
+    "file-loader": "^0.8.5",
+    "html-webpack-plugin": "^2.15.0",
+    "imports-loader": "^0.6.5",
+    "less": "2.6.1",
+    "less-loader": "^2.2.3",
+    "lodash": "4.6.1",
+    "minimist": "1.1.0",
+    "ng-annotate-webpack-plugin": "0.1.2",
+    "node-sass": "^3.4.2",
+    "raw-loader": "0.5.1",
+    "rx": "^4.1.0",
+    "rx-angular": "^1.1.3",
+    "sass": "^0.5.0",
+    "sass-loader": "^3.2.0",
+    "smooth-scrolling": "^2.1.7",
+    "style-loader": "^0.13.0",
+    "ts-loader": "0.8.1",
+    "tslint": "3.6.0",
+    "tslint-loader": "2.1.1",
+    "typescript": "1.8.9",
+    "ui-router": "^1.0.0-alpha0",
+    "url-loader": "^0.5.7",
+    "webpack": "1.12.14"
+  },
+  "dependencies": {
+    "moment": "^2.13.0"
+  }
+}

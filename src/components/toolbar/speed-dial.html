@@ -1,0 +1,18 @@
+<md-fab-speed-dial md-open="vm.isOpen" md-direction="{{vm.direction}}"
+                   ng-class="vm.selectedMode" class="cv-move-speed-dial">
+  <md-fab-trigger>
+    <md-button class="md-icon-button" aria-label="Settings">
+      <ng-md-icon icon="{{vm.isOpen ? 'format_align_left' : 'menu'}}" ng-attr-style="fill: {{fill}}" options='{"rotation": "none"}'></ng-md-icon>
+    </md-button>
+  </md-fab-trigger>
+  <md-fab-actions>
+    <md-button ng-repeat="item in vm.items"
+               aria-label="{{item.tooltip}}"
+               class="md-fab md-raised md-mini"
+               ng-click="vm.onClick({item: item})">
+      <md-tooltip md-direction="{{item.tooltipDirection}}"
+                  md-autohide="false">{{item.tooltip}}</md-tooltip>
+      <md-icon>{{item.icon}}</md-icon>
+    </md-button>
+  </md-fab-actions>
+</md-fab-speed-dial>

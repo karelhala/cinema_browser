@@ -1,0 +1,14 @@
+dist/data/
+dist/assets/
+dist/assets/
+dist/**/demo-app.*
+node_modules/
+typings/
+*.css.map
+*.js.map
+
+# idea files
+.idea/
+*.ipr
+*.iws
+*.iml

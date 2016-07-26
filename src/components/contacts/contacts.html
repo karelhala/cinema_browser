@@ -1,0 +1,6 @@
+<md-icon ng-repeat="contact in vm.contactsData"
+         md-svg-src="{{contact.iconSrc}}"
+         aria-label="{{contact.title}}"
+         ng-click="vm.contactClicked(contact)"
+         class="cv-contact {{contact.class}}"
+></md-icon>

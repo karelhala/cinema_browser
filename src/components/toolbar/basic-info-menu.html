@@ -1,0 +1,27 @@
+<md-menu md-position-mode="target-right target">
+  <md-button class="md-fab move-down" aria-label="Show basic details" ng-click="vm.openMenu($mdOpenMenu, $event)">
+    <md-icon>account_circle</md-icon>
+  </md-button>
+  <md-menu-content width="6">
+    <md-menu-item>
+      <span class="cv-bold"></span>
+      <span><img src="{{vm.personObject.picture}}"></span>
+    </md-menu-item>
+    <md-menu-item>
+      <span flex></span>
+    </md-menu-item>
+    <md-menu-item>
+      <span class="cv-bold">Name and Surname</span>
+      <span>{{vm.personObject.name}} {{vm.personObject.surName}}</span>
+    </md-menu-item>
+    <md-menu-divider></md-menu-divider>
+    <md-menu-item>
+      <span class="cv-bold">Birth date</span>
+      <span>{{vm.personObject.dateObject.format('DD.MM.YYYY')}}</span>
+    </md-menu-item>
+    <md-menu-item>
+      <span class="cv-bold">Age</span>
+      <span>{{vm.personObject.getAge()}}</span>
+    </md-menu-item>
+  </md-menu-content>
+</md-menu>

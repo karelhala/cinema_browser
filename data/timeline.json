@@ -1,0 +1,51 @@
+[
+  {
+    "title": "was born",
+    "color-class": "bg-warning",
+    "icon": "child_friendly",
+    "text": "I was born in small city in south moravia called Znojmo. You might know this place by it's famous wine yards and beautiful places to relax.",
+    "time": 664502400000
+  },
+  {
+    "title": "went to high School",
+    "color-class": "bg-info",
+    "icon": "airport_shuttle",
+    "text": "My High school with focus on computer networks was great place where I realized that I like programming with focus on UI.",
+    "time": 1157068800000
+  },
+  {
+    "title": "went to university, FIT (Bachelor's degree)",
+    "color-class": "bg-danger",
+    "icon": "location_city",
+    "text": "First I got a degree in computer science at Faculty of information technologies. Which I successfully ended with bachelors degree after 4 years.",
+    "time": 1283299200000
+  },
+  {
+    "title": "got his first job",
+    "color-class": "bg-success",
+    "icon": "work",
+    "text": "My First job experience was when I was studying FIT before I got my bachelors degree, the company for which I worked for was Honeywell. I've been working on programs which were used in PR for managing employees. This project was build with PHP (Nette) and jQuery, I found out that front end development and mainly JavaScript was the next thing I want to work on.",
+    "time": 1367366400000
+  },
+  {
+    "title": "got his second job",
+    "color-class": "bg-info",
+    "icon": "work",
+    "text": "Second job for smaller company called MoroSystems. I learned a lot in there, from working in Java with Spring to using JavaScript with couple of frameworks like ExtJs and first time working with angularJs. At the very end I was moved to JIRA development team where we were working on various JIRA plugins for different customers (O2, Ebay, Koger, Mastercard..)",
+    "time": 1404172800000
+  },
+  {
+    "title": "went to university, FP (Master's degree)",
+    "color-class": "bg-danger",
+    "icon": "location_city",
+    "text": "Bachelors degree was not my final destination with education, hence I went to Faculty of marketing. Why did I chose this field of study? I wanted to learn something new and mainly to learn how directing company and other things works. It even helped me to understand how to manage a team, not only to be part of the team.",
+    "time": 1409529600000
+  },
+  {
+    "title": "current employer",
+    "color-class": "bg-success",
+    "icon": "assistant_photo",
+    "text": "My current employer is RedHat where I finally can focus on what I like, working on UI with new technologies. I am working mostly with angular I worked on hawkular.org and now working on manageIq tool for managing clouds in various environments.",
+    "time": 1446336000000
+  }
+]

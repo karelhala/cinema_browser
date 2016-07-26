@@ -1,0 +1,22 @@
+<md-card>
+  <md-card-title>
+    <md-card-title-text>
+      <span class="md-headline">{{vm.tileTitle}}</span>
+    </md-card-title-text>
+  </md-card-title>
+  <md-card-content layout="row" layout-align="space-between">
+    <div class="card-media cv-graph">
+      <basic-graph type="vm.tileData.graphData.type"
+                   data="vm.tileData.graphData.data"
+                   colors="vm.tileData.graphData.colors"
+                   names="vm.tileData.graphData.names" id="{{vm.graphId}}">
+      </basic-graph>
+    </div>
+    <md-card-actions layout="column">
+      <md-button class="md-icon-button" aria-label="Settings">
+        <md-icon>mode_comment</md-icon>
+      </md-button>
+      <speed-dial items="vm.speedDialItems" direction="'down'" on-click="vm.onSpeedDialClick(item)"></speed-dial>
+    </md-card-actions>
+  </md-card-content>
+</md-card>

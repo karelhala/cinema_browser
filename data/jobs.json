@@ -1,0 +1,26 @@
+[
+  {
+    "id": "data1",
+    "color": "#ee4749",
+    "name": "HoneyWell",
+    "inTime": 1367366400000,
+    "outTime": 1404172800000,
+    "text": "Some placeholder text"
+  },
+  {
+    "id": "data2",
+    "color": "#fad839",
+    "name": "MoroSystems",
+    "inTime": 1404172800000,
+    "outTime": 1446336000000,
+    "text": "Some placeholder text"
+  },
+  {
+    "id": "data3",
+    "color": "#303641",
+    "name": "RedHat",
+    "inTime": 1446336000000,
+    "isCurrent": true,
+    "text": "Some placeholder text"
+  }
+]

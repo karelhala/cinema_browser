@@ -1,0 +1,18 @@
+<article class="timeline-entry" ng-class="vm.getCurrentClasses()">
+
+  <div class="timeline-entry-inner">
+    <time class="timeline-time" datetime="{{vm.entry.timeObject.format('YYYY-MM-DD')}}"><span>{{vm.entry.timeObject.format('DD.MM.YYYY')}}</span>
+      <span class="cv-time">{{vm.entry.getTime()}}</span></time>
+    <div class="timeline-icon {{vm.entry['color-class']}}" ng-click="vm.entry.isVisible = !vm.entry.isVisible">
+      <md-button class="md-icon-button" aria-label="Settings">
+        <md-icon>{{vm.entry.icon}}</md-icon>
+      </md-button>
+    </div>
+
+    <div class="timeline-label" ng-class="vm.bounce()">
+      <h2>{{vm.personObject.name}} {{vm.personObject.surName}} <span> {{vm.entry.title}}</span></h2>
+      <p>{{vm.entry.text}}</p>
+    </div>
+  </div>
+
+</article>

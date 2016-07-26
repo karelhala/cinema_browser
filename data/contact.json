@@ -1,0 +1,18 @@
+[
+  {
+    "title": "Github",
+    "iconSrc": "/icons/github/github-icon-black.svg",
+    "link": "https://github.com/karelhala"
+  }, {
+    "iconSrc": "/icons/email/black-envelope.svg",
+    "title": "Email",
+    "link": "mailto:karelhala.91@gmail.com",
+    "class": "smaller"
+  },
+  {
+    "iconSrc": "/icons/linkedin/linkedin-button.svg",
+    "title": "LinkedIn",
+    "link": "https://cz.linkedin.com/in/karelhala",
+    "class": "smaller split"
+  }
+]
