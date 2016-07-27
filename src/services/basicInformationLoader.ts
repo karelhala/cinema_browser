@@ -16,7 +16,7 @@ export default class BasicInformationLoader {
   }
 
   private loadCinemas(): ng.IPromise<any> {
-    return this.$http.get('/data/basic_info.json').then((responseData) => {
+    return this.$http.get('data/basic_info.json').then((responseData) => {
       return responseData.data;
     });
   }
