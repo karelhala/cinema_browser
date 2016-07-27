@@ -112,7 +112,7 @@
 /* 7 */
 /***/ function(module, exports) {
 
-	module.exports = "<div ng-controller=\"basicInformationController as basic\">\n  <div class=\"md-toolbar-tools\">\n    <speed-dial items=\"basic.items\" direction=\"basic.direction\" on-click=\"basic.scrollToElement(item)\"></speed-dial>\n  </div>\n</div>\n"
+	module.exports = "<div ng-controller=\"basicInformationController as basic\">\n  <div class=\"md-toolbar-tools\">\n    <cc-select select-items=\"basic.items\" label=\"basic.label\" on-change=\"basic.onCinemaSelect(item)\" class=\"cc-toolbar-item\"></cc-select>\n    <md-datepicker ng-model=\"myDate\" md-placeholder=\"Enter date\" class=\"cc-toolbar-item\"></md-datepicker>\n  </div>\n</div>\n"
 
 /***/ },
 /* 8 */
@@ -143,39 +143,24 @@
 
 /***/ },
 /* 10 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	"use strict";
-	///<reference path="../tsd.d.ts"/>
-	var moment = __webpack_require__(11);
 	var BasicInformationLoader = (function () {
 	    /* @ngInject */
 	    function BasicInformationLoader($http) {
 	        this.$http = $http;
-	        this.personObject = {};
+	        this.allCinemas = {};
 	    }
 	    BasicInformationLoader.$inject = ["$http"];
-	    BasicInformationLoader.prototype.getPersonObject = function () {
+	    BasicInformationLoader.prototype.getCinemas = function () {
 	        var _this = this;
-	        if (this.personObject.hasOwnProperty('name')) {
-	            return this.personObject;
-	        }
-	        else {
-	            return this.loadPersonObject().then(function (personData) {
-	                _this.fillObject(personData);
-	                _this.personObject = personData;
-	                return _this.personObject;
-	            });
-	        }
+	        return this.loadCinemas().then(function (allCinemas) {
+	            _this.allCinemas = allCinemas;
+	            return _this.allCinemas;
+	        });
 	    };
-	    BasicInformationLoader.prototype.fillObject = function (personData) {
-	        personData.dateObject = moment(personData.bornTimeStamp);
-	        personData.getAge = function () {
-	            personData.diffTime = moment.duration(moment().diff(personData.dateObject));
-	            return Math.round(personData.diffTime.asYears());
-	        };
-	    };
-	    BasicInformationLoader.prototype.loadPersonObject = function () {
+	    BasicInformationLoader.prototype.loadCinemas = function () {
 	        return this.$http.get('/data/basic_info.json').then(function (responseData) {
 	            return responseData.data;
 	        });
@@ -418,14 +403,8 @@
 	        this.$window = $window;
 	        this.basicInformationLoader = basicInformationLoader;
 	        this.direction = 'down';
-	        this.initSpeedDial();
-	        this.container = angular.element(document.getElementById('content-container'));
-	        var person = this.basicInformationLoader.getPersonObject();
-	        if (person.hasOwnProperty('$$state')) {
-	            person.then(function (personData) {
-	                _this.personData = personData;
-	            });
-	        }
+	        this.label = 'Kino';
+	        basicInformationLoader.getCinemas().then(function (items) { return _this.items = items; });
 	    }
 	    BasicInformationController.$inject = ["$window", "basicInformationLoader"];
 	    BasicInformationController.prototype.scrollToElement = function (item) {
@@ -434,19 +413,8 @@
 	            this.container.scrollToElementAnimated(element, 0, 400);
 	        }
 	    };
-	    BasicInformationController.prototype.initSpeedDial = function () {
-	        this.items = [
-	            {
-	                tooltip: 'Velký Špalíček',
-	                tooltipDirection: 'right',
-	                icon: 'account_balance',
-	            },
-	            {
-	                tooltip: 'Olympia',
-	                tooltipDirection: 'right',
-	                icon: 'shopping_cart',
-	            }
-	        ];
+	    BasicInformationController.prototype.onCinemaSelect = function (item) {
+	        console.log(item);
 	    };
 	    return BasicInformationController;
 	}());
@@ -481,10 +449,12 @@
 	///<reference path="../../tsd.d.ts"/>
 	var basicInfoMenuComponent_1 = __webpack_require__(20);
 	var speedDialComponent_1 = __webpack_require__(23);
+	var selectComponent_1 = __webpack_require__(46);
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = function (module) {
 	    module.component('basicInfoMenu', new basicInfoMenuComponent_1.default);
 	    module.component('speedDial', new speedDialComponent_1.default);
+	    module.component('ccSelect', new selectComponent_1.default);
 	};
 
 
@@ -1054,6 +1024,42 @@
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 45 */,
+/* 46 */
+/***/ function(module, exports, __webpack_require__) {
+
+	///<reference path="../../tsd.d.ts"/>
+	"use strict";
+	var SelectController = (function () {
+	    function SelectController() {
+	    }
+	    return SelectController;
+	}());
+	var SelectComponent = (function () {
+	    function SelectComponent() {
+	        this.replace = true;
+	        this.template = __webpack_require__(47);
+	        this.controller = SelectController;
+	        this.controllerAs = 'ctrl';
+	        this.bindings = {
+	            selectItems: '<',
+	            label: '<',
+	            onChange: '&'
+	        };
+	    }
+	    return SelectComponent;
+	}());
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = SelectComponent;
+
+
+/***/ },
+/* 47 */
+/***/ function(module, exports) {
+
+	module.exports = "<md-input-container>\n  <label>{{ctrl.label}}</label>\n  <md-select ng-model=\"ctrl.selectedCinema\">\n    <md-option ng-repeat=\"item in ctrl.selectItems\" value=\"{{item.text}}\">\n      {{item.text}}\n    </md-option>\n  </md-select>\n</md-input-container>\n"
 
 /***/ }
 /******/ ]);

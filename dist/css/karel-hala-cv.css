@@ -1,3 +1,8 @@
+.md-toolbar-tools {
+  background-color: #607D8B; }
+  .md-toolbar-tools .cc-toolbar-item {
+    margin-top: 15px; }
+
 .move-up {
   position: relative;
   top: -30px;

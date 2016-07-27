@@ -1,0 +1,8 @@
+<md-input-container>
+  <label>{{ctrl.label}}</label>
+  <md-select ng-model="ctrl.selectedCinema">
+    <md-option ng-repeat="item in ctrl.selectItems" value="{{item.text}}">
+      {{item.text}}
+    </md-option>
+  </md-select>
+</md-input-container>

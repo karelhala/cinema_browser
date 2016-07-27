@@ -2,18 +2,13 @@
 export default class BasicInformationController {
   private personData: any;
   public direction: string = 'down';
+  public label: string;
   public items: any[];
   public container: any;
   /* @ngInject */
   constructor(private $window: any, private basicInformationLoader: any) {
-    this.initSpeedDial();
-    this.container = angular.element(document.getElementById('content-container'));
-    let person = this.basicInformationLoader.getPersonObject();
-    if (person.hasOwnProperty('$$state')) {
-      person.then((personData) => {
-        this.personData = personData;
-      });
-    }
+    this.label = 'Kino';
+    basicInformationLoader.getCinemas().then(items => this.items = items);
   }
 
   public scrollToElement(item: any) {
@@ -23,18 +18,8 @@ export default class BasicInformationController {
     }
   }
 
-  private initSpeedDial() {
-    this.items = [
-      {
-        tooltip: 'Velký Špalíček',
-        tooltipDirection: 'right',
-        icon: 'account_balance',
-      },
-      {
-        tooltip: 'Olympia',
-        tooltipDirection: 'right',
-        icon: 'shopping_cart',
-      }
-    ];
+  public onCinemaSelect(item) {
+    console.log(item);
   }
 }
+

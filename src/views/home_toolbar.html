@@ -1,5 +1,6 @@
 <div ng-controller="basicInformationController as basic">
   <div class="md-toolbar-tools">
-    <speed-dial items="basic.items" direction="basic.direction" on-click="basic.scrollToElement(item)"></speed-dial>
+    <cc-select select-items="basic.items" label="basic.label" on-change="basic.onCinemaSelect(item)" class="cc-toolbar-item"></cc-select>
+    <md-datepicker ng-model="myDate" md-placeholder="Enter date" class="cc-toolbar-item"></md-datepicker>
   </div>
 </div>
