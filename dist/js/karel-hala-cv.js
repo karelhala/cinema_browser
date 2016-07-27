@@ -46,7 +46,7 @@
 
 	__webpack_require__(1);
 	__webpack_require__(5);
-	module.exports = __webpack_require__(44);
+	module.exports = __webpack_require__(46);
 
 
 /***/ },
@@ -127,7 +127,7 @@
 	"use strict";
 	///<reference path="../tsd.d.ts"/>
 	var basicInformationLoader_1 = __webpack_require__(10);
-	var timelineLoader_1 = __webpack_require__(12);
+	var timelineLoader_1 = __webpack_require__(11);
 	var contactLoader_1 = __webpack_require__(13);
 	var jobsLoader_1 = __webpack_require__(14);
 	var schoolLoader_1 = __webpack_require__(15);
@@ -161,7 +161,7 @@
 	        });
 	    };
 	    BasicInformationLoader.prototype.loadCinemas = function () {
-	        return this.$http.get('/data/basic_info.json').then(function (responseData) {
+	        return this.$http.get('data/basic_info.json').then(function (responseData) {
 	            return responseData.data;
 	        });
 	    };
@@ -173,17 +173,11 @@
 
 /***/ },
 /* 11 */
-/***/ function(module, exports) {
-
-	module.exports = moment;
-
-/***/ },
-/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	///<reference path="../tsd.d.ts"/>
-	var moment = __webpack_require__(11);
+	var moment = __webpack_require__(12);
 	var TimelineLoader = (function () {
 	    /* @ngInject */
 	    function TimelineLoader($http) {
@@ -240,6 +234,12 @@
 
 
 /***/ },
+/* 12 */
+/***/ function(module, exports) {
+
+	module.exports = moment;
+
+/***/ },
 /* 13 */
 /***/ function(module, exports) {
 
@@ -277,7 +277,7 @@
 
 	"use strict";
 	///<reference path="../tsd.d.ts"/>
-	var moment = __webpack_require__(11);
+	var moment = __webpack_require__(12);
 	var JobsLoader = (function () {
 	    /* @ngInject */
 	    function JobsLoader($http) {
@@ -330,7 +330,7 @@
 
 	"use strict";
 	///<reference path="../tsd.d.ts"/>
-	var moment = __webpack_require__(11);
+	var moment = __webpack_require__(12);
 	var SchoolLoader = (function () {
 	    /* @ngInject */
 	    function SchoolLoader($http) {
@@ -429,9 +429,9 @@
 	"use strict";
 	///<reference path="../tsd.d.ts"/>
 	var loader_1 = __webpack_require__(19);
-	var loader_2 = __webpack_require__(26);
-	var loader_3 = __webpack_require__(33);
-	var loader_4 = __webpack_require__(37);
+	var loader_2 = __webpack_require__(28);
+	var loader_3 = __webpack_require__(35);
+	var loader_4 = __webpack_require__(39);
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = function (module) {
 	    loader_1.default(module);
@@ -449,7 +449,7 @@
 	///<reference path="../../tsd.d.ts"/>
 	var basicInfoMenuComponent_1 = __webpack_require__(20);
 	var speedDialComponent_1 = __webpack_require__(23);
-	var selectComponent_1 = __webpack_require__(46);
+	var selectComponent_1 = __webpack_require__(26);
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = function (module) {
 	    module.component('basicInfoMenu', new basicInfoMenuComponent_1.default);
@@ -568,8 +568,43 @@
 
 	///<reference path="../../tsd.d.ts"/>
 	"use strict";
-	var timelineComponent_1 = __webpack_require__(27);
-	var timelineEntryComponent_1 = __webpack_require__(30);
+	var SelectController = (function () {
+	    function SelectController() {
+	    }
+	    return SelectController;
+	}());
+	var SelectComponent = (function () {
+	    function SelectComponent() {
+	        this.replace = true;
+	        this.template = __webpack_require__(27);
+	        this.controller = SelectController;
+	        this.controllerAs = 'ctrl';
+	        this.bindings = {
+	            selectItems: '<',
+	            label: '<',
+	            onChange: '&'
+	        };
+	    }
+	    return SelectComponent;
+	}());
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = SelectComponent;
+
+
+/***/ },
+/* 27 */
+/***/ function(module, exports) {
+
+	module.exports = "<md-input-container>\n  <label>{{ctrl.label}}</label>\n  <md-select ng-model=\"ctrl.selectedCinema\">\n    <md-option ng-repeat=\"item in ctrl.selectItems\" value=\"{{item.text}}\">\n      {{item.text}}\n    </md-option>\n  </md-select>\n</md-input-container>\n"
+
+/***/ },
+/* 28 */
+/***/ function(module, exports, __webpack_require__) {
+
+	///<reference path="../../tsd.d.ts"/>
+	"use strict";
+	var timelineComponent_1 = __webpack_require__(29);
+	var timelineEntryComponent_1 = __webpack_require__(32);
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = function (module) {
 	    module.component('timeline', new timelineComponent_1.default);
@@ -578,16 +613,16 @@
 
 
 /***/ },
-/* 27 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	///<reference path="../../tsd.d.ts"/>
 	"use strict";
-	var timelineController_1 = __webpack_require__(28);
+	var timelineController_1 = __webpack_require__(30);
 	var TimelineComponent = (function () {
 	    function TimelineComponent() {
 	        this.replace = true;
-	        this.template = __webpack_require__(29);
+	        this.template = __webpack_require__(31);
 	        this.controller = timelineController_1.default;
 	        this.controllerAs = 'vm';
 	        this.bindings = {};
@@ -599,7 +634,7 @@
 
 
 /***/ },
-/* 28 */
+/* 30 */
 /***/ function(module, exports) {
 
 	///<reference path="../../tsd.d.ts"/>
@@ -667,22 +702,22 @@
 
 
 /***/ },
-/* 29 */
+/* 31 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"container\" id=\"cv-timeline-container\">\r\n  <div class=\"row\">\r\n    <div class=\"timeline-centered\" ng-class=\"vm.getClass()\">\r\n      <timeline-entry ng-repeat=\"entry in vm.entries\"\r\n                      entry=\"entry\"\r\n                      person-object=\"vm.personData\"\r\n                      is-left=\"$odd\"></timeline-entry>\r\n      <article class=\"timeline-entry begin\">\r\n\r\n        <div class=\"timeline-end\">\r\n\r\n          <div class=\"arrow-down\"></div>\r\n\r\n        </div>\r\n\r\n      </article>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ },
-/* 30 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	///<reference path="../../tsd.d.ts"/>
 	"use strict";
-	var timelineEntryController_1 = __webpack_require__(31);
+	var timelineEntryController_1 = __webpack_require__(33);
 	var TimelineEntryComponent = (function () {
 	    function TimelineEntryComponent() {
 	        this.replace = true;
-	        this.template = __webpack_require__(32);
+	        this.template = __webpack_require__(34);
 	        this.controller = timelineEntryController_1.default;
 	        this.controllerAs = 'vm';
 	        this.bindings = {
@@ -698,7 +733,7 @@
 
 
 /***/ },
-/* 31 */
+/* 33 */
 /***/ function(module, exports) {
 
 	///<reference path="../../tsd.d.ts"/>
@@ -727,18 +762,18 @@
 
 
 /***/ },
-/* 32 */
+/* 34 */
 /***/ function(module, exports) {
 
 	module.exports = "<article class=\"timeline-entry\" ng-class=\"vm.getCurrentClasses()\">\r\n\r\n  <div class=\"timeline-entry-inner\">\r\n    <time class=\"timeline-time\" datetime=\"{{vm.entry.timeObject.format('YYYY-MM-DD')}}\"><span>{{vm.entry.timeObject.format('DD.MM.YYYY')}}</span>\r\n      <span class=\"cv-time\">{{vm.entry.getTime()}}</span></time>\r\n    <div class=\"timeline-icon {{vm.entry['color-class']}}\" ng-click=\"vm.entry.isVisible = !vm.entry.isVisible\">\r\n      <md-button class=\"md-icon-button\" aria-label=\"Settings\">\r\n        <md-icon>{{vm.entry.icon}}</md-icon>\r\n      </md-button>\r\n    </div>\r\n\r\n    <div class=\"timeline-label\" ng-class=\"vm.bounce()\">\r\n      <h2>{{vm.personObject.name}} {{vm.personObject.surName}} <span> {{vm.entry.title}}</span></h2>\r\n      <p>{{vm.entry.text}}</p>\r\n    </div>\r\n  </div>\r\n\r\n</article>\r\n"
 
 /***/ },
-/* 33 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	///<reference path="../../tsd.d.ts"/>
-	var contactsComponent_1 = __webpack_require__(34);
+	var contactsComponent_1 = __webpack_require__(36);
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = function (module) {
 	    module.component('contacts', new contactsComponent_1.default);
@@ -746,16 +781,16 @@
 
 
 /***/ },
-/* 34 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	///<reference path="../../tsd.d.ts"/>
 	"use strict";
-	var contactsController_1 = __webpack_require__(35);
+	var contactsController_1 = __webpack_require__(37);
 	var ContactsComponent = (function () {
 	    function ContactsComponent() {
 	        this.replace = true;
-	        this.template = __webpack_require__(36);
+	        this.template = __webpack_require__(38);
 	        this.controller = contactsController_1.default;
 	        this.controllerAs = 'vm';
 	        this.bindings = {};
@@ -767,7 +802,7 @@
 
 
 /***/ },
-/* 35 */
+/* 37 */
 /***/ function(module, exports) {
 
 	///<reference path="../../tsd.d.ts"/>
@@ -798,21 +833,21 @@
 
 
 /***/ },
-/* 36 */
+/* 38 */
 /***/ function(module, exports) {
 
 	module.exports = "<md-icon ng-repeat=\"contact in vm.contactsData\"\r\n         md-svg-src=\"{{contact.iconSrc}}\"\r\n         aria-label=\"{{contact.title}}\"\r\n         ng-click=\"vm.contactClicked(contact)\"\r\n         class=\"cv-contact {{contact.class}}\"\r\n></md-icon>\r\n"
 
 /***/ },
-/* 37 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	///<reference path="../../tsd.d.ts"/>
-	var basicGraphDirective_1 = __webpack_require__(38);
-	var graphTileComponent_1 = __webpack_require__(40);
-	var workTileController_1 = __webpack_require__(42);
-	var schoolTileController_1 = __webpack_require__(43);
+	var basicGraphDirective_1 = __webpack_require__(40);
+	var graphTileComponent_1 = __webpack_require__(42);
+	var workTileController_1 = __webpack_require__(44);
+	var schoolTileController_1 = __webpack_require__(45);
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = function (module) {
 	    module.directive('basicGraph', basicGraphDirective_1.default.Factory());
@@ -822,12 +857,12 @@
 
 
 /***/ },
-/* 38 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	///<reference path="../../tsd.d.ts"/>
 	"use strict";
-	var basicGraphController_1 = __webpack_require__(39);
+	var basicGraphController_1 = __webpack_require__(41);
 	var BasicGraphDirective = (function () {
 	    function BasicGraphDirective() {
 	        this.replace = true;
@@ -881,7 +916,7 @@
 
 
 /***/ },
-/* 39 */
+/* 41 */
 /***/ function(module, exports) {
 
 	///<reference path="../../tsd.d.ts"/>
@@ -896,7 +931,7 @@
 
 
 /***/ },
-/* 40 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	///<reference path="../../tsd.d.ts"/>
@@ -905,7 +940,7 @@
 	    function GraphTileComponent(controller) {
 	        this.controller = controller;
 	        this.replace = true;
-	        this.template = __webpack_require__(41);
+	        this.template = __webpack_require__(43);
 	        this.controllerAs = 'vm';
 	        this.bindings = {};
 	    }
@@ -916,13 +951,13 @@
 
 
 /***/ },
-/* 41 */
+/* 43 */
 /***/ function(module, exports) {
 
 	module.exports = "<md-card>\r\n  <md-card-title>\r\n    <md-card-title-text>\r\n      <span class=\"md-headline\">{{vm.tileTitle}}</span>\r\n    </md-card-title-text>\r\n  </md-card-title>\r\n  <md-card-content layout=\"row\" layout-align=\"space-between\">\r\n    <div class=\"card-media cv-graph\">\r\n      <basic-graph type=\"vm.tileData.graphData.type\"\r\n                   data=\"vm.tileData.graphData.data\"\r\n                   colors=\"vm.tileData.graphData.colors\"\r\n                   names=\"vm.tileData.graphData.names\" id=\"{{vm.graphId}}\">\r\n      </basic-graph>\r\n    </div>\r\n    <md-card-actions layout=\"column\">\r\n      <md-button class=\"md-icon-button\" aria-label=\"Settings\">\r\n        <md-icon>mode_comment</md-icon>\r\n      </md-button>\r\n      <speed-dial items=\"vm.speedDialItems\" direction=\"'down'\" on-click=\"vm.onSpeedDialClick(item)\"></speed-dial>\r\n    </md-card-actions>\r\n  </md-card-content>\r\n</md-card>\r\n"
 
 /***/ },
-/* 42 */
+/* 44 */
 /***/ function(module, exports) {
 
 	///<reference path="../../tsd.d.ts"/>
@@ -971,7 +1006,7 @@
 
 
 /***/ },
-/* 43 */
+/* 45 */
 /***/ function(module, exports) {
 
 	///<reference path="../../tsd.d.ts"/>
@@ -1020,46 +1055,10 @@
 
 
 /***/ },
-/* 44 */
+/* 46 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 45 */,
-/* 46 */
-/***/ function(module, exports, __webpack_require__) {
-
-	///<reference path="../../tsd.d.ts"/>
-	"use strict";
-	var SelectController = (function () {
-	    function SelectController() {
-	    }
-	    return SelectController;
-	}());
-	var SelectComponent = (function () {
-	    function SelectComponent() {
-	        this.replace = true;
-	        this.template = __webpack_require__(47);
-	        this.controller = SelectController;
-	        this.controllerAs = 'ctrl';
-	        this.bindings = {
-	            selectItems: '<',
-	            label: '<',
-	            onChange: '&'
-	        };
-	    }
-	    return SelectComponent;
-	}());
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = SelectComponent;
-
-
-/***/ },
-/* 47 */
-/***/ function(module, exports) {
-
-	module.exports = "<md-input-container>\n  <label>{{ctrl.label}}</label>\n  <md-select ng-model=\"ctrl.selectedCinema\">\n    <md-option ng-repeat=\"item in ctrl.selectItems\" value=\"{{item.text}}\">\n      {{item.text}}\n    </md-option>\n  </md-select>\n</md-input-container>\n"
 
 /***/ }
 /******/ ]);
