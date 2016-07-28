@@ -1,6 +1,26 @@
 <div ng-controller="basicInformationController as basic">
-  <div class="md-toolbar-tools">
-    <cc-select select-items="basic.items" label="basic.label" on-change="basic.onCinemaSelect(item)" class="cc-toolbar-item"></cc-select>
-    <md-datepicker ng-model="myDate" md-placeholder="Enter date" class="cc-toolbar-item"></md-datepicker>
+  <div class="md-toolbar-tools" layout="row" layout-align="center center" >
+    <cc-trigger activate="basic.activateDatePicker"
+                event-name="click"
+                element-name="button">
+      <md-datepicker
+        ng-model="basic.cinemaDate"
+        md-placeholder="Enter date"
+        class="cc-toolbar-item cc-datepicker"
+        md-min-date="basic.minDate"
+        ng-change="basic.dateChanged()">
+      </md-datepicker>
+    </cc-trigger>
+
+    <cc-select
+      select-items="basic.items"
+      label="basic.label"
+      on-change="basic.onCinemaSelect(item)"
+      class="cc-toolbar-item"
+      cc-trigger
+      activate="basic.activateSelect"
+      event-name="click"
+      element-name="md-select"
+    ></cc-select>
   </div>
 </div>

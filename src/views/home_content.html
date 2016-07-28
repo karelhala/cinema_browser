@@ -1,4 +1,13 @@
 <div>
+  <div class="md-whiteframe-3dp cv-content cc-selected"
+       id="selected-data"
+       layout="row"
+       layout-align="center center"
+       ng-controller="basicInformationController as basic">
+    <h1>Zobrazuji filmy v kině
+      <a ng-click="basic.onCinemaClicked()">{{basic.getSelectedItem()? basic.getSelectedItem().text : 'vše'}}</a>,
+      pro datum <a ng-click="basic.onDateClicked()">{{basic.getSelectedDate() ? basic.getSelectedDate() : 'vše'}}</a></h1>
+  </div>
   <div class="md-whiteframe-3dp cv-content cv-timeline-trend" id="timeline-trend" layout="column">
     asdf
   </div>

@@ -2,6 +2,12 @@
   background-color: #607D8B;
   .cc-toolbar-item {
     margin-top: 15px;
+    margin-right: 0px;
+
+    &.cc-datepicker {
+      margin-left: -50px;
+      margin-right: 5px;
+    }
   }
 }
 
@@ -42,6 +48,15 @@
   margin-top: 15px;
   &.cv-timeline-trend {
     padding-top: 20px;
+  }
+
+  &.cc-selected h1 a{
+    border-bottom: 1px dashed #7d7d7d;
+    border-bottom-width: 1px;
+    border-bottom-style: dashed;
+    border-bottom-color: rgb(125, 125, 125);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, .4), 0 0 30px rgba(0, 0, 0, .075);
+    cursor: pointer;
   }
 
   &.cv-contacts {

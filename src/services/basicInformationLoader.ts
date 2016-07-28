@@ -1,11 +1,12 @@
 ///<reference path="../tsd.d.ts"/>
-import * as moment from 'moment';
-
 export default class BasicInformationLoader {
   private allCinemas: any = {};
-
+  public selectedItem: any;
+  public selectedTime: any;
+  public informationSubject: any;
   /* @ngInject */
   constructor(private $http: ng.IHttpService) {
+    this.informationSubject = new Rx.Subject();
   }
 
   public getCinemas(): any {
@@ -19,5 +20,9 @@ export default class BasicInformationLoader {
     return this.$http.get('data/basic_info.json').then((responseData) => {
       return responseData.data;
     });
+  }
+
+  public sendNext(data) {
+    this.informationSubject.onNext(data);
   }
 }

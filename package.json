@@ -42,7 +42,7 @@
     "imports-loader": "^0.6.5",
     "less": "2.6.1",
     "less-loader": "^2.2.3",
-    "lodash": "4.6.1",
+    "lodash": "^4.6.1",
     "minimist": "1.1.0",
     "ng-annotate-webpack-plugin": "0.1.2",
     "node-sass": "^3.4.2",

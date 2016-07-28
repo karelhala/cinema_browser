@@ -1,6 +1,6 @@
 <md-input-container>
   <label>{{ctrl.label}}</label>
-  <md-select ng-model="ctrl.selectedCinema">
+  <md-select ng-model="ctrl.selectedCinema" ng-change="ctrl.ctrlGetSelected()">
     <md-option ng-repeat="item in ctrl.selectItems" value="{{item.text}}">
       {{item.text}}
     </md-option>
