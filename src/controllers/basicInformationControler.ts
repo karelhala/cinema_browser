@@ -21,6 +21,10 @@ export default class BasicInformationController {
       if (data.hasOwnProperty('clicked')) {
         this.activateSelect = data.clicked === 'cinema';
         this.activateDatePicker = data.clicked === 'date';
+        setTimeout(() => {
+          this.activateSelect = false;
+          this.activateDatePicker = false;
+        })
       }
     }, () => {}, () => {});
   }

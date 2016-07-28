@@ -420,6 +420,10 @@
 	            if (data.hasOwnProperty('clicked')) {
 	                _this.activateSelect = data.clicked === 'cinema';
 	                _this.activateDatePicker = data.clicked === 'date';
+	                setTimeout(function () {
+	                    _this.activateSelect = false;
+	                    _this.activateDatePicker = false;
+	                });
 	            }
 	        }, function () { }, function () { });
 	    }
