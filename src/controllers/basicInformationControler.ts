@@ -17,7 +17,12 @@ export default class BasicInformationController {
     this.minDate = new Date();
     this.label = 'Kino';
     basicInformationLoader.getCinemas().then(items => this.items = items);
-    console.log(this.basicInformationLoader.informationSubject);
+
+    const worker = new Worker('src/worker.js');
+    worker.onmessage = function(e) {
+      console.log(e);
+    };
+    worker.postMessage('');
     this.basicInformationLoader.informationSubject.subscribe((data) => {
       if (data.hasOwnProperty('clicked')) {
         this.activateSelect = data.clicked === 'cinema';

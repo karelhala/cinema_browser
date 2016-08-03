@@ -46,7 +46,7 @@
 
 	__webpack_require__(1);
 	__webpack_require__(5);
-	module.exports = __webpack_require__(151);
+	module.exports = __webpack_require__(47);
 
 
 /***/ },
@@ -67,7 +67,7 @@
 	var routeConfig_1 = __webpack_require__(6);
 	var loader_1 = __webpack_require__(9);
 	var loader_2 = __webpack_require__(16);
-	var loader_3 = __webpack_require__(122);
+	var loader_3 = __webpack_require__(18);
 	var app = angular.module('karelHalaCV', ['ngMaterial', 'ngMdIcons', 'ui.router', 'ngAnimate', 'duScroll']);
 	routeConfig_1.default(app);
 	loader_1.default(app);
@@ -112,13 +112,13 @@
 /* 7 */
 /***/ function(module, exports) {
 
-	module.exports = "<div ng-controller=\"basicInformationController as basic\">\n  <div class=\"md-toolbar-tools\" layout=\"row\" layout-align=\"center center\" >\n    <cc-trigger activate=\"basic.activateDatePicker\"\n                event-name=\"click\"\n                element-name=\"button\">\n      <md-datepicker\n        ng-model=\"basic.cinemaDate\"\n        md-placeholder=\"Enter date\"\n        class=\"cc-toolbar-item cc-datepicker\"\n        md-min-date=\"basic.minDate\"\n        ng-change=\"basic.dateChanged()\">\n      </md-datepicker>\n    </cc-trigger>\n\n    <cc-select\n      select-items=\"basic.items\"\n      label=\"basic.label\"\n      on-change=\"basic.onCinemaSelect(item)\"\n      class=\"cc-toolbar-item\"\n      cc-trigger\n      activate=\"basic.activateSelect\"\n      event-name=\"click\"\n      element-name=\"md-select\"\n    ></cc-select>\n  </div>\n</div>\n"
+	module.exports = "<div ng-controller=\"basicInformationController as basic\">\r\n  <div class=\"md-toolbar-tools\" layout=\"row\" layout-align=\"center center\" >\r\n    <cc-trigger activate=\"basic.activateDatePicker\"\r\n                event-name=\"click\"\r\n                element-name=\"button\">\r\n      <md-datepicker\r\n        ng-model=\"basic.cinemaDate\"\r\n        md-placeholder=\"Enter date\"\r\n        class=\"cc-toolbar-item cc-datepicker\"\r\n        md-min-date=\"basic.minDate\"\r\n        ng-change=\"basic.dateChanged()\">\r\n      </md-datepicker>\r\n    </cc-trigger>\r\n\r\n    <cc-select\r\n      select-items=\"basic.items\"\r\n      label=\"basic.label\"\r\n      on-change=\"basic.onCinemaSelect(item)\"\r\n      class=\"cc-toolbar-item\"\r\n      cc-trigger\r\n      activate=\"basic.activateSelect\"\r\n      event-name=\"click\"\r\n      element-name=\"md-select\"\r\n    ></cc-select>\r\n  </div>\r\n</div>\r\n"
 
 /***/ },
 /* 8 */
 /***/ function(module, exports) {
 
-	module.exports = "<div>\n  <div class=\"md-whiteframe-3dp cv-content cc-selected\"\n       id=\"selected-data\"\n       layout=\"row\"\n       layout-align=\"center center\"\n       ng-controller=\"basicInformationController as basic\">\n    <h1>Zobrazuji filmy v kině\n      <a ng-click=\"basic.onCinemaClicked()\">{{basic.getSelectedItem()? basic.getSelectedItem().text : 'vše'}}</a>,\n      pro datum <a ng-click=\"basic.onDateClicked()\">{{basic.getSelectedDate() ? basic.getSelectedDate() : 'vše'}}</a></h1>\n  </div>\n  <div class=\"md-whiteframe-3dp cv-content cv-timeline-trend\" id=\"timeline-trend\" layout=\"column\">\n    asdf\n  </div>\n</div>\n"
+	module.exports = "<div>\r\n  <div class=\"md-whiteframe-3dp cv-content cc-selected\"\r\n       id=\"selected-data\"\r\n       layout=\"row\"\r\n       layout-align=\"center center\"\r\n       ng-controller=\"basicInformationController as basic\">\r\n    <h1>Zobrazuji filmy v kině\r\n      <a ng-click=\"basic.onCinemaClicked()\">{{basic.getSelectedItem()? basic.getSelectedItem().text : 'vše'}}</a>,\r\n      pro datum <a ng-click=\"basic.onDateClicked()\">{{basic.getSelectedDate() ? basic.getSelectedDate() : 'vše'}}</a></h1>\r\n  </div>\r\n  <div class=\"md-whiteframe-3dp cv-content cv-timeline-trend\" id=\"timeline-trend\" layout=\"column\">\r\n    asdf\r\n  </div>\r\n</div>\r\n"
 
 /***/ },
 /* 9 */
@@ -417,7 +417,11 @@
 	        this.minDate = new Date();
 	        this.label = 'Kino';
 	        basicInformationLoader.getCinemas().then(function (items) { return _this.items = items; });
-	        console.log(this.basicInformationLoader.informationSubject);
+	        var worker = new Worker('src/worker.js');
+	        worker.onmessage = function (e) {
+	            console.log(e);
+	        };
+	        worker.postMessage('');
 	        this.basicInformationLoader.informationSubject.subscribe(function (data) {
 	            if (data.hasOwnProperty('clicked')) {
 	                _this.activateSelect = data.clicked === 'cinema';
@@ -463,120 +467,16 @@
 
 
 /***/ },
-/* 18 */,
-/* 19 */,
-/* 20 */,
-/* 21 */,
-/* 22 */,
-/* 23 */,
-/* 24 */,
-/* 25 */,
-/* 26 */,
-/* 27 */,
-/* 28 */,
-/* 29 */,
-/* 30 */,
-/* 31 */,
-/* 32 */,
-/* 33 */,
-/* 34 */,
-/* 35 */,
-/* 36 */,
-/* 37 */,
-/* 38 */,
-/* 39 */,
-/* 40 */,
-/* 41 */,
-/* 42 */,
-/* 43 */,
-/* 44 */,
-/* 45 */,
-/* 46 */,
-/* 47 */,
-/* 48 */,
-/* 49 */,
-/* 50 */,
-/* 51 */,
-/* 52 */,
-/* 53 */,
-/* 54 */,
-/* 55 */,
-/* 56 */,
-/* 57 */,
-/* 58 */,
-/* 59 */,
-/* 60 */,
-/* 61 */,
-/* 62 */,
-/* 63 */,
-/* 64 */,
-/* 65 */,
-/* 66 */,
-/* 67 */,
-/* 68 */,
-/* 69 */,
-/* 70 */,
-/* 71 */,
-/* 72 */,
-/* 73 */,
-/* 74 */,
-/* 75 */,
-/* 76 */,
-/* 77 */,
-/* 78 */,
-/* 79 */,
-/* 80 */,
-/* 81 */,
-/* 82 */,
-/* 83 */,
-/* 84 */,
-/* 85 */,
-/* 86 */,
-/* 87 */,
-/* 88 */,
-/* 89 */,
-/* 90 */,
-/* 91 */,
-/* 92 */,
-/* 93 */,
-/* 94 */,
-/* 95 */,
-/* 96 */,
-/* 97 */,
-/* 98 */,
-/* 99 */,
-/* 100 */,
-/* 101 */,
-/* 102 */,
-/* 103 */,
-/* 104 */,
-/* 105 */,
-/* 106 */,
-/* 107 */,
-/* 108 */,
-/* 109 */,
-/* 110 */,
-/* 111 */,
-/* 112 */,
-/* 113 */,
-/* 114 */,
-/* 115 */,
-/* 116 */,
-/* 117 */,
-/* 118 */,
-/* 119 */,
-/* 120 */,
-/* 121 */,
-/* 122 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	///<reference path="../tsd.d.ts"/>
-	var loader_1 = __webpack_require__(123);
-	var loader_2 = __webpack_require__(132);
-	var loader_3 = __webpack_require__(139);
-	var loader_4 = __webpack_require__(143);
-	var triggerDrective_1 = __webpack_require__(150);
+	var loader_1 = __webpack_require__(19);
+	var loader_2 = __webpack_require__(28);
+	var loader_3 = __webpack_require__(35);
+	var loader_4 = __webpack_require__(39);
+	var triggerDrective_1 = __webpack_require__(46);
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = function (module) {
 	    loader_1.default(module);
@@ -588,14 +488,14 @@
 
 
 /***/ },
-/* 123 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	///<reference path="../../tsd.d.ts"/>
-	var basicInfoMenuComponent_1 = __webpack_require__(124);
-	var speedDialComponent_1 = __webpack_require__(127);
-	var selectDirective_1 = __webpack_require__(130);
+	var basicInfoMenuComponent_1 = __webpack_require__(20);
+	var speedDialComponent_1 = __webpack_require__(23);
+	var selectDirective_1 = __webpack_require__(26);
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = function (module) {
 	    module.component('basicInfoMenu', new basicInfoMenuComponent_1.default);
@@ -605,16 +505,16 @@
 
 
 /***/ },
-/* 124 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	///<reference path="../../tsd.d.ts"/>
 	"use strict";
-	var basicMenuController_1 = __webpack_require__(125);
+	var basicMenuController_1 = __webpack_require__(21);
 	var BasicMenuComponent = (function () {
 	    function BasicMenuComponent() {
 	        this.replace = true;
-	        this.template = __webpack_require__(126);
+	        this.template = __webpack_require__(22);
 	        this.controller = basicMenuController_1.default;
 	        this.controllerAs = 'vm';
 	        this.bindings = {
@@ -628,7 +528,7 @@
 
 
 /***/ },
-/* 125 */
+/* 21 */
 /***/ function(module, exports) {
 
 	///<reference path="../../tsd.d.ts"/>
@@ -646,22 +546,22 @@
 
 
 /***/ },
-/* 126 */
+/* 22 */
 /***/ function(module, exports) {
 
-	module.exports = "<md-menu md-position-mode=\"target-right target\">\n  <md-button class=\"md-fab move-down\" aria-label=\"Show basic details\" ng-click=\"vm.openMenu($mdOpenMenu, $event)\">\n    <md-icon>account_circle</md-icon>\n  </md-button>\n  <md-menu-content width=\"6\">\n    <md-menu-item>\n      <span class=\"cv-bold\"></span>\n      <span><img src=\"{{vm.personObject.picture}}\"></span>\n    </md-menu-item>\n    <md-menu-item>\n      <span flex></span>\n    </md-menu-item>\n    <md-menu-item>\n      <span class=\"cv-bold\">Name and Surname</span>\n      <span>{{vm.personObject.name}} {{vm.personObject.surName}}</span>\n    </md-menu-item>\n    <md-menu-divider></md-menu-divider>\n    <md-menu-item>\n      <span class=\"cv-bold\">Birth date</span>\n      <span>{{vm.personObject.dateObject.format('DD.MM.YYYY')}}</span>\n    </md-menu-item>\n    <md-menu-item>\n      <span class=\"cv-bold\">Age</span>\n      <span>{{vm.personObject.getAge()}}</span>\n    </md-menu-item>\n  </md-menu-content>\n</md-menu>\n"
+	module.exports = "<md-menu md-position-mode=\"target-right target\">\r\n  <md-button class=\"md-fab move-down\" aria-label=\"Show basic details\" ng-click=\"vm.openMenu($mdOpenMenu, $event)\">\r\n    <md-icon>account_circle</md-icon>\r\n  </md-button>\r\n  <md-menu-content width=\"6\">\r\n    <md-menu-item>\r\n      <span class=\"cv-bold\"></span>\r\n      <span><img src=\"{{vm.personObject.picture}}\"></span>\r\n    </md-menu-item>\r\n    <md-menu-item>\r\n      <span flex></span>\r\n    </md-menu-item>\r\n    <md-menu-item>\r\n      <span class=\"cv-bold\">Name and Surname</span>\r\n      <span>{{vm.personObject.name}} {{vm.personObject.surName}}</span>\r\n    </md-menu-item>\r\n    <md-menu-divider></md-menu-divider>\r\n    <md-menu-item>\r\n      <span class=\"cv-bold\">Birth date</span>\r\n      <span>{{vm.personObject.dateObject.format('DD.MM.YYYY')}}</span>\r\n    </md-menu-item>\r\n    <md-menu-item>\r\n      <span class=\"cv-bold\">Age</span>\r\n      <span>{{vm.personObject.getAge()}}</span>\r\n    </md-menu-item>\r\n  </md-menu-content>\r\n</md-menu>\r\n"
 
 /***/ },
-/* 127 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	///<reference path="../../tsd.d.ts"/>
 	"use strict";
-	var speedDialController_1 = __webpack_require__(128);
+	var speedDialController_1 = __webpack_require__(24);
 	var SpeedDialComponent = (function () {
 	    function SpeedDialComponent() {
 	        this.replace = true;
-	        this.template = __webpack_require__(129);
+	        this.template = __webpack_require__(25);
 	        this.controller = speedDialController_1.default;
 	        this.controllerAs = 'vm';
 	        this.bindings = {
@@ -677,7 +577,7 @@
 
 
 /***/ },
-/* 128 */
+/* 24 */
 /***/ function(module, exports) {
 
 	///<reference path="../../tsd.d.ts"/>
@@ -703,13 +603,13 @@
 
 
 /***/ },
-/* 129 */
+/* 25 */
 /***/ function(module, exports) {
 
-	module.exports = "<md-fab-speed-dial md-open=\"vm.isOpen\" md-direction=\"{{vm.direction}}\"\n                   ng-class=\"vm.selectedMode\" class=\"cv-move-speed-dial\">\n  <md-fab-trigger>\n    <md-button class=\"md-icon-button\" aria-label=\"Settings\">\n      <ng-md-icon icon=\"{{vm.isOpen ? 'format_align_left' : 'menu'}}\" ng-attr-style=\"fill: {{fill}}\" options='{\"rotation\": \"none\"}'></ng-md-icon>\n    </md-button>\n  </md-fab-trigger>\n  <md-fab-actions>\n    <md-button ng-repeat=\"item in vm.items\"\n               aria-label=\"{{item.tooltip}}\"\n               class=\"md-fab md-raised md-mini\"\n               ng-click=\"vm.onClick({item: item})\">\n      <md-tooltip md-direction=\"{{item.tooltipDirection}}\"\n                  md-autohide=\"false\">{{item.tooltip}}</md-tooltip>\n      <md-icon>{{item.icon}}</md-icon>\n    </md-button>\n  </md-fab-actions>\n</md-fab-speed-dial>\n"
+	module.exports = "<md-fab-speed-dial md-open=\"vm.isOpen\" md-direction=\"{{vm.direction}}\"\r\n                   ng-class=\"vm.selectedMode\" class=\"cv-move-speed-dial\">\r\n  <md-fab-trigger>\r\n    <md-button class=\"md-icon-button\" aria-label=\"Settings\">\r\n      <ng-md-icon icon=\"{{vm.isOpen ? 'format_align_left' : 'menu'}}\" ng-attr-style=\"fill: {{fill}}\" options='{\"rotation\": \"none\"}'></ng-md-icon>\r\n    </md-button>\r\n  </md-fab-trigger>\r\n  <md-fab-actions>\r\n    <md-button ng-repeat=\"item in vm.items\"\r\n               aria-label=\"{{item.tooltip}}\"\r\n               class=\"md-fab md-raised md-mini\"\r\n               ng-click=\"vm.onClick({item: item})\">\r\n      <md-tooltip md-direction=\"{{item.tooltipDirection}}\"\r\n                  md-autohide=\"false\">{{item.tooltip}}</md-tooltip>\r\n      <md-icon>{{item.icon}}</md-icon>\r\n    </md-button>\r\n  </md-fab-actions>\r\n</md-fab-speed-dial>\r\n"
 
 /***/ },
-/* 130 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -727,7 +627,7 @@
 	var SelectComponent = (function () {
 	    function SelectComponent() {
 	        this.replace = true;
-	        this.template = __webpack_require__(131);
+	        this.template = __webpack_require__(27);
 	        this.controller = SelectController;
 	        this.controllerAs = 'ctrl';
 	        this.bindToController = {
@@ -748,19 +648,19 @@
 
 
 /***/ },
-/* 131 */
+/* 27 */
 /***/ function(module, exports) {
 
-	module.exports = "<md-input-container>\n  <label>{{ctrl.label}}</label>\n  <md-select ng-model=\"ctrl.selectedCinema\" ng-change=\"ctrl.ctrlGetSelected()\">\n    <md-option ng-repeat=\"item in ctrl.selectItems\" value=\"{{item.text}}\">\n      {{item.text}}\n    </md-option>\n  </md-select>\n</md-input-container>\n"
+	module.exports = "<md-input-container>\r\n  <label>{{ctrl.label}}</label>\r\n  <md-select ng-model=\"ctrl.selectedCinema\" ng-change=\"ctrl.ctrlGetSelected()\">\r\n    <md-option ng-repeat=\"item in ctrl.selectItems\" value=\"{{item.text}}\">\r\n      {{item.text}}\r\n    </md-option>\r\n  </md-select>\r\n</md-input-container>\r\n"
 
 /***/ },
-/* 132 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	///<reference path="../../tsd.d.ts"/>
 	"use strict";
-	var timelineComponent_1 = __webpack_require__(133);
-	var timelineEntryComponent_1 = __webpack_require__(136);
+	var timelineComponent_1 = __webpack_require__(29);
+	var timelineEntryComponent_1 = __webpack_require__(32);
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = function (module) {
 	    module.component('timeline', new timelineComponent_1.default);
@@ -769,16 +669,16 @@
 
 
 /***/ },
-/* 133 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	///<reference path="../../tsd.d.ts"/>
 	"use strict";
-	var timelineController_1 = __webpack_require__(134);
+	var timelineController_1 = __webpack_require__(30);
 	var TimelineComponent = (function () {
 	    function TimelineComponent() {
 	        this.replace = true;
-	        this.template = __webpack_require__(135);
+	        this.template = __webpack_require__(31);
 	        this.controller = timelineController_1.default;
 	        this.controllerAs = 'vm';
 	        this.bindings = {};
@@ -790,7 +690,7 @@
 
 
 /***/ },
-/* 134 */
+/* 30 */
 /***/ function(module, exports) {
 
 	///<reference path="../../tsd.d.ts"/>
@@ -858,22 +758,22 @@
 
 
 /***/ },
-/* 135 */
+/* 31 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"container\" id=\"cv-timeline-container\">\n  <div class=\"row\">\n    <div class=\"timeline-centered\" ng-class=\"vm.getClass()\">\n      <timeline-entry ng-repeat=\"entry in vm.entries\"\n                      entry=\"entry\"\n                      person-object=\"vm.personData\"\n                      is-left=\"$odd\"></timeline-entry>\n      <article class=\"timeline-entry begin\">\n\n        <div class=\"timeline-end\">\n\n          <div class=\"arrow-down\"></div>\n\n        </div>\n\n      </article>\n    </div>\n  </div>\n</div>\n"
+	module.exports = "<div class=\"container\" id=\"cv-timeline-container\">\r\n  <div class=\"row\">\r\n    <div class=\"timeline-centered\" ng-class=\"vm.getClass()\">\r\n      <timeline-entry ng-repeat=\"entry in vm.entries\"\r\n                      entry=\"entry\"\r\n                      person-object=\"vm.personData\"\r\n                      is-left=\"$odd\"></timeline-entry>\r\n      <article class=\"timeline-entry begin\">\r\n\r\n        <div class=\"timeline-end\">\r\n\r\n          <div class=\"arrow-down\"></div>\r\n\r\n        </div>\r\n\r\n      </article>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ },
-/* 136 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	///<reference path="../../tsd.d.ts"/>
 	"use strict";
-	var timelineEntryController_1 = __webpack_require__(137);
+	var timelineEntryController_1 = __webpack_require__(33);
 	var TimelineEntryComponent = (function () {
 	    function TimelineEntryComponent() {
 	        this.replace = true;
-	        this.template = __webpack_require__(138);
+	        this.template = __webpack_require__(34);
 	        this.controller = timelineEntryController_1.default;
 	        this.controllerAs = 'vm';
 	        this.bindings = {
@@ -889,7 +789,7 @@
 
 
 /***/ },
-/* 137 */
+/* 33 */
 /***/ function(module, exports) {
 
 	///<reference path="../../tsd.d.ts"/>
@@ -918,18 +818,18 @@
 
 
 /***/ },
-/* 138 */
+/* 34 */
 /***/ function(module, exports) {
 
-	module.exports = "<article class=\"timeline-entry\" ng-class=\"vm.getCurrentClasses()\">\n\n  <div class=\"timeline-entry-inner\">\n    <time class=\"timeline-time\" datetime=\"{{vm.entry.timeObject.format('YYYY-MM-DD')}}\"><span>{{vm.entry.timeObject.format('DD.MM.YYYY')}}</span>\n      <span class=\"cv-time\">{{vm.entry.getTime()}}</span></time>\n    <div class=\"timeline-icon {{vm.entry['color-class']}}\" ng-click=\"vm.entry.isVisible = !vm.entry.isVisible\">\n      <md-button class=\"md-icon-button\" aria-label=\"Settings\">\n        <md-icon>{{vm.entry.icon}}</md-icon>\n      </md-button>\n    </div>\n\n    <div class=\"timeline-label\" ng-class=\"vm.bounce()\">\n      <h2>{{vm.personObject.name}} {{vm.personObject.surName}} <span> {{vm.entry.title}}</span></h2>\n      <p>{{vm.entry.text}}</p>\n    </div>\n  </div>\n\n</article>\n"
+	module.exports = "<article class=\"timeline-entry\" ng-class=\"vm.getCurrentClasses()\">\r\n\r\n  <div class=\"timeline-entry-inner\">\r\n    <time class=\"timeline-time\" datetime=\"{{vm.entry.timeObject.format('YYYY-MM-DD')}}\"><span>{{vm.entry.timeObject.format('DD.MM.YYYY')}}</span>\r\n      <span class=\"cv-time\">{{vm.entry.getTime()}}</span></time>\r\n    <div class=\"timeline-icon {{vm.entry['color-class']}}\" ng-click=\"vm.entry.isVisible = !vm.entry.isVisible\">\r\n      <md-button class=\"md-icon-button\" aria-label=\"Settings\">\r\n        <md-icon>{{vm.entry.icon}}</md-icon>\r\n      </md-button>\r\n    </div>\r\n\r\n    <div class=\"timeline-label\" ng-class=\"vm.bounce()\">\r\n      <h2>{{vm.personObject.name}} {{vm.personObject.surName}} <span> {{vm.entry.title}}</span></h2>\r\n      <p>{{vm.entry.text}}</p>\r\n    </div>\r\n  </div>\r\n\r\n</article>\r\n"
 
 /***/ },
-/* 139 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	///<reference path="../../tsd.d.ts"/>
-	var contactsComponent_1 = __webpack_require__(140);
+	var contactsComponent_1 = __webpack_require__(36);
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = function (module) {
 	    module.component('contacts', new contactsComponent_1.default);
@@ -937,16 +837,16 @@
 
 
 /***/ },
-/* 140 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	///<reference path="../../tsd.d.ts"/>
 	"use strict";
-	var contactsController_1 = __webpack_require__(141);
+	var contactsController_1 = __webpack_require__(37);
 	var ContactsComponent = (function () {
 	    function ContactsComponent() {
 	        this.replace = true;
-	        this.template = __webpack_require__(142);
+	        this.template = __webpack_require__(38);
 	        this.controller = contactsController_1.default;
 	        this.controllerAs = 'vm';
 	        this.bindings = {};
@@ -958,7 +858,7 @@
 
 
 /***/ },
-/* 141 */
+/* 37 */
 /***/ function(module, exports) {
 
 	///<reference path="../../tsd.d.ts"/>
@@ -989,21 +889,21 @@
 
 
 /***/ },
-/* 142 */
+/* 38 */
 /***/ function(module, exports) {
 
-	module.exports = "<md-icon ng-repeat=\"contact in vm.contactsData\"\n         md-svg-src=\"{{contact.iconSrc}}\"\n         aria-label=\"{{contact.title}}\"\n         ng-click=\"vm.contactClicked(contact)\"\n         class=\"cv-contact {{contact.class}}\"\n></md-icon>\n"
+	module.exports = "<md-icon ng-repeat=\"contact in vm.contactsData\"\r\n         md-svg-src=\"{{contact.iconSrc}}\"\r\n         aria-label=\"{{contact.title}}\"\r\n         ng-click=\"vm.contactClicked(contact)\"\r\n         class=\"cv-contact {{contact.class}}\"\r\n></md-icon>\r\n"
 
 /***/ },
-/* 143 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	///<reference path="../../tsd.d.ts"/>
-	var basicGraphDirective_1 = __webpack_require__(144);
-	var graphTileComponent_1 = __webpack_require__(146);
-	var workTileController_1 = __webpack_require__(148);
-	var schoolTileController_1 = __webpack_require__(149);
+	var basicGraphDirective_1 = __webpack_require__(40);
+	var graphTileComponent_1 = __webpack_require__(42);
+	var workTileController_1 = __webpack_require__(44);
+	var schoolTileController_1 = __webpack_require__(45);
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = function (module) {
 	    module.directive('basicGraph', basicGraphDirective_1.default.Factory());
@@ -1013,12 +913,12 @@
 
 
 /***/ },
-/* 144 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	///<reference path="../../tsd.d.ts"/>
 	"use strict";
-	var basicGraphController_1 = __webpack_require__(145);
+	var basicGraphController_1 = __webpack_require__(41);
 	var BasicGraphDirective = (function () {
 	    function BasicGraphDirective() {
 	        this.replace = true;
@@ -1072,7 +972,7 @@
 
 
 /***/ },
-/* 145 */
+/* 41 */
 /***/ function(module, exports) {
 
 	///<reference path="../../tsd.d.ts"/>
@@ -1087,7 +987,7 @@
 
 
 /***/ },
-/* 146 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	///<reference path="../../tsd.d.ts"/>
@@ -1096,7 +996,7 @@
 	    function GraphTileComponent(controller) {
 	        this.controller = controller;
 	        this.replace = true;
-	        this.template = __webpack_require__(147);
+	        this.template = __webpack_require__(43);
 	        this.controllerAs = 'vm';
 	        this.bindings = {};
 	    }
@@ -1107,13 +1007,13 @@
 
 
 /***/ },
-/* 147 */
+/* 43 */
 /***/ function(module, exports) {
 
-	module.exports = "<md-card>\n  <md-card-title>\n    <md-card-title-text>\n      <span class=\"md-headline\">{{vm.tileTitle}}</span>\n    </md-card-title-text>\n  </md-card-title>\n  <md-card-content layout=\"row\" layout-align=\"space-between\">\n    <div class=\"card-media cv-graph\">\n      <basic-graph type=\"vm.tileData.graphData.type\"\n                   data=\"vm.tileData.graphData.data\"\n                   colors=\"vm.tileData.graphData.colors\"\n                   names=\"vm.tileData.graphData.names\" id=\"{{vm.graphId}}\">\n      </basic-graph>\n    </div>\n    <md-card-actions layout=\"column\">\n      <md-button class=\"md-icon-button\" aria-label=\"Settings\">\n        <md-icon>mode_comment</md-icon>\n      </md-button>\n      <speed-dial items=\"vm.speedDialItems\" direction=\"'down'\" on-click=\"vm.onSpeedDialClick(item)\"></speed-dial>\n    </md-card-actions>\n  </md-card-content>\n</md-card>\n"
+	module.exports = "<md-card>\r\n  <md-card-title>\r\n    <md-card-title-text>\r\n      <span class=\"md-headline\">{{vm.tileTitle}}</span>\r\n    </md-card-title-text>\r\n  </md-card-title>\r\n  <md-card-content layout=\"row\" layout-align=\"space-between\">\r\n    <div class=\"card-media cv-graph\">\r\n      <basic-graph type=\"vm.tileData.graphData.type\"\r\n                   data=\"vm.tileData.graphData.data\"\r\n                   colors=\"vm.tileData.graphData.colors\"\r\n                   names=\"vm.tileData.graphData.names\" id=\"{{vm.graphId}}\">\r\n      </basic-graph>\r\n    </div>\r\n    <md-card-actions layout=\"column\">\r\n      <md-button class=\"md-icon-button\" aria-label=\"Settings\">\r\n        <md-icon>mode_comment</md-icon>\r\n      </md-button>\r\n      <speed-dial items=\"vm.speedDialItems\" direction=\"'down'\" on-click=\"vm.onSpeedDialClick(item)\"></speed-dial>\r\n    </md-card-actions>\r\n  </md-card-content>\r\n</md-card>\r\n"
 
 /***/ },
-/* 148 */
+/* 44 */
 /***/ function(module, exports) {
 
 	///<reference path="../../tsd.d.ts"/>
@@ -1162,7 +1062,7 @@
 
 
 /***/ },
-/* 149 */
+/* 45 */
 /***/ function(module, exports) {
 
 	///<reference path="../../tsd.d.ts"/>
@@ -1211,7 +1111,7 @@
 
 
 /***/ },
-/* 150 */
+/* 46 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1256,7 +1156,7 @@
 
 
 /***/ },
-/* 151 */
+/* 47 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin

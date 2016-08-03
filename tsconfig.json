@@ -11,6 +11,7 @@
     "libs",
     "bower",
     "tsd",
-    "typings"
+    "typings",
+    "typings/external_typings"
   ]
 }
