@@ -6,7 +6,7 @@ class SelectController {
   public selectedCinema: any;
   public element;
 
-  constructor(){}
+  constructor() {}
 
   public ctrlGetSelected() {
     this.onChange({

@@ -1,5 +1,5 @@
 ///<reference path="../tsd.d.ts"/>
-import moment = require("moment/moment");
+import * as moment from 'moment';
 
 export default class BasicInformationController {
   private personData: any;
@@ -12,7 +12,8 @@ export default class BasicInformationController {
   public activateDatePicker: boolean = false;
   public minDate: any;
   /* @ngInject */
-  constructor(private $window: any, private basicInformationLoader: any, private $scope: any) {
+  constructor(private $window: any, private basicInformationLoader: any, private $scope: any, private $http: any) {
+    console.log(this);
     this.minDate = new Date();
     this.label = 'Kino';
     basicInformationLoader.getCinemas().then(items => this.items = items);
@@ -24,7 +25,7 @@ export default class BasicInformationController {
         setTimeout(() => {
           this.activateSelect = false;
           this.activateDatePicker = false;
-        })
+        });
       }
     }, () => {}, () => {});
   }
@@ -55,11 +56,11 @@ export default class BasicInformationController {
   }
 
   public onCinemaClicked() {
-    this.basicInformationLoader.sendNext({clicked: 'cinema'})
+    this.basicInformationLoader.sendNext({clicked: 'cinema'});
   }
 
   public onDateClicked() {
-    this.basicInformationLoader.sendNext({clicked: 'date'})
+    this.basicInformationLoader.sendNext({clicked: 'date'});
   }
 }
 

@@ -12,9 +12,9 @@ class TriggerLink {
       if (element && element.find(scope.elementName)) {
         setTimeout(() => {
           element.find(scope.elementName).triggerHandler(scope.eventName);
-        })
+        });
       }
-    }
+    };
   }
 }
 

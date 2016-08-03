@@ -4,7 +4,7 @@ module.exports = {
   distFolder: '/dist',
   javascriptFolder: 'js',
   stylesheetFolder: 'css',
-  appName: 'karel-hala-cv',
+  appName: 'cinema_browser',
   bowerLibs: 'libs/',
   nodePackages: 'node_modules/',
   get stylesheetPath() {
