@@ -68,7 +68,8 @@
 	var loader_1 = __webpack_require__(9);
 	var loader_2 = __webpack_require__(16);
 	var loader_3 = __webpack_require__(18);
-	var app = angular.module('karelHalaCV', ['ngMaterial', 'ngMdIcons', 'ui.router', 'ngAnimate', 'duScroll']);
+	__webpack_require__(49);
+	var app = angular.module('karelHalaCV', ['ngMaterial', 'ngMdIcons', 'ui.router', 'ngAnimate', 'duScroll', 'ngWebworker']);
 	routeConfig_1.default(app);
 	loader_1.default(app);
 	loader_2.default(app);
@@ -112,13 +113,13 @@
 /* 7 */
 /***/ function(module, exports) {
 
-	module.exports = "<div ng-controller=\"basicInformationController as basic\">\r\n  <div class=\"md-toolbar-tools\" layout=\"row\" layout-align=\"center center\" >\r\n    <cc-trigger activate=\"basic.activateDatePicker\"\r\n                event-name=\"click\"\r\n                element-name=\"button\">\r\n      <md-datepicker\r\n        ng-model=\"basic.cinemaDate\"\r\n        md-placeholder=\"Enter date\"\r\n        class=\"cc-toolbar-item cc-datepicker\"\r\n        md-min-date=\"basic.minDate\"\r\n        ng-change=\"basic.dateChanged()\">\r\n      </md-datepicker>\r\n    </cc-trigger>\r\n\r\n    <cc-select\r\n      select-items=\"basic.items\"\r\n      label=\"basic.label\"\r\n      on-change=\"basic.onCinemaSelect(item)\"\r\n      class=\"cc-toolbar-item\"\r\n      cc-trigger\r\n      activate=\"basic.activateSelect\"\r\n      event-name=\"click\"\r\n      element-name=\"md-select\"\r\n    ></cc-select>\r\n  </div>\r\n</div>\r\n"
+	module.exports = "<div ng-controller=\"basicInformationController as basic\">\n  <div class=\"md-toolbar-tools\" layout=\"row\" layout-align=\"center center\" >\n    <cc-trigger activate=\"basic.activateDatePicker\"\n                event-name=\"click\"\n                element-name=\"button\">\n      <md-datepicker\n        ng-model=\"basic.cinemaDate\"\n        md-placeholder=\"Enter date\"\n        class=\"cc-toolbar-item cc-datepicker\"\n        md-min-date=\"basic.minDate\"\n        ng-change=\"basic.dateChanged()\">\n      </md-datepicker>\n    </cc-trigger>\n\n    <cc-select\n      select-items=\"basic.items\"\n      label=\"basic.label\"\n      on-change=\"basic.onCinemaSelect(item)\"\n      class=\"cc-toolbar-item\"\n      cc-trigger\n      activate=\"basic.activateSelect\"\n      event-name=\"click\"\n      element-name=\"md-select\"\n    ></cc-select>\n  </div>\n</div>\n"
 
 /***/ },
 /* 8 */
 /***/ function(module, exports) {
 
-	module.exports = "<div>\r\n  <div class=\"md-whiteframe-3dp cv-content cc-selected\"\r\n       id=\"selected-data\"\r\n       layout=\"row\"\r\n       layout-align=\"center center\"\r\n       ng-controller=\"basicInformationController as basic\">\r\n    <h1>Zobrazuji filmy v kině\r\n      <a ng-click=\"basic.onCinemaClicked()\">{{basic.getSelectedItem()? basic.getSelectedItem().text : 'vše'}}</a>,\r\n      pro datum <a ng-click=\"basic.onDateClicked()\">{{basic.getSelectedDate() ? basic.getSelectedDate() : 'vše'}}</a></h1>\r\n  </div>\r\n  <div class=\"md-whiteframe-3dp cv-content cv-timeline-trend\" id=\"timeline-trend\" layout=\"column\">\r\n    asdf\r\n  </div>\r\n</div>\r\n"
+	module.exports = "<div>\n  <div class=\"md-whiteframe-3dp cv-content cc-selected\"\n       id=\"selected-data\"\n       layout=\"row\"\n       layout-align=\"center center\"\n       ng-controller=\"basicInformationController as basic\">\n    <h1>Zobrazuji filmy v kině\n      <a ng-click=\"basic.onCinemaClicked()\">{{basic.getSelectedItem()? basic.getSelectedItem().text : 'vše'}}</a>,\n      pro datum <a ng-click=\"basic.onDateClicked()\">{{basic.getSelectedDate() ? basic.getSelectedDate() : 'vše'}}</a></h1>\n  </div>\n  <div class=\"md-whiteframe-3dp cv-content cv-timeline-trend\" id=\"timeline-trend\" layout=\"column\">\n    asdf\n  </div>\n</div>\n"
 
 /***/ },
 /* 9 */
@@ -131,6 +132,7 @@
 	var contactLoader_1 = __webpack_require__(13);
 	var jobsLoader_1 = __webpack_require__(14);
 	var schoolLoader_1 = __webpack_require__(15);
+	var movieLoader_1 = __webpack_require__(50);
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = function (module) {
 	    module.service('basicInformationLoader', basicInformationLoader_1.default);
@@ -138,6 +140,7 @@
 	    module.service('contactLoader', contactLoader_1.default);
 	    module.service('jobsLoader', jobsLoader_1.default);
 	    module.service('schoolLoader', schoolLoader_1.default);
+	    module.service('movieLoader', movieLoader_1.default);
 	};
 
 
@@ -402,38 +405,55 @@
 	"use strict";
 	///<reference path="../tsd.d.ts"/>
 	var moment = __webpack_require__(12);
+	var WorkerGreeter = (function () {
+	    function WorkerGreeter(Webworker) {
+	        this.Webworker = Webworker;
+	        var myWorker = Webworker.create(this.greedFromWorker);
+	    }
+	    WorkerGreeter.prototype.greedFromWorker = function (data) {
+	    };
+	    return WorkerGreeter;
+	}());
+	exports.WorkerGreeter = WorkerGreeter;
 	var BasicInformationController = (function () {
 	    /* @ngInject */
-	    function BasicInformationController($window, basicInformationLoader, $scope, $http) {
+	    function BasicInformationController(basicInformationLoader, movieLoader) {
 	        var _this = this;
-	        this.$window = $window;
 	        this.basicInformationLoader = basicInformationLoader;
-	        this.$scope = $scope;
-	        this.$http = $http;
+	        this.movieLoader = movieLoader;
 	        this.direction = 'down';
 	        this.activateSelect = false;
 	        this.activateDatePicker = false;
 	        console.log(this);
+	        this.movieLoader.getMovies().then(function (data) {
+	            console.log(data);
+	        });
 	        this.minDate = new Date();
 	        this.label = 'Kino';
 	        basicInformationLoader.getCinemas().then(function (items) { return _this.items = items; });
-	        var worker = new Worker('src/worker.js');
-	        worker.onmessage = function (e) {
-	            console.log(e);
-	        };
-	        worker.postMessage('');
-	        this.basicInformationLoader.informationSubject.subscribe(function (data) {
-	            if (data.hasOwnProperty('clicked')) {
-	                _this.activateSelect = data.clicked === 'cinema';
-	                _this.activateDatePicker = data.clicked === 'date';
-	                setTimeout(function () {
-	                    _this.activateSelect = false;
-	                    _this.activateDatePicker = false;
-	                });
-	            }
-	        }, function () { }, function () { });
+	        this.subscribeToInformationLoader();
 	    }
-	    BasicInformationController.$inject = ["$window", "basicInformationLoader", "$scope", "$http"];
+	    BasicInformationController.$inject = ["basicInformationLoader", "movieLoader"];
+	    BasicInformationController.prototype.subscribeToInformationLoader = function () {
+	        var _this = this;
+	        this.basicInformationLoader
+	            .informationSubject
+	            .subscribe(function (data) { return _this.onNextData(data); }, this.onFailAndClose, this.onFailAndClose);
+	    };
+	    BasicInformationController.prototype.onNextData = function (data) {
+	        var _this = this;
+	        if (data.hasOwnProperty('clicked')) {
+	            this.activateSelect = data.clicked === 'cinema';
+	            this.activateDatePicker = data.clicked === 'date';
+	            setTimeout(function () {
+	                _this.activateSelect = false;
+	                _this.activateDatePicker = false;
+	            });
+	        }
+	    };
+	    BasicInformationController.prototype.onFailAndClose = function () {
+	        console.log('Fail or close subject');
+	    };
 	    BasicInformationController.prototype.scrollToElement = function (item) {
 	        if (item.scrollTo) {
 	            var element = angular.element(document.getElementById(item.scrollTo));
@@ -549,7 +569,7 @@
 /* 22 */
 /***/ function(module, exports) {
 
-	module.exports = "<md-menu md-position-mode=\"target-right target\">\r\n  <md-button class=\"md-fab move-down\" aria-label=\"Show basic details\" ng-click=\"vm.openMenu($mdOpenMenu, $event)\">\r\n    <md-icon>account_circle</md-icon>\r\n  </md-button>\r\n  <md-menu-content width=\"6\">\r\n    <md-menu-item>\r\n      <span class=\"cv-bold\"></span>\r\n      <span><img src=\"{{vm.personObject.picture}}\"></span>\r\n    </md-menu-item>\r\n    <md-menu-item>\r\n      <span flex></span>\r\n    </md-menu-item>\r\n    <md-menu-item>\r\n      <span class=\"cv-bold\">Name and Surname</span>\r\n      <span>{{vm.personObject.name}} {{vm.personObject.surName}}</span>\r\n    </md-menu-item>\r\n    <md-menu-divider></md-menu-divider>\r\n    <md-menu-item>\r\n      <span class=\"cv-bold\">Birth date</span>\r\n      <span>{{vm.personObject.dateObject.format('DD.MM.YYYY')}}</span>\r\n    </md-menu-item>\r\n    <md-menu-item>\r\n      <span class=\"cv-bold\">Age</span>\r\n      <span>{{vm.personObject.getAge()}}</span>\r\n    </md-menu-item>\r\n  </md-menu-content>\r\n</md-menu>\r\n"
+	module.exports = "<md-menu md-position-mode=\"target-right target\">\n  <md-button class=\"md-fab move-down\" aria-label=\"Show basic details\" ng-click=\"vm.openMenu($mdOpenMenu, $event)\">\n    <md-icon>account_circle</md-icon>\n  </md-button>\n  <md-menu-content width=\"6\">\n    <md-menu-item>\n      <span class=\"cv-bold\"></span>\n      <span><img src=\"{{vm.personObject.picture}}\"></span>\n    </md-menu-item>\n    <md-menu-item>\n      <span flex></span>\n    </md-menu-item>\n    <md-menu-item>\n      <span class=\"cv-bold\">Name and Surname</span>\n      <span>{{vm.personObject.name}} {{vm.personObject.surName}}</span>\n    </md-menu-item>\n    <md-menu-divider></md-menu-divider>\n    <md-menu-item>\n      <span class=\"cv-bold\">Birth date</span>\n      <span>{{vm.personObject.dateObject.format('DD.MM.YYYY')}}</span>\n    </md-menu-item>\n    <md-menu-item>\n      <span class=\"cv-bold\">Age</span>\n      <span>{{vm.personObject.getAge()}}</span>\n    </md-menu-item>\n  </md-menu-content>\n</md-menu>\n"
 
 /***/ },
 /* 23 */
@@ -606,7 +626,7 @@
 /* 25 */
 /***/ function(module, exports) {
 
-	module.exports = "<md-fab-speed-dial md-open=\"vm.isOpen\" md-direction=\"{{vm.direction}}\"\r\n                   ng-class=\"vm.selectedMode\" class=\"cv-move-speed-dial\">\r\n  <md-fab-trigger>\r\n    <md-button class=\"md-icon-button\" aria-label=\"Settings\">\r\n      <ng-md-icon icon=\"{{vm.isOpen ? 'format_align_left' : 'menu'}}\" ng-attr-style=\"fill: {{fill}}\" options='{\"rotation\": \"none\"}'></ng-md-icon>\r\n    </md-button>\r\n  </md-fab-trigger>\r\n  <md-fab-actions>\r\n    <md-button ng-repeat=\"item in vm.items\"\r\n               aria-label=\"{{item.tooltip}}\"\r\n               class=\"md-fab md-raised md-mini\"\r\n               ng-click=\"vm.onClick({item: item})\">\r\n      <md-tooltip md-direction=\"{{item.tooltipDirection}}\"\r\n                  md-autohide=\"false\">{{item.tooltip}}</md-tooltip>\r\n      <md-icon>{{item.icon}}</md-icon>\r\n    </md-button>\r\n  </md-fab-actions>\r\n</md-fab-speed-dial>\r\n"
+	module.exports = "<md-fab-speed-dial md-open=\"vm.isOpen\" md-direction=\"{{vm.direction}}\"\n                   ng-class=\"vm.selectedMode\" class=\"cv-move-speed-dial\">\n  <md-fab-trigger>\n    <md-button class=\"md-icon-button\" aria-label=\"Settings\">\n      <ng-md-icon icon=\"{{vm.isOpen ? 'format_align_left' : 'menu'}}\" ng-attr-style=\"fill: {{fill}}\" options='{\"rotation\": \"none\"}'></ng-md-icon>\n    </md-button>\n  </md-fab-trigger>\n  <md-fab-actions>\n    <md-button ng-repeat=\"item in vm.items\"\n               aria-label=\"{{item.tooltip}}\"\n               class=\"md-fab md-raised md-mini\"\n               ng-click=\"vm.onClick({item: item})\">\n      <md-tooltip md-direction=\"{{item.tooltipDirection}}\"\n                  md-autohide=\"false\">{{item.tooltip}}</md-tooltip>\n      <md-icon>{{item.icon}}</md-icon>\n    </md-button>\n  </md-fab-actions>\n</md-fab-speed-dial>\n"
 
 /***/ },
 /* 26 */
@@ -651,7 +671,7 @@
 /* 27 */
 /***/ function(module, exports) {
 
-	module.exports = "<md-input-container>\r\n  <label>{{ctrl.label}}</label>\r\n  <md-select ng-model=\"ctrl.selectedCinema\" ng-change=\"ctrl.ctrlGetSelected()\">\r\n    <md-option ng-repeat=\"item in ctrl.selectItems\" value=\"{{item.text}}\">\r\n      {{item.text}}\r\n    </md-option>\r\n  </md-select>\r\n</md-input-container>\r\n"
+	module.exports = "<md-input-container>\n  <label>{{ctrl.label}}</label>\n  <md-select ng-model=\"ctrl.selectedCinema\" ng-change=\"ctrl.ctrlGetSelected()\">\n    <md-option ng-repeat=\"item in ctrl.selectItems\" value=\"{{item.text}}\">\n      {{item.text}}\n    </md-option>\n  </md-select>\n</md-input-container>\n"
 
 /***/ },
 /* 28 */
@@ -761,7 +781,7 @@
 /* 31 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"container\" id=\"cv-timeline-container\">\r\n  <div class=\"row\">\r\n    <div class=\"timeline-centered\" ng-class=\"vm.getClass()\">\r\n      <timeline-entry ng-repeat=\"entry in vm.entries\"\r\n                      entry=\"entry\"\r\n                      person-object=\"vm.personData\"\r\n                      is-left=\"$odd\"></timeline-entry>\r\n      <article class=\"timeline-entry begin\">\r\n\r\n        <div class=\"timeline-end\">\r\n\r\n          <div class=\"arrow-down\"></div>\r\n\r\n        </div>\r\n\r\n      </article>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+	module.exports = "<div class=\"container\" id=\"cv-timeline-container\">\n  <div class=\"row\">\n    <div class=\"timeline-centered\" ng-class=\"vm.getClass()\">\n      <timeline-entry ng-repeat=\"entry in vm.entries\"\n                      entry=\"entry\"\n                      person-object=\"vm.personData\"\n                      is-left=\"$odd\"></timeline-entry>\n      <article class=\"timeline-entry begin\">\n\n        <div class=\"timeline-end\">\n\n          <div class=\"arrow-down\"></div>\n\n        </div>\n\n      </article>\n    </div>\n  </div>\n</div>\n"
 
 /***/ },
 /* 32 */
@@ -821,7 +841,7 @@
 /* 34 */
 /***/ function(module, exports) {
 
-	module.exports = "<article class=\"timeline-entry\" ng-class=\"vm.getCurrentClasses()\">\r\n\r\n  <div class=\"timeline-entry-inner\">\r\n    <time class=\"timeline-time\" datetime=\"{{vm.entry.timeObject.format('YYYY-MM-DD')}}\"><span>{{vm.entry.timeObject.format('DD.MM.YYYY')}}</span>\r\n      <span class=\"cv-time\">{{vm.entry.getTime()}}</span></time>\r\n    <div class=\"timeline-icon {{vm.entry['color-class']}}\" ng-click=\"vm.entry.isVisible = !vm.entry.isVisible\">\r\n      <md-button class=\"md-icon-button\" aria-label=\"Settings\">\r\n        <md-icon>{{vm.entry.icon}}</md-icon>\r\n      </md-button>\r\n    </div>\r\n\r\n    <div class=\"timeline-label\" ng-class=\"vm.bounce()\">\r\n      <h2>{{vm.personObject.name}} {{vm.personObject.surName}} <span> {{vm.entry.title}}</span></h2>\r\n      <p>{{vm.entry.text}}</p>\r\n    </div>\r\n  </div>\r\n\r\n</article>\r\n"
+	module.exports = "<article class=\"timeline-entry\" ng-class=\"vm.getCurrentClasses()\">\n\n  <div class=\"timeline-entry-inner\">\n    <time class=\"timeline-time\" datetime=\"{{vm.entry.timeObject.format('YYYY-MM-DD')}}\"><span>{{vm.entry.timeObject.format('DD.MM.YYYY')}}</span>\n      <span class=\"cv-time\">{{vm.entry.getTime()}}</span></time>\n    <div class=\"timeline-icon {{vm.entry['color-class']}}\" ng-click=\"vm.entry.isVisible = !vm.entry.isVisible\">\n      <md-button class=\"md-icon-button\" aria-label=\"Settings\">\n        <md-icon>{{vm.entry.icon}}</md-icon>\n      </md-button>\n    </div>\n\n    <div class=\"timeline-label\" ng-class=\"vm.bounce()\">\n      <h2>{{vm.personObject.name}} {{vm.personObject.surName}} <span> {{vm.entry.title}}</span></h2>\n      <p>{{vm.entry.text}}</p>\n    </div>\n  </div>\n\n</article>\n"
 
 /***/ },
 /* 35 */
@@ -892,7 +912,7 @@
 /* 38 */
 /***/ function(module, exports) {
 
-	module.exports = "<md-icon ng-repeat=\"contact in vm.contactsData\"\r\n         md-svg-src=\"{{contact.iconSrc}}\"\r\n         aria-label=\"{{contact.title}}\"\r\n         ng-click=\"vm.contactClicked(contact)\"\r\n         class=\"cv-contact {{contact.class}}\"\r\n></md-icon>\r\n"
+	module.exports = "<md-icon ng-repeat=\"contact in vm.contactsData\"\n         md-svg-src=\"{{contact.iconSrc}}\"\n         aria-label=\"{{contact.title}}\"\n         ng-click=\"vm.contactClicked(contact)\"\n         class=\"cv-contact {{contact.class}}\"\n></md-icon>\n"
 
 /***/ },
 /* 39 */
@@ -1010,7 +1030,7 @@
 /* 43 */
 /***/ function(module, exports) {
 
-	module.exports = "<md-card>\r\n  <md-card-title>\r\n    <md-card-title-text>\r\n      <span class=\"md-headline\">{{vm.tileTitle}}</span>\r\n    </md-card-title-text>\r\n  </md-card-title>\r\n  <md-card-content layout=\"row\" layout-align=\"space-between\">\r\n    <div class=\"card-media cv-graph\">\r\n      <basic-graph type=\"vm.tileData.graphData.type\"\r\n                   data=\"vm.tileData.graphData.data\"\r\n                   colors=\"vm.tileData.graphData.colors\"\r\n                   names=\"vm.tileData.graphData.names\" id=\"{{vm.graphId}}\">\r\n      </basic-graph>\r\n    </div>\r\n    <md-card-actions layout=\"column\">\r\n      <md-button class=\"md-icon-button\" aria-label=\"Settings\">\r\n        <md-icon>mode_comment</md-icon>\r\n      </md-button>\r\n      <speed-dial items=\"vm.speedDialItems\" direction=\"'down'\" on-click=\"vm.onSpeedDialClick(item)\"></speed-dial>\r\n    </md-card-actions>\r\n  </md-card-content>\r\n</md-card>\r\n"
+	module.exports = "<md-card>\n  <md-card-title>\n    <md-card-title-text>\n      <span class=\"md-headline\">{{vm.tileTitle}}</span>\n    </md-card-title-text>\n  </md-card-title>\n  <md-card-content layout=\"row\" layout-align=\"space-between\">\n    <div class=\"card-media cv-graph\">\n      <basic-graph type=\"vm.tileData.graphData.type\"\n                   data=\"vm.tileData.graphData.data\"\n                   colors=\"vm.tileData.graphData.colors\"\n                   names=\"vm.tileData.graphData.names\" id=\"{{vm.graphId}}\">\n      </basic-graph>\n    </div>\n    <md-card-actions layout=\"column\">\n      <md-button class=\"md-icon-button\" aria-label=\"Settings\">\n        <md-icon>mode_comment</md-icon>\n      </md-button>\n      <speed-dial items=\"vm.speedDialItems\" direction=\"'down'\" on-click=\"vm.onSpeedDialClick(item)\"></speed-dial>\n    </md-card-actions>\n  </md-card-content>\n</md-card>\n"
 
 /***/ },
 /* 44 */
@@ -1160,6 +1180,342 @@
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 48 */,
+/* 49 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
+	 * ng-webworker - ng-webworker creates dynamic webworkers so angular apps can be multi-threaded.
+	 * @link https://github.com/mattslocum/ng-webworker
+	 * @license MIT
+	 */
+	!function (name, context, definition) {
+	    // CommonJS
+	    if (typeof module != 'undefined' && module.exports) module.exports = definition();
+	    // AMD
+	    else if (true) !(__WEBPACK_AMD_DEFINE_FACTORY__ = (definition), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	    // <script>
+	    else context[name] = definition()
+	}('ngWebworker', this, function () {
+	    'use strict';
+
+	    var oWebworkerModule = angular.module('ngWebworker', []),
+	        CONST_FUNCTION = "function",
+	        CONST_RETURN = "return",
+	        CONST_COMPLETE = "complete",
+	        CONST_NOTICE = "notice";
+
+
+	    oWebworkerModule.provider('Webworker', function() {
+	        var WebworkerConfig = {
+	            async: false,
+	            helperPath: "worker_wrapper.js",
+	            useHelper: false, // gets set back to true for IE
+	            transferOwnership: true // if you pass in a ByteArray. Warning: Experimental
+	        };
+
+	        this.setConfig = function(oConfig) {
+	            angular.extend(WebworkerConfig, oConfig);
+	        };
+	        this.setHelperPath = function(strPath) {
+	            WebworkerConfig.helperPath = strPath;
+	        };
+	        this.setUseHelper = function(bUse) {
+	            WebworkerConfig.useHelper = !!bUse;
+	        };
+	        this.setTransferOwnership = function(bTransfer) {
+	            WebworkerConfig.transferOwnership = !!bTransfer;
+	        };
+
+
+	        function Webworker($q) {
+	            this.create = function(worker, config) {
+	                var win = window,
+	                    URL = win.URL || win.webkitURL,
+	                    aFuncParts,
+	                    strWorker,
+	                    blob,
+	                    retWorker;
+
+	                // only use this function inside the webworker
+	                function _transferable_ (messageData) {
+	                    var messageDataTransfers = [];
+
+	                    if (Object.prototype.toString.apply(messageData) != '[object Array]') {
+	                        messageData = [messageData];
+	                    }
+
+	                    messageData.forEach(function (data) {
+	                        if (data instanceof ArrayBuffer) {
+	                            messageDataTransfers.push(data);
+	                        }
+	                    });
+
+	                    return messageDataTransfers;
+	                }
+
+	                config = config || {};
+
+	                config = angular.extend(
+	                    angular.copy(WebworkerConfig),
+	                    config
+	                );
+
+
+	                // stupid IE thinks Blob Webworkers violate same-origin
+	                // stupid Edge thinks it's not IE
+	                if (navigator.userAgent.indexOf('MSIE') !== -1 ||
+	                    navigator.userAgent.indexOf('Edge') !== -1 ||
+	                    navigator.appVersion.indexOf('Trident/') > 0) {
+	                    config.useHelper = true;
+	                }
+
+	                if (Worker && URL && URL.createObjectURL && (Blob || win.BlobBuilder || win.WebKitBlobBuilder || win.MozBlobBuilder)) {
+	                    if (typeof worker == CONST_FUNCTION) {
+	                        config.external = false;
+	                        if (!config.useHelper) {
+	                            aFuncParts = /function\s*(\w*)(.*)/.exec(worker.toString());
+	                            aFuncParts[1] = aFuncParts[1] || "a"; // give unnamed functions a name.
+
+	                            // reconstruct function signature
+	                            strWorker = "function " + aFuncParts[1] + aFuncParts[2];
+	                            strWorker +=  worker.toString().substring(aFuncParts[0].length);
+
+	                            strWorker += ";onmessage=function(e){" +
+	                                ";var result = " + aFuncParts[1] + ".apply(null,e.data);" +
+	                                // lets just try to make it transferable
+	                                "postMessage(['"+ CONST_RETURN +"', result], !_async_ ? _transferable_(result) : [])" +
+	                            "};";
+
+	                            // add async and transferable function to worker
+	                            strWorker += "var _async_ = "+ config.async +";" + _transferable_.toString();
+
+	                            if (win.Blob) {
+	                                blob = new Blob([complete, notify, strWorker], {type: 'application/javascript'});
+	                            } else if (win.BlobBuilder || win.WebKitBlobBuilder || win.MozBlobBuilder || win.MSBlobBuilder) { // Backwards-compatibility
+	                                // WARNING: This isn't tested well because I can can't find any
+	                                //          other browser other than PhantomJS to test with
+	                                win.BlobBuilder = win.BlobBuilder || win.WebKitBlobBuilder || win.MozBlobBuilder || win.MSBlobBuilder;
+	                                blob = new BlobBuilder();
+	                                blob.append(complete);
+	                                blob.append(notify);
+	                                blob.append(strWorker);
+	                                blob = blob.getBlob();
+	                            }
+	                        }
+
+	                        try {
+	                            if (config.useHelper) {
+	                                aFuncParts = /function\s*(\w*)(.*)/.exec(worker.toString());
+	                                aFuncParts[1] = aFuncParts[1] || "a"; // give unnamed functions a name.
+
+	                                // reconstruct function signature
+	                                strWorker = "function " + aFuncParts[1] + aFuncParts[2];
+	                                strWorker +=  worker.toString().substring(aFuncParts[0].length);
+
+	                                // add async and transferable function to worker
+	                                //strWorker += ";var _async_ = "+ config.async +";" + transferable.toString();
+	                                retWorker = new WebworkerGenerator(strWorker, config);
+	                            } else {
+	                                retWorker = new WebworkerGenerator(URL.createObjectURL(blob), config);
+	                            }
+	                        } catch(e) {}
+
+	                    } else {
+	                        // assume it is a string, and hope for the best
+	                        config.external = true;
+	                        retWorker = new WebworkerGenerator(worker, config);
+
+	                    // } else {
+	                    // we can't do webworkers.
+	                    // FUTURE: Lets shim it. Maybe a timeout?
+	                    }
+	                }
+
+	                return retWorker;
+	            };
+
+	            function WebworkerGenerator(worker, config) {
+	                var noop = function() {};
+
+	                if (config.external || !config.useHelper) {
+	                    this.oWorker = new Worker(worker);
+	                } else {
+	                    this.oWorker = new Worker(WebworkerConfig.helperPath);
+	                    this.strWorkerFunc = worker;
+	                }
+
+	                // setup default events so they will always be there
+	                this.config = angular.extend({
+	                    onMessage: noop,
+	                    onError: noop,
+	                    onReturn: noop,
+	                    onComplete: noop,
+	                    onNotice: noop
+	                }, config);
+
+	                // support webworker lowercase style
+	                if (config.onmessage) {
+	                    this.config.onMessage = config.onmessage;
+	                    this.config.onError = config.onerror;
+	                }
+	            }
+
+	            //TODO: save copy of promise/worker pair so we can terminate
+	            WebworkerGenerator.prototype.run = function() {
+	                var oDeferred = $q.defer(),
+	                    self = this,
+	                    messageData;
+
+	                this.oWorker.onmessage = function(oEvent) {
+	                    var strType,
+	                        oData = oEvent.data;
+
+	                    if (self.config.external && !self.config.async) {
+	                        oDeferred.resolve(oData);
+	                    } else {
+	                        strType = oEvent.data.shift();
+	                        oData = oEvent.data[0];
+
+	                        self.config.onMessage(oEvent);
+
+	                        // don't notify if we are complete or return
+	                        if (strType != CONST_COMPLETE && strType != CONST_RETURN) {
+	                            oDeferred.notify(oData);
+	                        }
+
+	                        if (strType == CONST_RETURN) {
+	                            if (!self.config.async) {
+	                                oDeferred.resolve(oData);
+	                            }
+	                            self.config.onReturn(oData);
+	                        } else if (strType == CONST_COMPLETE) {
+	                            oDeferred.resolve(oData);
+	                            self.config.onComplete(oData);
+	                        } else if (strType == CONST_NOTICE) {
+	                            self.config.onNotice(oData);
+	                        }
+	                    }
+	                };
+
+	                this.oWorker.onerror = function(oError) {
+	                    oDeferred.reject(oError);
+	                };
+
+	                if (self.config.external || !self.config.useHelper) {
+	                    //FUTURE: Use Array.slice(arguments) when available for V8 optimization
+	                    messageData = Array.prototype.slice.call(arguments);
+	                } else {
+	                    //FUTURE: Use Array.slice(arguments) when available for V8 optimization
+	                    messageData = {
+	                        fn: self.strWorkerFunc,
+	                        args: Array.prototype.slice.call(arguments)
+	                    };
+	                }
+
+	                this.oWorker.postMessage(messageData, transferable(messageData, this));
+
+	                if (!self.config.external && !self.config.useHelper) {
+	                    oDeferred.promise.finally(function () {
+	                        // Every time run happens on a dynamic web worker it
+	                        // creates a new web worker to prevent a thread leak,
+	                        // a worker will only last once
+	                        self.terminate();
+	                    });
+	                }
+
+	                return oDeferred.promise;
+	            };
+
+	            WebworkerGenerator.prototype.stop = function() {
+	                this.oWorker.onerror(new Error('stopped'));
+	                this.terminate();
+	            };
+
+	            WebworkerGenerator.prototype.terminate = function() {
+	                this.oWorker.terminate();
+	            };
+
+	            function transferable(messageData, worker) {
+	                // FUTURE: CanvasProxy and MessagePort when browsers support it.
+	                var messageDataTransfers = [];
+
+	                // the worker_wrapper helper doesn't support transfers right now
+	                if (worker.config.transferOwnership && !worker.config.useHelper) {
+	                    angular.forEach(messageData, function(data) {
+	                        if (data instanceof ArrayBuffer) {
+	                            messageDataTransfers.push(data);
+	                        }
+	                    });
+	                }
+
+	                return messageDataTransfers;
+	            }
+
+	            function complete(mVal) {
+	                // _transferable_ is added to the worker
+	                postMessage(["complete", mVal], _transferable_(mVal))
+	            }
+	            function notify(mVal) {
+	                postMessage(["notice", mVal])
+	            }
+	        }
+
+	        this.$get = ['$q', function($q) {
+	            return new Webworker($q);
+	        }];
+	    });
+
+
+	    return oWebworkerModule;
+	});
+
+
+/***/ },
+/* 50 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var MovieLoader = (function () {
+	    /* @ngInject */
+	    function MovieLoader(Webworker, $http, $q) {
+	        this.Webworker = Webworker;
+	        this.$http = $http;
+	        this.$q = $q;
+	        this.cinemaWorker = Webworker.create(this.filterCinemaData);
+	    }
+	    MovieLoader.$inject = ["Webworker", "$http", "$q"];
+	    MovieLoader.prototype.getMovies = function () {
+	        var _this = this;
+	        return this.loadMovies().then(function (allMovies) {
+	            _this.allMovies = allMovies;
+	            return _this.allMovies;
+	        });
+	    };
+	    //Use this api to load movie info: http://www.omdbapi.com/t=en_text
+	    MovieLoader.prototype.loadMovies = function () {
+	        var _this = this;
+	        var enMovies = this.$http.get('data/allMovies.json').then(function (responseData) {
+	            return responseData.data;
+	        });
+	        var czMovies = this.$http.get('data/allMoviesCZ.json').then(function (responseData) {
+	            return responseData.data;
+	        });
+	        return this.$q.all([enMovies, czMovies]).then(function (data) {
+	            console.log(data);
+	            _this.allMovies = data;
+	            return data[1];
+	        });
+	    };
+	    MovieLoader.prototype.filterCinemaData = function (data) {
+	    };
+	    return MovieLoader;
+	}());
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = MovieLoader;
+
 
 /***/ }
 /******/ ]);

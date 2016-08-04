@@ -1,6 +1,17 @@
 ///<reference path="../tsd.d.ts"/>
 import * as moment from 'moment';
 
+export class WorkerGreeter {
+  public worker;
+  constructor(private Webworker: any) {
+    var myWorker = Webworker.create(this.greedFromWorker);
+  }
+
+  private greedFromWorker(data) {
+
+  }
+}
+
 export default class BasicInformationController {
   private personData: any;
   public direction: string = 'down';
@@ -12,27 +23,41 @@ export default class BasicInformationController {
   public activateDatePicker: boolean = false;
   public minDate: any;
   /* @ngInject */
-  constructor(private $window: any, private basicInformationLoader: any, private $scope: any, private $http: any) {
+  constructor(private basicInformationLoader: any, private movieLoader: any) {
     console.log(this);
+    this.movieLoader.getMovies().then((data) => {
+      console.log(data);
+    });
     this.minDate = new Date();
     this.label = 'Kino';
     basicInformationLoader.getCinemas().then(items => this.items = items);
 
-    const worker = new Worker('src/worker.js');
-    worker.onmessage = function(e) {
-      console.log(e);
-    };
-    worker.postMessage('');
-    this.basicInformationLoader.informationSubject.subscribe((data) => {
-      if (data.hasOwnProperty('clicked')) {
-        this.activateSelect = data.clicked === 'cinema';
-        this.activateDatePicker = data.clicked === 'date';
-        setTimeout(() => {
-          this.activateSelect = false;
-          this.activateDatePicker = false;
-        });
-      }
-    }, () => {}, () => {});
+    this.subscribeToInformationLoader();
+  }
+
+  private subscribeToInformationLoader() {
+    this.basicInformationLoader
+        .informationSubject
+        .subscribe(
+          (data) => this.onNextData(data),
+          this.onFailAndClose,
+          this.onFailAndClose
+        );
+  }
+
+  private onNextData(data) {
+    if (data.hasOwnProperty('clicked')) {
+      this.activateSelect = data.clicked === 'cinema';
+      this.activateDatePicker = data.clicked === 'date';
+      setTimeout(() => {
+        this.activateSelect = false;
+        this.activateDatePicker = false;
+      });
+    }
+  }
+
+  private onFailAndClose() {
+    console.log('Fail or close subject');
   }
 
   public scrollToElement(item: any) {
