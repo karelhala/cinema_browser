@@ -4,7 +4,7 @@ import TimelineLoader from './timelineLoader';
 import ContactLoader from './contactLoader';
 import JobsLoader from './jobsLoader';
 import SchoolLoader from './schoolLoader';
-import MovieLoader from './movieLoader'
+import MovieLoader from './movieLoader';
 
 export default (module: ng.IModule) => {
   module.service('basicInformationLoader', BasicInformationLoader);

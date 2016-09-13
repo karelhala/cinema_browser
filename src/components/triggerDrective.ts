@@ -1,7 +1,6 @@
 ///<reference path="../tsd.d.ts"/>
 class TriggerLink {
   constructor(scope, element) {
-    console.log(scope, element);
     scope.$watch('activate', (isActive) => {
       if (isActive) {
         scope.trigger();

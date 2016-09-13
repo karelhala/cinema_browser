@@ -1,17 +1,6 @@
 ///<reference path="../tsd.d.ts"/>
 import * as moment from 'moment';
 
-export class WorkerGreeter {
-  public worker;
-  constructor(private Webworker: any) {
-    var myWorker = Webworker.create(this.greedFromWorker);
-  }
-
-  private greedFromWorker(data) {
-
-  }
-}
-
 export default class BasicInformationController {
   private personData: any;
   public direction: string = 'down';
@@ -24,7 +13,6 @@ export default class BasicInformationController {
   public minDate: any;
   /* @ngInject */
   constructor(private basicInformationLoader: any, private movieLoader: any) {
-    console.log(this);
     this.movieLoader.getMovies().then((data) => {
       console.log(data);
     });
@@ -53,6 +41,8 @@ export default class BasicInformationController {
         this.activateSelect = false;
         this.activateDatePicker = false;
       });
+    } else if (data.changed === 'date') {
+      this.cinemaDate = this.basicInformationLoader.selectedTime.toDate();
     }
   }
 
@@ -77,6 +67,7 @@ export default class BasicInformationController {
 
   public dateChanged() {
     this.basicInformationLoader.selectedTime = moment(this.cinemaDate);
+    this.basicInformationLoader.sendNext({changed: 'date'});
   }
 
   public getSelectedDate() {

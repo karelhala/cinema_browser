@@ -3,6 +3,8 @@ import toolbar from './toolbar/loader';
 import timeline from './timeline/loader';
 import contacts from './contacts/loader';
 import graphs from './graphs/loader';
+import dateChoosers from './dateChoose/loader';
+
 import TriggerDirective from './triggerDrective';
 
 export default (module: ng.IModule) => {
@@ -10,5 +12,6 @@ export default (module: ng.IModule) => {
   timeline(module);
   contacts(module);
   graphs(module);
+  dateChoosers(module);
   module.directive('ccTrigger', TriggerDirective.Factory());
 }

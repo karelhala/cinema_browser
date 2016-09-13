@@ -6,8 +6,6 @@ class SelectController {
   public selectedCinema: any;
   public element;
 
-  constructor() {}
-
   public ctrlGetSelected() {
     this.onChange({
       item: _.find(this.selectItems, {text: this.selectedCinema})

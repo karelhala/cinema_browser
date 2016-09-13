@@ -1,0 +1,8 @@
+<div>
+  <md-button ng-repeat="date in vm.allDates"
+             class="md-fab md-mini md-primary"
+             ng-disabled="date.isSelected"
+             ng-click="vm.onDateClicked(date)">
+    {{date.title}}
+  </md-button>
+</div>

@@ -75,7 +75,6 @@ module.exports = {
   },
   plugins: plugins,
   externals: {
-    'angular': 'angular',
-    'moment': 'moment'
+    'angular': 'angular'
   }
 };

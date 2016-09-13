@@ -28,13 +28,12 @@ export default class MovieLoader {
     });
 
     return this.$q.all([enMovies, czMovies]).then((data) => {
-      console.log(data);
       this.allMovies = data;
       return data[1];
     });
   }
 
   private filterCinemaData(data) {
-
+    console.log(data);
   }
 }
