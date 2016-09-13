@@ -1,4 +1,6 @@
 ///<reference path="../tsd.d.ts"/>
+import * as moment from 'moment';
+
 export default class BasicInformationLoader {
   private allCinemas: any = {};
   public selectedItem: any;
@@ -7,6 +9,8 @@ export default class BasicInformationLoader {
   /* @ngInject */
   constructor(private $http: ng.IHttpService) {
     this.informationSubject = new Rx.Subject();
+    this.selectedTime = moment().startOf('day');
+    this.sendNext({changed: 'date'});
   }
 
   public getCinemas(): any {

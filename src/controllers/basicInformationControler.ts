@@ -21,7 +21,7 @@ export default class BasicInformationController {
     this.maxDate = moment().add(4, 'day').startOf('day').toDate();
     this.label = 'Kino';
     basicInformationLoader.getCinemas().then(items => this.items = items);
-
+    this.cinemaDate = this.basicInformationLoader.selectedTime.toDate();
     this.subscribeToInformationLoader();
   }
 

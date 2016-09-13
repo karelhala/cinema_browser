@@ -4,13 +4,12 @@ export class DateChooserController {
   public allDates: any[] = [];
   /* @ngInject */
   constructor(private basicInformationLoader: any) {
-    console.log(this);
     moment.locale('cs');
     for (let i = 0; i < 5; i++) {
       let momentDate = moment().add(i, 'day').startOf('day');
       this.allDates.push({title: momentDate.format('ddd'), date: momentDate.toDate(), momentDate: momentDate});
     }
-
+    this.onDateChange();
     this.subscribeToInformationLoader();
   }
 
