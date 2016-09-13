@@ -114,13 +114,13 @@
 /* 7 */
 /***/ function(module, exports) {
 
-	module.exports = "<div ng-controller=\"basicInformationController as basic\">\r\n  <div class=\"md-toolbar-tools\" layout=\"row\" layout-align=\"center center\" >\r\n    <cc-trigger activate=\"basic.activateDatePicker\"\r\n                event-name=\"click\"\r\n                element-name=\"button\">\r\n      <md-datepicker\r\n        ng-model=\"basic.cinemaDate\"\r\n        md-placeholder=\"Enter date\"\r\n        class=\"cc-toolbar-item cc-datepicker\"\r\n        md-min-date=\"basic.minDate\"\r\n        ng-change=\"basic.dateChanged()\">\r\n      </md-datepicker>\r\n    </cc-trigger>\r\n\r\n    <cc-select\r\n      select-items=\"basic.items\"\r\n      label=\"basic.label\"\r\n      on-change=\"basic.onCinemaSelect(item)\"\r\n      class=\"cc-toolbar-item\"\r\n      cc-trigger\r\n      activate=\"basic.activateSelect\"\r\n      event-name=\"click\"\r\n      element-name=\"md-select\"\r\n    ></cc-select>\r\n  </div>\r\n</div>\r\n"
+	module.exports = "<div ng-controller=\"basicInformationController as basic\">\n  <div class=\"md-toolbar-tools\" layout=\"row\" layout-align=\"center center\" >\n    <cc-trigger activate=\"basic.activateDatePicker\"\n                event-name=\"click\"\n                element-name=\"button\">\n      <md-datepicker\n        ng-model=\"basic.cinemaDate\"\n        md-placeholder=\"Enter date\"\n        class=\"cc-toolbar-item cc-datepicker\"\n        md-min-date=\"basic.minDate\"\n        md-max-date=\"basic.maxDate\"\n        md-open-on-focus\n        ng-change=\"basic.dateChanged()\">\n      </md-datepicker>\n    </cc-trigger>\n\n    <cc-select\n      select-items=\"basic.items\"\n      label=\"basic.label\"\n      on-change=\"basic.onCinemaSelect(item)\"\n      class=\"cc-toolbar-item\"\n      cc-trigger\n      activate=\"basic.activateSelect\"\n      event-name=\"click\"\n      element-name=\"md-select\"\n    ></cc-select>\n  </div>\n</div>\n"
 
 /***/ },
 /* 8 */
 /***/ function(module, exports) {
 
-	module.exports = "<div>\n  <div class=\"md-whiteframe-3dp cv-content cv-timeline-trend\" id=\"selected-date\" layout=\"column\" layout-align=\"center center\">\n    <cc-date-chooser></cc-date-chooser>\n  </div>\n  <div class=\"md-whiteframe-3dp cv-content cc-selected\"\n       id=\"selected-data\"\n       layout=\"row\"\n       layout-align=\"center center\"\n       ng-controller=\"basicInformationController as basic\">\n    <h1>Zobrazuji filmy v kině\n      <a ng-click=\"basic.onCinemaClicked()\">{{basic.getSelectedItem()? basic.getSelectedItem().text : 'vše'}}</a>,\n      pro datum <a ng-click=\"basic.onDateClicked()\">{{basic.getSelectedDate() ? basic.getSelectedDate() : 'vše'}}</a></h1>\n  </div>\n  <div class=\"md-whiteframe-3dp cv-content cv-timeline-trend\" id=\"timeline-trend\" layout=\"column\">\n    asdf\n  </div>\n</div>\n"
+	module.exports = "<div>\r\n  <div class=\"md-whiteframe-3dp cv-content cv-timeline-trend\" id=\"selected-date\" layout=\"column\" layout-align=\"center center\">\r\n    <cc-date-chooser></cc-date-chooser>\r\n  </div>\r\n  <div class=\"md-whiteframe-3dp cv-content cc-selected\"\r\n       id=\"selected-data\"\r\n       layout=\"row\"\r\n       layout-align=\"center center\"\r\n       ng-controller=\"basicInformationController as basic\">\r\n    <h1>Zobrazuji filmy v kině\r\n      <a ng-click=\"basic.onCinemaClicked()\">{{basic.getSelectedItem()? basic.getSelectedItem().text : 'vše'}}</a>,\r\n      pro datum <a ng-click=\"basic.onDateClicked()\">{{basic.getSelectedDate() ? basic.getSelectedDate() : 'vše'}}</a></h1>\r\n  </div>\r\n  <div class=\"md-whiteframe-3dp cv-content cv-timeline-trend\" id=\"timeline-trend\" layout=\"column\">\r\n    asdf\r\n  </div>\r\n</div>\r\n"
 
 /***/ },
 /* 9 */
@@ -14505,6 +14505,7 @@
 	            console.log(data);
 	        });
 	        this.minDate = new Date();
+	        this.maxDate = moment().add(4, 'day').startOf('day').toDate();
 	        this.label = 'Kino';
 	        basicInformationLoader.getCinemas().then(function (items) { return _this.items = items; });
 	        this.subscribeToInformationLoader();
@@ -15294,7 +15295,7 @@
 /* 152 */
 /***/ function(module, exports) {
 
-	module.exports = "<div>\n  <md-button ng-repeat=\"date in vm.allDates\"\n             class=\"md-fab md-mini md-primary\"\n             ng-disabled=\"date.isSelected\"\n             ng-click=\"vm.onDateClicked(date)\">\n    {{date.title}}\n  </md-button>\n</div>\n"
+	module.exports = "<div>\r\n  <md-button ng-repeat=\"date in vm.allDates\"\r\n             class=\"md-fab md-mini md-primary\"\r\n             ng-disabled=\"date.isSelected\"\r\n             ng-click=\"vm.onDateClicked(date)\">\r\n    {{date.title}}\r\n  </md-button>\r\n</div>\r\n"
 
 /***/ },
 /* 153 */

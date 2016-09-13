@@ -11,12 +11,14 @@ export default class BasicInformationController {
   public activateSelect: boolean = false;
   public activateDatePicker: boolean = false;
   public minDate: any;
+  public maxDate: any;
   /* @ngInject */
   constructor(private basicInformationLoader: any, private movieLoader: any) {
     this.movieLoader.getMovies().then((data) => {
       console.log(data);
     });
     this.minDate = new Date();
+    this.maxDate = moment().add(4, 'day').startOf('day').toDate();
     this.label = 'Kino';
     basicInformationLoader.getCinemas().then(items => this.items = items);
 
