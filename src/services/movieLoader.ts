@@ -11,8 +11,7 @@ export default class MovieLoader {
 
   public getMovies() {
     return this.loadMovies().then((allMovies) => {
-      this.allMovies = allMovies;
-      return this.allMovies;
+      return allMovies;
     });
   }
 
@@ -33,7 +32,17 @@ export default class MovieLoader {
     });
   }
 
+  public filterMoviesAndSites(allCinemas) {
+    return this.cinemaWorker.run({cinemas: allCinemas, movies: this.allMovies[1]});
+  }
+
   private filterCinemaData(data) {
-    console.log(data);
+    importScripts('https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.15.0/lodash.js');
+    _.each(data.cinemas, (oneCinema) => {
+      let cinemasMovies = _.filter(data.movies.sites, {si: oneCinema.value})[0];
+      cinemasMovies.filtered = _.groupBy(cinemasMovies.pr, (item) => item.dt.substr(0, item.dt.indexOf(" ")));
+      oneCinema.movies = cinemasMovies;
+    });
+    return data.cinemas;
   }
 }

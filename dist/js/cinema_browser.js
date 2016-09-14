@@ -14446,10 +14446,8 @@
 	    }
 	    MovieLoader.$inject = ["Webworker", "$http", "$q"];
 	    MovieLoader.prototype.getMovies = function () {
-	        var _this = this;
 	        return this.loadMovies().then(function (allMovies) {
-	            _this.allMovies = allMovies;
-	            return _this.allMovies;
+	            return allMovies;
 	        });
 	    };
 	    //Use this api to load movie info: http://www.omdbapi.com/t=en_text
@@ -14466,8 +14464,17 @@
 	            return data[1];
 	        });
 	    };
+	    MovieLoader.prototype.filterMoviesAndSites = function (allCinemas) {
+	        return this.cinemaWorker.run({ cinemas: allCinemas, movies: this.allMovies[1] });
+	    };
 	    MovieLoader.prototype.filterCinemaData = function (data) {
-	        console.log(data);
+	        importScripts('https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.15.0/lodash.js');
+	        _.each(data.cinemas, function (oneCinema) {
+	            var cinemasMovies = _.filter(data.movies.sites, { si: oneCinema.value })[0];
+	            cinemasMovies.filtered = _.groupBy(cinemasMovies.pr, function (item) { return item.dt.substr(0, item.dt.indexOf(" ")); });
+	            oneCinema.movies = cinemasMovies;
+	        });
+	        return data.cinemas;
 	    };
 	    return MovieLoader;
 	}());
@@ -14504,13 +14511,17 @@
 	        this.direction = 'down';
 	        this.activateSelect = false;
 	        this.activateDatePicker = false;
-	        this.movieLoader.getMovies().then(function (data) {
-	            _this.cinemaData = data;
-	        });
 	        this.minDate = new Date();
 	        this.maxDate = moment().add(4, 'day').startOf('day').toDate();
 	        this.label = 'Kino';
-	        basicInformationLoader.getCinemas().then(function (items) { return _this.items = items; });
+	        this.movieLoader
+	            .getMovies()
+	            .then(function () { return _this.basicInformationLoader.getCinemas(); })
+	            .then(function (cinemas) { return _this.movieLoader.filterMoviesAndSites(cinemas); })
+	            .then(function (data) {
+	            _this.items = data;
+	            return data;
+	        });
 	        this.cinemaDate = this.basicInformationLoader.selectedTime.toDate();
 	        this.subscribeToInformationLoader();
 	    }
@@ -14546,7 +14557,7 @@
 	    };
 	    BasicInformationController.prototype.onCinemaSelect = function (item) {
 	        this.basicInformationLoader.selectedItem = item;
-	        console.log(this.cinemaData, this.basicInformationLoader.selectedItem);
+	        console.log(this.basicInformationLoader.selectedItem);
 	    };
 	    BasicInformationController.prototype.getSelectedItem = function () {
 	        return this.basicInformationLoader.selectedItem;

@@ -8,20 +8,23 @@ export default class BasicInformationController {
   public items: any[];
   public container: any;
   public cinemaDate: any;
-  public cinemaData: any;
   public activateSelect: boolean = false;
   public activateDatePicker: boolean = false;
   public minDate: any;
   public maxDate: any;
   /* @ngInject */
   constructor(private basicInformationLoader: any, private movieLoader: any) {
-    this.movieLoader.getMovies().then((data) => {
-      this.cinemaData = data;
-    });
     this.minDate = new Date();
     this.maxDate = moment().add(4, 'day').startOf('day').toDate();
     this.label = 'Kino';
-    basicInformationLoader.getCinemas().then(items => this.items = items);
+    this.movieLoader
+      .getMovies()
+      .then(() => this.basicInformationLoader.getCinemas())
+      .then((cinemas) => this.movieLoader.filterMoviesAndSites(cinemas))
+      .then(data => {
+        this.items = data;
+        return data;
+      });
     this.cinemaDate = this.basicInformationLoader.selectedTime.toDate();
     this.subscribeToInformationLoader();
   }
@@ -62,7 +65,7 @@ export default class BasicInformationController {
 
   public onCinemaSelect(item) {
     this.basicInformationLoader.selectedItem = item;
-    console.log(this.cinemaData, this.basicInformationLoader.selectedItem);
+    console.log(this.basicInformationLoader.selectedItem);
   }
 
   public getSelectedItem() {
