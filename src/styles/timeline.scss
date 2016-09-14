@@ -15,7 +15,7 @@
   }
 }
 
-/* Bounce animation from: https://codyhouse.co/gem/vertical-timeline/ and from: http://www.greywyvern.com/?post=337*/
+  /* Bounce animation from: https://codyhouse.co/gem/vertical-timeline/ and from: http://www.greywyvern.com/?post=337*/
 .timeline-centered .timeline-entry .is-hidden{
   visibility:hidden;
   opacity:0;
@@ -128,6 +128,7 @@
 
 .timeline-centered .timeline-entry.left-aligned .timeline-entry-inner .timeline-icon {
   float: right;
+
 }
 
 .timeline-centered .timeline-entry.left-aligned .timeline-entry-inner .timeline-label {
@@ -217,6 +218,8 @@
 
   .md-icon-button {
     left: -6px;
+    padding-left: 2px;
+    padding-top: 10px;
   }
 }
 
@@ -332,4 +335,12 @@
   .timeline-end {
     margin-left: 17px;
   }
+}
+
+span.cc-time {
+  border-bottom: 1px dashed #7d7d7d;
+  border-bottom-width: 1px;
+  border-bottom-style: dashed;
+  border-bottom-color: #7d7d7d;
+  cursor: pointer;
 }

@@ -246,7 +246,9 @@
   float: left;
   cursor: pointer; }
   .timeline-centered .timeline-entry .timeline-entry-inner .timeline-icon .md-icon-button {
-    left: -6px; }
+    left: -6px;
+    padding-left: 2px;
+    padding-top: 10px; }
 
 .timeline-centered .timeline-entry .timeline-entry-inner .timeline-icon.bg-primary {
   background-color: #303641;
@@ -337,5 +339,12 @@
         top: -65px; }
   .timeline-centered.all-right .timeline-end {
     margin-left: 17px; }
+
+span.cc-time {
+  border-bottom: 1px dashed #7d7d7d;
+  border-bottom-width: 1px;
+  border-bottom-style: dashed;
+  border-bottom-color: #7d7d7d;
+  cursor: pointer; }
 
 /*# sourceMappingURL=cinema_browser.css.map*/

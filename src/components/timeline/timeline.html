@@ -1,9 +1,9 @@
 <div class="container" id="cv-timeline-container">
   <div class="row">
     <div class="timeline-centered" ng-class="vm.getClass()">
-      <timeline-entry ng-repeat="entry in vm.entries"
+      <timeline-entry ng-repeat="(key, entry) in vm.entries"
                       entry="entry"
-                      person-object="vm.personData"
+                      key-data="key"
                       is-left="$odd"></timeline-entry>
       <article class="timeline-entry begin">
 

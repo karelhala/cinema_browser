@@ -9,7 +9,7 @@ export default class TimelineEntryComponent implements ng.IComponentOptions {
   public controllerAs: string = 'vm';
   public bindings: any = {
     isLeft: '=',
-    personObject: '=',
-    entry: '='
+    entry: '=',
+    keyData: '<'
   };
 }

@@ -2,7 +2,7 @@
 
 export default class TimelineEntryController {
   public isLeft: boolean;
-  public personObject: any;
+  public keyData: any;
   public entry: any;
 
   /* @ngInject */

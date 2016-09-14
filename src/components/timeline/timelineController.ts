@@ -2,7 +2,7 @@
 import * as moment from 'moment';
 export default class TimelineController {
   public entries: any[] = [];
-  public personData: any;
+  public timeData: any;
   private container: any;
   private static get offset() {return 100;};
 
@@ -27,14 +27,17 @@ export default class TimelineController {
   }
 
   public onNextData(data) {
-    if (data.changed === 'cinema') {
-      this.selectCurrentMovies();
+    if (data.changed === 'cinema' || data.changed === 'date') {
+      if (this.basicInformationLoader.selectedItem) {
+        this.selectCurrentMovies();
+      }
     }
   }
 
   public selectCurrentMovies() {
     Object.keys(this.basicInformationLoader.selectedItem.movies.filtered).forEach(item => {
-      if (moment(item, 'DD/MM/YYYY').toDate() === this.basicInformationLoader.selectedTime.toDate()) {
+      let timeData = moment(item, 'DD/MM/YYYY');
+      if (timeData.toDate().getTime() === this.basicInformationLoader.selectedTime.toDate().getTime()) {
         this.entries = this.basicInformationLoader.selectedItem.movies.filtered[item];
       }
     });
@@ -42,7 +45,6 @@ export default class TimelineController {
       let firstKey = Object.keys(this.basicInformationLoader.selectedItem.movies.filtered)[0];
       this.entries = this.basicInformationLoader.selectedItem.movies.filtered[firstKey];
     }
-    console.log(this.basicInformationLoader, this.entries);
   }
 
   public onFailAndClose() {
