@@ -14471,7 +14471,10 @@
 	        importScripts('https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.15.0/lodash.js');
 	        _.each(data.cinemas, function (oneCinema) {
 	            var cinemasMovies = _.filter(data.movies.sites, { si: oneCinema.value })[0];
-	            cinemasMovies.filtered = _.groupBy(cinemasMovies.pr, function (item) { return item.dt.substr(0, item.dt.indexOf(" ")); });
+	            cinemasMovies.filtered = _.groupBy(cinemasMovies.pr, function (item) { return item.dt.substr(0, item.dt.indexOf(' ')); });
+	            _.each(cinemasMovies.filtered, function (item, key) {
+	                cinemasMovies.filtered[key] = _.groupBy(item, function (movie) { return movie.tm.substr(0, 2); });
+	            });
 	            oneCinema.movies = cinemasMovies;
 	        });
 	        return data.cinemas;

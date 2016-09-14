@@ -36,11 +36,14 @@ export default class MovieLoader {
     return this.cinemaWorker.run({cinemas: allCinemas, movies: this.allMovies[1]});
   }
 
-  private filterCinemaData(data) {
+  private filterCinemaData(data: any) {
     importScripts('https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.15.0/lodash.js');
-    _.each(data.cinemas, (oneCinema) => {
-      let cinemasMovies = _.filter(data.movies.sites, {si: oneCinema.value})[0];
-      cinemasMovies.filtered = _.groupBy(cinemasMovies.pr, (item) => item.dt.substr(0, item.dt.indexOf(" ")));
+    _.each(data.cinemas, (oneCinema: any) => {
+      let cinemasMovies: any = _.filter(data.movies.sites, {si: oneCinema.value})[0];
+      cinemasMovies.filtered = _.groupBy(cinemasMovies.pr, (item: any) => item.dt.substr(0, item.dt.indexOf(' ')));
+      _.each(cinemasMovies.filtered, (item, key) => {
+        cinemasMovies.filtered[key] = _.groupBy(item, (movie: any) => {return movie.tm.substr(0,2);});
+      });
       oneCinema.movies = cinemasMovies;
     });
     return data.cinemas;
