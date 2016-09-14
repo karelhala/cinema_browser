@@ -14856,6 +14856,7 @@
 	    };
 	    TimelineController.prototype.selectCurrentMovies = function () {
 	        var _this = this;
+	        this.entries = [];
 	        Object.keys(this.basicInformationLoader.selectedItem.movies.filtered).forEach(function (item) {
 	            var timeData = moment(item, 'DD/MM/YYYY');
 	            if (timeData.toDate().getTime() === _this.basicInformationLoader.selectedTime.toDate().getTime()) {
@@ -14866,6 +14867,7 @@
 	            var firstKey = Object.keys(this.basicInformationLoader.selectedItem.movies.filtered)[0];
 	            this.entries = this.basicInformationLoader.selectedItem.movies.filtered[firstKey];
 	        }
+	        this.entries = _.cloneDeep(this.entries);
 	        _.each(this.entries, function (entry, key) {
 	            _this.entries[key] = { data: entry };
 	        });
@@ -14920,7 +14922,7 @@
 	        this.controllerAs = 'vm';
 	        this.bindings = {
 	            isLeft: '=',
-	            entry: '=',
+	            entry: '<',
 	            keyData: '<'
 	        };
 	    }
@@ -14940,7 +14942,6 @@
 	    /* @ngInject */
 	    function TimelineEntryController($window) {
 	        this.$window = $window;
-	        console.log(this);
 	    }
 	    TimelineEntryController.$inject = ["$window"];
 	    TimelineEntryController.prototype.getCurrentClasses = function () {

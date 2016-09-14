@@ -36,6 +36,7 @@ export default class TimelineController {
   }
 
   public selectCurrentMovies() {
+    this.entries = [];
     Object.keys(this.basicInformationLoader.selectedItem.movies.filtered).forEach(item => {
       let timeData = moment(item, 'DD/MM/YYYY');
       if (timeData.toDate().getTime() === this.basicInformationLoader.selectedTime.toDate().getTime()) {
@@ -46,6 +47,7 @@ export default class TimelineController {
       let firstKey = Object.keys(this.basicInformationLoader.selectedItem.movies.filtered)[0];
       this.entries = this.basicInformationLoader.selectedItem.movies.filtered[firstKey];
     }
+    this.entries = _.cloneDeep(this.entries);
     _.each(this.entries, (entry, key) => {
       this.entries[key] = {data: entry};
     });
