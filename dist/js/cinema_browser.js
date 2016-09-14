@@ -14822,11 +14822,12 @@
 	///<reference path="../../tsd.d.ts"/>
 	var moment = __webpack_require__(11);
 	var TimelineController = (function () {
-	    function TimelineController(timelineLoader, basicInformationLoader, $window) {
+	    function TimelineController(timelineLoader, basicInformationLoader, $window, $scope) {
 	        var _this = this;
 	        this.timelineLoader = timelineLoader;
 	        this.basicInformationLoader = basicInformationLoader;
 	        this.$window = $window;
+	        this.$scope = $scope;
 	        this.entries = [];
 	        this.container = angular.element(document.getElementById('content-container'));
 	        this.container.on('scroll', function () {
@@ -14865,6 +14866,9 @@
 	            var firstKey = Object.keys(this.basicInformationLoader.selectedItem.movies.filtered)[0];
 	            this.entries = this.basicInformationLoader.selectedItem.movies.filtered[firstKey];
 	        }
+	        _.each(this.entries, function (entry, key) {
+	            _this.entries[key] = { data: entry };
+	        });
 	    };
 	    TimelineController.prototype.onFailAndClose = function () {
 	        console.log('fail and close');
@@ -14874,8 +14878,9 @@
 	        var timelineEntries = document.getElementsByClassName('timeline-entry');
 	        angular.forEach(timelineEntries, function (oneEntry, key) {
 	            if ((Math.abs(oneEntry.getBoundingClientRect().top + TimelineController.offset)) < _this.$window.innerHeight) {
-	                if (_this.entries[key]) {
-	                    _this.entries[key].isVisible = true;
+	                if (_this.entries[oneEntry.id]) {
+	                    _this.entries[oneEntry.id].isVisible = true;
+	                    _this.$scope.$apply();
 	                    if (key + 1 === _this.entries.length) {
 	                        _this.container.off('scroll');
 	                    }
@@ -14898,7 +14903,7 @@
 /* 135 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"container\" id=\"cv-timeline-container\">\n  <div class=\"row\">\n    <div class=\"timeline-centered\" ng-class=\"vm.getClass()\">\n      <timeline-entry ng-repeat=\"(key, entry) in vm.entries\"\n                      entry=\"entry\"\n                      key-data=\"key\"\n                      is-left=\"$odd\"></timeline-entry>\n      <article class=\"timeline-entry begin\">\n\n        <div class=\"timeline-end\">\n\n          <div class=\"arrow-down\"></div>\n\n        </div>\n\n      </article>\n    </div>\n  </div>\n</div>\n"
+	module.exports = "<div class=\"container\" id=\"cv-timeline-container\">\n  <div class=\"row\">\n    <div class=\"timeline-centered\" ng-class=\"vm.getClass()\">\n      <timeline-entry ng-repeat=\"(key, entry) in vm.entries\"\n                      entry=\"entry\"\n                      key-data=\"key\"\n                      is-left=\"$odd\"></timeline-entry>\n      <article class=\"timeline-entry begin\" ng-if=\"vm.entries.length !== 0\">\n\n        <div class=\"timeline-end\">\n\n          <div class=\"arrow-down\"></div>\n\n        </div>\n\n      </article>\n    </div>\n  </div>\n</div>\n"
 
 /***/ },
 /* 136 */
@@ -14935,6 +14940,7 @@
 	    /* @ngInject */
 	    function TimelineEntryController($window) {
 	        this.$window = $window;
+	        console.log(this);
 	    }
 	    TimelineEntryController.$inject = ["$window"];
 	    TimelineEntryController.prototype.getCurrentClasses = function () {
@@ -14958,7 +14964,7 @@
 /* 138 */
 /***/ function(module, exports) {
 
-	module.exports = "<article class=\"timeline-entry\" ng-class=\"vm.getCurrentClasses()\">\n  <div class=\"timeline-entry-inner\">\n    <time class=\"timeline-time\" datetime=\"{{vm.entry.timeObject.format('YYYY-MM-DD')}}\"><span>{{vm.entry.timeObject.format('DD.MM.YYYY')}}</span>\n      <span class=\"cv-time\">{{vm.entry.getTime()}}</span></time>\n    <div class=\"timeline-icon {{vm.entry['color-class']}}\" ng-click=\"vm.entry.isVisible = !vm.entry.isVisible\">\n      <md-button class=\"md-icon-button\" aria-label=\"Settings\">\n        {{vm.keyData}}:00\n      </md-button>\n    </div>\n\n    <div class=\"timeline-label\" ng-class=\"vm.bounce()\">\n      <p ng-repeat=\"oneEntry in vm.entry\">{{oneEntry.fn}} <span class=\"cc-time\">{{oneEntry.tm}}</span></p>\n    </div>\n  </div>\n\n</article>\n"
+	module.exports = "<article class=\"timeline-entry\" ng-class=\"vm.getCurrentClasses()\" id=\"{{vm.keyData}}\">\n  <div class=\"timeline-entry-inner\">\n    <time class=\"timeline-time\" datetime=\"{{vm.entry.timeObject.format('YYYY-MM-DD')}}\"><span>{{vm.entry.timeObject.format('DD.MM.YYYY')}}</span>\n      <span class=\"cv-time\">{{vm.entry.getTime()}}</span></time>\n    <div class=\"timeline-icon {{vm.entry['color-class']}}\" ng-click=\"vm.entry.isVisible = !vm.entry.isVisible\">\n      <md-button class=\"md-icon-button\" aria-label=\"Settings\">\n        {{vm.keyData}}:00\n      </md-button>\n    </div>\n\n    <div class=\"timeline-label\" ng-class=\"vm.bounce()\">\n      <p ng-repeat=\"oneEntry in vm.entry.data\">{{oneEntry.fn}} <span class=\"cc-time\">{{oneEntry.tm}}</span></p>\n    </div>\n  </div>\n\n</article>\n"
 
 /***/ },
 /* 139 */

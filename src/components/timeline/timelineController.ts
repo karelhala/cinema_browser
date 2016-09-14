@@ -8,7 +8,8 @@ export default class TimelineController {
 
   constructor(private timelineLoader: any,
               private basicInformationLoader: any,
-              private $window: any) {
+              private $window: any,
+              private $scope: any) {
     this.container = angular.element(document.getElementById('content-container'));
     this.container.on('scroll', () => {
       this.showVisible();
@@ -45,6 +46,9 @@ export default class TimelineController {
       let firstKey = Object.keys(this.basicInformationLoader.selectedItem.movies.filtered)[0];
       this.entries = this.basicInformationLoader.selectedItem.movies.filtered[firstKey];
     }
+    _.each(this.entries, (entry, key) => {
+      this.entries[key] = {data: entry};
+    });
   }
 
   public onFailAndClose() {
@@ -55,8 +59,9 @@ export default class TimelineController {
     const timelineEntries = document.getElementsByClassName('timeline-entry');
     angular.forEach(timelineEntries, (oneEntry, key) => {
       if ((Math.abs(oneEntry.getBoundingClientRect().top + TimelineController.offset)) < this.$window.innerHeight) {
-        if (this.entries[key]) {
-          this.entries[key].isVisible = true;
+        if (this.entries[oneEntry.id]) {
+          this.entries[oneEntry.id].isVisible = true;
+          this.$scope.$apply();
           if (key + 1 === this.entries.length) {
             this.container.off('scroll');
           }

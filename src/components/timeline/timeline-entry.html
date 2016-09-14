@@ -1,4 +1,4 @@
-<article class="timeline-entry" ng-class="vm.getCurrentClasses()">
+<article class="timeline-entry" ng-class="vm.getCurrentClasses()" id="{{vm.keyData}}">
   <div class="timeline-entry-inner">
     <time class="timeline-time" datetime="{{vm.entry.timeObject.format('YYYY-MM-DD')}}"><span>{{vm.entry.timeObject.format('DD.MM.YYYY')}}</span>
       <span class="cv-time">{{vm.entry.getTime()}}</span></time>
@@ -9,7 +9,7 @@
     </div>
 
     <div class="timeline-label" ng-class="vm.bounce()">
-      <p ng-repeat="oneEntry in vm.entry">{{oneEntry.fn}} <span class="cc-time">{{oneEntry.tm}}</span></p>
+      <p ng-repeat="oneEntry in vm.entry.data">{{oneEntry.fn}} <span class="cc-time">{{oneEntry.tm}}</span></p>
     </div>
   </div>
 

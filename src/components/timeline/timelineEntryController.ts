@@ -6,7 +6,9 @@ export default class TimelineEntryController {
   public entry: any;
 
   /* @ngInject */
-  public constructor(private $window: any) {}
+  public constructor(private $window: any) {
+    console.log(this);
+  }
 
   public getCurrentClasses() {
     return {
