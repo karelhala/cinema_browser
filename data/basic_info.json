@@ -1,47 +1,62 @@
 [
   {
-    "text": "Velký Špalíček"
+    "text": "Velký Špalíček",
+    "value": 1010107
   },
   {
-    "text": "Olympia"
+    "text": "Olympia",
+    "value": 1010103
   },
   {
-    "text": "Flora"
+    "text": "Flora",
+    "value": 1010105
   },
   {
-    "text": "Flora(IMAX)"
+    "text": "Flora(IMAX)",
+    "value": 1010101
   },
   {
-    "text": "Galaxie"
+    "text": "Galaxie",
+    "value": 1010113
   },
   {
-    "text": "Letňany"
+    "text": "Letňany",
+    "value": 1010110
   },
   {
-    "text": "Nový Smíchov"
+    "text": "Nový Smíchov",
+    "value": 1010101
   },
   {
-    "text": "Nový Smíchov (4DX)"
+    "text": "Nový Smíchov (4DX)",
+    "value": 1010101
   },
   {
-    "text": "Slovanský dům"
+    "text": "Slovanský dům",
+    "value": 1010111
   },
   {
-    "text": "Zličín"
+    "text": "Zličín",
+    "value": 1010104
   },
   {
-    "text": "Liberec"
+    "text": "Liberec",
+    "value": 1010102
   },
   {
-    "text": "Ostrava"
+    "text": "Ostrava",
+    "value": 1010114
   },
   {
-    "text": "Pardubice"
+    "text": "Pardubice",
+    "value": 1010108
   },
   {
-    "text": "Ústí nad Labem"
+    "text": "Ústí nad Labem",
+    "value": 1010109
   },
   {
-    "text": "Plzeň"
+    "text": "Plzeň",
+    "value": 1010106
   }
 ]

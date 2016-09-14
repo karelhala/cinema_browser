@@ -120,7 +120,7 @@
 /* 8 */
 /***/ function(module, exports) {
 
-	module.exports = "<div>\r\n  <div class=\"md-whiteframe-3dp cv-content cv-timeline-trend\" id=\"selected-date\" layout=\"column\" layout-align=\"center center\">\r\n    <cc-date-chooser></cc-date-chooser>\r\n  </div>\r\n  <div class=\"md-whiteframe-3dp cv-content cc-selected\"\r\n       id=\"selected-data\"\r\n       layout=\"row\"\r\n       layout-align=\"center center\"\r\n       ng-controller=\"basicInformationController as basic\">\r\n    <h1>Zobrazuji filmy v kině\r\n      <a ng-click=\"basic.onCinemaClicked()\">{{basic.getSelectedItem()? basic.getSelectedItem().text : 'vše'}}</a>,\r\n      pro datum <a ng-click=\"basic.onDateClicked()\">{{basic.getSelectedDate() ? basic.getSelectedDate() : 'vše'}}</a></h1>\r\n  </div>\r\n  <div class=\"md-whiteframe-3dp cv-content cv-timeline-trend\" id=\"timeline-trend\" layout=\"column\">\r\n    asdf\r\n  </div>\r\n</div>\r\n"
+	module.exports = "<div>\n  <div class=\"md-whiteframe-3dp cv-content cv-timeline-trend\" id=\"selected-date\" layout=\"column\" layout-align=\"center center\">\n    <cc-date-chooser></cc-date-chooser>\n  </div>\n  <div class=\"md-whiteframe-3dp cv-content cc-selected\"\n       id=\"selected-data\"\n       layout=\"row\"\n       layout-align=\"center center\"\n       ng-controller=\"basicInformationController as basic\">\n    <h1>Zobrazuji filmy v kině\n      <a ng-click=\"basic.onCinemaClicked()\">{{basic.getSelectedItem()? basic.getSelectedItem().text : 'vše'}}</a>,\n      pro datum <a ng-click=\"basic.onDateClicked()\">{{basic.getSelectedDate() ? basic.getSelectedDate() : 'vše'}}</a></h1>\n  </div>\n  <div class=\"md-whiteframe-3dp cv-content cv-timeline-trend\" id=\"timeline-trend\" layout=\"column\">\n    asdf\n  </div>\n</div>\n"
 
 /***/ },
 /* 9 */
@@ -14505,7 +14505,7 @@
 	        this.activateSelect = false;
 	        this.activateDatePicker = false;
 	        this.movieLoader.getMovies().then(function (data) {
-	            console.log(data);
+	            _this.cinemaData = data;
 	        });
 	        this.minDate = new Date();
 	        this.maxDate = moment().add(4, 'day').startOf('day').toDate();
@@ -14546,6 +14546,7 @@
 	    };
 	    BasicInformationController.prototype.onCinemaSelect = function (item) {
 	        this.basicInformationLoader.selectedItem = item;
+	        console.log(this.cinemaData, this.basicInformationLoader.selectedItem);
 	    };
 	    BasicInformationController.prototype.getSelectedItem = function () {
 	        return this.basicInformationLoader.selectedItem;
@@ -14656,7 +14657,7 @@
 /* 126 */
 /***/ function(module, exports) {
 
-	module.exports = "<md-menu md-position-mode=\"target-right target\">\r\n  <md-button class=\"md-fab move-down\" aria-label=\"Show basic details\" ng-click=\"vm.openMenu($mdOpenMenu, $event)\">\r\n    <md-icon>account_circle</md-icon>\r\n  </md-button>\r\n  <md-menu-content width=\"6\">\r\n    <md-menu-item>\r\n      <span class=\"cv-bold\"></span>\r\n      <span><img src=\"{{vm.personObject.picture}}\"></span>\r\n    </md-menu-item>\r\n    <md-menu-item>\r\n      <span flex></span>\r\n    </md-menu-item>\r\n    <md-menu-item>\r\n      <span class=\"cv-bold\">Name and Surname</span>\r\n      <span>{{vm.personObject.name}} {{vm.personObject.surName}}</span>\r\n    </md-menu-item>\r\n    <md-menu-divider></md-menu-divider>\r\n    <md-menu-item>\r\n      <span class=\"cv-bold\">Birth date</span>\r\n      <span>{{vm.personObject.dateObject.format('DD.MM.YYYY')}}</span>\r\n    </md-menu-item>\r\n    <md-menu-item>\r\n      <span class=\"cv-bold\">Age</span>\r\n      <span>{{vm.personObject.getAge()}}</span>\r\n    </md-menu-item>\r\n  </md-menu-content>\r\n</md-menu>\r\n"
+	module.exports = "<md-menu md-position-mode=\"target-right target\">\n  <md-button class=\"md-fab move-down\" aria-label=\"Show basic details\" ng-click=\"vm.openMenu($mdOpenMenu, $event)\">\n    <md-icon>account_circle</md-icon>\n  </md-button>\n  <md-menu-content width=\"6\">\n    <md-menu-item>\n      <span class=\"cv-bold\"></span>\n      <span><img src=\"{{vm.personObject.picture}}\"></span>\n    </md-menu-item>\n    <md-menu-item>\n      <span flex></span>\n    </md-menu-item>\n    <md-menu-item>\n      <span class=\"cv-bold\">Name and Surname</span>\n      <span>{{vm.personObject.name}} {{vm.personObject.surName}}</span>\n    </md-menu-item>\n    <md-menu-divider></md-menu-divider>\n    <md-menu-item>\n      <span class=\"cv-bold\">Birth date</span>\n      <span>{{vm.personObject.dateObject.format('DD.MM.YYYY')}}</span>\n    </md-menu-item>\n    <md-menu-item>\n      <span class=\"cv-bold\">Age</span>\n      <span>{{vm.personObject.getAge()}}</span>\n    </md-menu-item>\n  </md-menu-content>\n</md-menu>\n"
 
 /***/ },
 /* 127 */
@@ -14713,7 +14714,7 @@
 /* 129 */
 /***/ function(module, exports) {
 
-	module.exports = "<md-fab-speed-dial md-open=\"vm.isOpen\" md-direction=\"{{vm.direction}}\"\r\n                   ng-class=\"vm.selectedMode\" class=\"cv-move-speed-dial\">\r\n  <md-fab-trigger>\r\n    <md-button class=\"md-icon-button\" aria-label=\"Settings\">\r\n      <ng-md-icon icon=\"{{vm.isOpen ? 'format_align_left' : 'menu'}}\" ng-attr-style=\"fill: {{fill}}\" options='{\"rotation\": \"none\"}'></ng-md-icon>\r\n    </md-button>\r\n  </md-fab-trigger>\r\n  <md-fab-actions>\r\n    <md-button ng-repeat=\"item in vm.items\"\r\n               aria-label=\"{{item.tooltip}}\"\r\n               class=\"md-fab md-raised md-mini\"\r\n               ng-click=\"vm.onClick({item: item})\">\r\n      <md-tooltip md-direction=\"{{item.tooltipDirection}}\"\r\n                  md-autohide=\"false\">{{item.tooltip}}</md-tooltip>\r\n      <md-icon>{{item.icon}}</md-icon>\r\n    </md-button>\r\n  </md-fab-actions>\r\n</md-fab-speed-dial>\r\n"
+	module.exports = "<md-fab-speed-dial md-open=\"vm.isOpen\" md-direction=\"{{vm.direction}}\"\n                   ng-class=\"vm.selectedMode\" class=\"cv-move-speed-dial\">\n  <md-fab-trigger>\n    <md-button class=\"md-icon-button\" aria-label=\"Settings\">\n      <ng-md-icon icon=\"{{vm.isOpen ? 'format_align_left' : 'menu'}}\" ng-attr-style=\"fill: {{fill}}\" options='{\"rotation\": \"none\"}'></ng-md-icon>\n    </md-button>\n  </md-fab-trigger>\n  <md-fab-actions>\n    <md-button ng-repeat=\"item in vm.items\"\n               aria-label=\"{{item.tooltip}}\"\n               class=\"md-fab md-raised md-mini\"\n               ng-click=\"vm.onClick({item: item})\">\n      <md-tooltip md-direction=\"{{item.tooltipDirection}}\"\n                  md-autohide=\"false\">{{item.tooltip}}</md-tooltip>\n      <md-icon>{{item.icon}}</md-icon>\n    </md-button>\n  </md-fab-actions>\n</md-fab-speed-dial>\n"
 
 /***/ },
 /* 130 */
@@ -14758,7 +14759,7 @@
 /* 131 */
 /***/ function(module, exports) {
 
-	module.exports = "<md-input-container>\r\n  <label>{{ctrl.label}}</label>\r\n  <md-select ng-model=\"ctrl.selectedCinema\" ng-change=\"ctrl.ctrlGetSelected()\">\r\n    <md-option ng-repeat=\"item in ctrl.selectItems\" value=\"{{item.text}}\">\r\n      {{item.text}}\r\n    </md-option>\r\n  </md-select>\r\n</md-input-container>\r\n"
+	module.exports = "<md-input-container>\n  <label>{{ctrl.label}}</label>\n  <md-select ng-model=\"ctrl.selectedCinema\" ng-change=\"ctrl.ctrlGetSelected()\">\n    <md-option ng-repeat=\"item in ctrl.selectItems\" value=\"{{item.text}}\">\n      {{item.text}}\n    </md-option>\n  </md-select>\n</md-input-container>\n"
 
 /***/ },
 /* 132 */
@@ -14868,7 +14869,7 @@
 /* 135 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"container\" id=\"cv-timeline-container\">\r\n  <div class=\"row\">\r\n    <div class=\"timeline-centered\" ng-class=\"vm.getClass()\">\r\n      <timeline-entry ng-repeat=\"entry in vm.entries\"\r\n                      entry=\"entry\"\r\n                      person-object=\"vm.personData\"\r\n                      is-left=\"$odd\"></timeline-entry>\r\n      <article class=\"timeline-entry begin\">\r\n\r\n        <div class=\"timeline-end\">\r\n\r\n          <div class=\"arrow-down\"></div>\r\n\r\n        </div>\r\n\r\n      </article>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+	module.exports = "<div class=\"container\" id=\"cv-timeline-container\">\n  <div class=\"row\">\n    <div class=\"timeline-centered\" ng-class=\"vm.getClass()\">\n      <timeline-entry ng-repeat=\"entry in vm.entries\"\n                      entry=\"entry\"\n                      person-object=\"vm.personData\"\n                      is-left=\"$odd\"></timeline-entry>\n      <article class=\"timeline-entry begin\">\n\n        <div class=\"timeline-end\">\n\n          <div class=\"arrow-down\"></div>\n\n        </div>\n\n      </article>\n    </div>\n  </div>\n</div>\n"
 
 /***/ },
 /* 136 */
@@ -14928,7 +14929,7 @@
 /* 138 */
 /***/ function(module, exports) {
 
-	module.exports = "<article class=\"timeline-entry\" ng-class=\"vm.getCurrentClasses()\">\r\n\r\n  <div class=\"timeline-entry-inner\">\r\n    <time class=\"timeline-time\" datetime=\"{{vm.entry.timeObject.format('YYYY-MM-DD')}}\"><span>{{vm.entry.timeObject.format('DD.MM.YYYY')}}</span>\r\n      <span class=\"cv-time\">{{vm.entry.getTime()}}</span></time>\r\n    <div class=\"timeline-icon {{vm.entry['color-class']}}\" ng-click=\"vm.entry.isVisible = !vm.entry.isVisible\">\r\n      <md-button class=\"md-icon-button\" aria-label=\"Settings\">\r\n        <md-icon>{{vm.entry.icon}}</md-icon>\r\n      </md-button>\r\n    </div>\r\n\r\n    <div class=\"timeline-label\" ng-class=\"vm.bounce()\">\r\n      <h2>{{vm.personObject.name}} {{vm.personObject.surName}} <span> {{vm.entry.title}}</span></h2>\r\n      <p>{{vm.entry.text}}</p>\r\n    </div>\r\n  </div>\r\n\r\n</article>\r\n"
+	module.exports = "<article class=\"timeline-entry\" ng-class=\"vm.getCurrentClasses()\">\n\n  <div class=\"timeline-entry-inner\">\n    <time class=\"timeline-time\" datetime=\"{{vm.entry.timeObject.format('YYYY-MM-DD')}}\"><span>{{vm.entry.timeObject.format('DD.MM.YYYY')}}</span>\n      <span class=\"cv-time\">{{vm.entry.getTime()}}</span></time>\n    <div class=\"timeline-icon {{vm.entry['color-class']}}\" ng-click=\"vm.entry.isVisible = !vm.entry.isVisible\">\n      <md-button class=\"md-icon-button\" aria-label=\"Settings\">\n        <md-icon>{{vm.entry.icon}}</md-icon>\n      </md-button>\n    </div>\n\n    <div class=\"timeline-label\" ng-class=\"vm.bounce()\">\n      <h2>{{vm.personObject.name}} {{vm.personObject.surName}} <span> {{vm.entry.title}}</span></h2>\n      <p>{{vm.entry.text}}</p>\n    </div>\n  </div>\n\n</article>\n"
 
 /***/ },
 /* 139 */
@@ -14999,7 +15000,7 @@
 /* 142 */
 /***/ function(module, exports) {
 
-	module.exports = "<md-icon ng-repeat=\"contact in vm.contactsData\"\r\n         md-svg-src=\"{{contact.iconSrc}}\"\r\n         aria-label=\"{{contact.title}}\"\r\n         ng-click=\"vm.contactClicked(contact)\"\r\n         class=\"cv-contact {{contact.class}}\"\r\n></md-icon>\r\n"
+	module.exports = "<md-icon ng-repeat=\"contact in vm.contactsData\"\n         md-svg-src=\"{{contact.iconSrc}}\"\n         aria-label=\"{{contact.title}}\"\n         ng-click=\"vm.contactClicked(contact)\"\n         class=\"cv-contact {{contact.class}}\"\n></md-icon>\n"
 
 /***/ },
 /* 143 */
@@ -15117,7 +15118,7 @@
 /* 147 */
 /***/ function(module, exports) {
 
-	module.exports = "<md-card>\r\n  <md-card-title>\r\n    <md-card-title-text>\r\n      <span class=\"md-headline\">{{vm.tileTitle}}</span>\r\n    </md-card-title-text>\r\n  </md-card-title>\r\n  <md-card-content layout=\"row\" layout-align=\"space-between\">\r\n    <div class=\"card-media cv-graph\">\r\n      <basic-graph type=\"vm.tileData.graphData.type\"\r\n                   data=\"vm.tileData.graphData.data\"\r\n                   colors=\"vm.tileData.graphData.colors\"\r\n                   names=\"vm.tileData.graphData.names\" id=\"{{vm.graphId}}\">\r\n      </basic-graph>\r\n    </div>\r\n    <md-card-actions layout=\"column\">\r\n      <md-button class=\"md-icon-button\" aria-label=\"Settings\">\r\n        <md-icon>mode_comment</md-icon>\r\n      </md-button>\r\n      <speed-dial items=\"vm.speedDialItems\" direction=\"'down'\" on-click=\"vm.onSpeedDialClick(item)\"></speed-dial>\r\n    </md-card-actions>\r\n  </md-card-content>\r\n</md-card>\r\n"
+	module.exports = "<md-card>\n  <md-card-title>\n    <md-card-title-text>\n      <span class=\"md-headline\">{{vm.tileTitle}}</span>\n    </md-card-title-text>\n  </md-card-title>\n  <md-card-content layout=\"row\" layout-align=\"space-between\">\n    <div class=\"card-media cv-graph\">\n      <basic-graph type=\"vm.tileData.graphData.type\"\n                   data=\"vm.tileData.graphData.data\"\n                   colors=\"vm.tileData.graphData.colors\"\n                   names=\"vm.tileData.graphData.names\" id=\"{{vm.graphId}}\">\n      </basic-graph>\n    </div>\n    <md-card-actions layout=\"column\">\n      <md-button class=\"md-icon-button\" aria-label=\"Settings\">\n        <md-icon>mode_comment</md-icon>\n      </md-button>\n      <speed-dial items=\"vm.speedDialItems\" direction=\"'down'\" on-click=\"vm.onSpeedDialClick(item)\"></speed-dial>\n    </md-card-actions>\n  </md-card-content>\n</md-card>\n"
 
 /***/ },
 /* 148 */
@@ -15299,7 +15300,7 @@
 /* 152 */
 /***/ function(module, exports) {
 
-	module.exports = "<div>\r\n  <md-button ng-repeat=\"date in vm.allDates\"\r\n             class=\"md-fab md-mini md-primary\"\r\n             ng-disabled=\"date.isSelected\"\r\n             ng-click=\"vm.onDateClicked(date)\">\r\n    {{date.title}}\r\n  </md-button>\r\n</div>\r\n"
+	module.exports = "<div>\n  <md-button ng-repeat=\"date in vm.allDates\"\n             class=\"md-fab md-mini md-primary\"\n             ng-disabled=\"date.isSelected\"\n             ng-click=\"vm.onDateClicked(date)\">\n    {{date.title}}\n  </md-button>\n</div>\n"
 
 /***/ },
 /* 153 */

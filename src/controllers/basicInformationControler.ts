@@ -8,6 +8,7 @@ export default class BasicInformationController {
   public items: any[];
   public container: any;
   public cinemaDate: any;
+  public cinemaData: any;
   public activateSelect: boolean = false;
   public activateDatePicker: boolean = false;
   public minDate: any;
@@ -15,7 +16,7 @@ export default class BasicInformationController {
   /* @ngInject */
   constructor(private basicInformationLoader: any, private movieLoader: any) {
     this.movieLoader.getMovies().then((data) => {
-      console.log(data);
+      this.cinemaData = data;
     });
     this.minDate = new Date();
     this.maxDate = moment().add(4, 'day').startOf('day').toDate();
@@ -61,6 +62,7 @@ export default class BasicInformationController {
 
   public onCinemaSelect(item) {
     this.basicInformationLoader.selectedItem = item;
+    console.log(this.cinemaData, this.basicInformationLoader.selectedItem);
   }
 
   public getSelectedItem() {
