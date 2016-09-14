@@ -3,7 +3,7 @@ import * as moment from 'moment';
 
 export default class MovieLoader {
   private cinemaWorker: any;
-  private allMovies: any;
+  public allMovies: any;
   /* @ngInject */
   constructor(private Webworker: any, private $http: any, private $q: any) {
     this.cinemaWorker = Webworker.create(this.filterCinemaData);
@@ -36,8 +36,8 @@ export default class MovieLoader {
     return this.cinemaWorker.run({cinemas: allCinemas, movies: this.allMovies[1]});
   }
 
-  private filterCinemaData(data: any) {
-    importScripts('https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.15.0/lodash.js');
+  public filterCinemaData(data: any) {
+    // importScripts('https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.15.0/lodash.js');
     _.each(data.cinemas, (oneCinema: any) => {
       let cinemasMovies: any = _.filter(data.movies.sites, {si: oneCinema.value})[0];
       cinemasMovies.filtered = _.groupBy(cinemasMovies.pr, (item: any) => item.dt.substr(0, item.dt.indexOf(' ')));

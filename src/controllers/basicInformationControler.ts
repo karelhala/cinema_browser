@@ -20,10 +20,10 @@ export default class BasicInformationController {
     this.movieLoader
       .getMovies()
       .then(() => this.basicInformationLoader.getCinemas())
-      .then((cinemas) => this.movieLoader.filterMoviesAndSites(cinemas))
-      .then(data => {
-        this.items = data;
-        return data;
+      .then((cinemas) => {
+        this.items = this.movieLoader.filterCinemaData({cinemas: cinemas, movies:  this.movieLoader.allMovies[1]});
+        this.basicInformationLoader.setAllCinemas(this.items);
+        return cinemas;
       });
     this.cinemaDate = this.basicInformationLoader.selectedTime.toDate();
     this.subscribeToInformationLoader();
@@ -65,7 +65,7 @@ export default class BasicInformationController {
 
   public onCinemaSelect(item) {
     this.basicInformationLoader.selectedItem = item;
-    console.log(this.basicInformationLoader.selectedItem);
+    this.basicInformationLoader.sendNext({changed: 'cinema'});
   }
 
   public getSelectedItem() {

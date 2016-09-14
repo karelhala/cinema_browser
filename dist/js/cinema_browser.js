@@ -120,7 +120,7 @@
 /* 8 */
 /***/ function(module, exports) {
 
-	module.exports = "<div>\n  <div class=\"md-whiteframe-3dp cv-content cv-timeline-trend\" id=\"selected-date\" layout=\"column\" layout-align=\"center center\">\n    <cc-date-chooser></cc-date-chooser>\n  </div>\n  <div class=\"md-whiteframe-3dp cv-content cc-selected\"\n       id=\"selected-data\"\n       layout=\"row\"\n       layout-align=\"center center\"\n       ng-controller=\"basicInformationController as basic\">\n    <h1>Zobrazuji filmy v kině\n      <a ng-click=\"basic.onCinemaClicked()\">{{basic.getSelectedItem()? basic.getSelectedItem().text : 'vše'}}</a>,\n      pro datum <a ng-click=\"basic.onDateClicked()\">{{basic.getSelectedDate() ? basic.getSelectedDate() : 'vše'}}</a></h1>\n  </div>\n  <div class=\"md-whiteframe-3dp cv-content cv-timeline-trend\" id=\"timeline-trend\" layout=\"column\">\n    asdf\n  </div>\n</div>\n"
+	module.exports = "<div>\n  <div class=\"md-whiteframe-3dp cv-content cv-timeline-trend\" id=\"selected-date\" layout=\"column\" layout-align=\"center center\">\n    <cc-date-chooser></cc-date-chooser>\n  </div>\n  <div class=\"md-whiteframe-3dp cv-content cc-selected\"\n       id=\"selected-data\"\n       layout=\"row\"\n       layout-align=\"center center\"\n       ng-controller=\"basicInformationController as basic\">\n    <h1>Zobrazuji filmy v kině\n      <a ng-click=\"basic.onCinemaClicked()\">{{basic.getSelectedItem()? basic.getSelectedItem().text : 'vše'}}</a>,\n      pro datum <a ng-click=\"basic.onDateClicked()\">{{basic.getSelectedDate() ? basic.getSelectedDate() : 'vše'}}</a></h1>\n  </div>\n  <div class=\"md-whiteframe-3dp cv-content cv-timeline-trend\" id=\"timeline-trend\" layout=\"column\">\n    <timeline></timeline>\n  </div>\n</div>\n"
 
 /***/ },
 /* 9 */
@@ -176,6 +176,9 @@
 	    };
 	    BasicInformationLoader.prototype.sendNext = function (data) {
 	        this.informationSubject.onNext(data);
+	    };
+	    BasicInformationLoader.prototype.setAllCinemas = function (allCinemas) {
+	        this.allCinemas = allCinemas;
 	    };
 	    return BasicInformationLoader;
 	}());
@@ -14468,7 +14471,7 @@
 	        return this.cinemaWorker.run({ cinemas: allCinemas, movies: this.allMovies[1] });
 	    };
 	    MovieLoader.prototype.filterCinemaData = function (data) {
-	        importScripts('https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.15.0/lodash.js');
+	        // importScripts('https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.15.0/lodash.js');
 	        _.each(data.cinemas, function (oneCinema) {
 	            var cinemasMovies = _.filter(data.movies.sites, { si: oneCinema.value })[0];
 	            cinemasMovies.filtered = _.groupBy(cinemasMovies.pr, function (item) { return item.dt.substr(0, item.dt.indexOf(' ')); });
@@ -14520,10 +14523,10 @@
 	        this.movieLoader
 	            .getMovies()
 	            .then(function () { return _this.basicInformationLoader.getCinemas(); })
-	            .then(function (cinemas) { return _this.movieLoader.filterMoviesAndSites(cinemas); })
-	            .then(function (data) {
-	            _this.items = data;
-	            return data;
+	            .then(function (cinemas) {
+	            _this.items = _this.movieLoader.filterCinemaData({ cinemas: cinemas, movies: _this.movieLoader.allMovies[1] });
+	            _this.basicInformationLoader.setAllCinemas(_this.items);
+	            return cinemas;
 	        });
 	        this.cinemaDate = this.basicInformationLoader.selectedTime.toDate();
 	        this.subscribeToInformationLoader();
@@ -14560,7 +14563,7 @@
 	    };
 	    BasicInformationController.prototype.onCinemaSelect = function (item) {
 	        this.basicInformationLoader.selectedItem = item;
-	        console.log(this.basicInformationLoader.selectedItem);
+	        this.basicInformationLoader.sendNext({ changed: 'cinema' });
 	    };
 	    BasicInformationController.prototype.getSelectedItem = function () {
 	        return this.basicInformationLoader.selectedItem;
@@ -14813,40 +14816,23 @@
 
 /***/ },
 /* 134 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	///<reference path="../../tsd.d.ts"/>
 	"use strict";
+	///<reference path="../../tsd.d.ts"/>
+	var moment = __webpack_require__(11);
 	var TimelineController = (function () {
 	    function TimelineController(timelineLoader, basicInformationLoader, $window) {
 	        var _this = this;
 	        this.timelineLoader = timelineLoader;
 	        this.basicInformationLoader = basicInformationLoader;
 	        this.$window = $window;
+	        this.entries = [];
 	        this.container = angular.element(document.getElementById('content-container'));
-	        var person = this.basicInformationLoader.getPersonObject();
-	        if (person.hasOwnProperty('$$state')) {
-	            person.then(function (personData) {
-	                _this.personData = personData;
-	            });
-	        }
-	        var timeline = this.timelineLoader.getTimelineData();
-	        if (timeline.hasOwnProperty('$$state')) {
-	            timeline.then(function (timelineData) {
-	                _this.entries = timelineData;
-	                setTimeout(function () {
-	                    _this.showVisible();
-	                });
-	            });
-	        }
-	        else {
-	            setTimeout(function () {
-	                _this.showVisible();
-	            });
-	        }
 	        this.container.on('scroll', function () {
 	            _this.showVisible();
 	        });
+	        this.subscribeToInformationLoader();
 	    }
 	    Object.defineProperty(TimelineController, "offset", {
 	        get: function () { return 100; },
@@ -14854,6 +14840,33 @@
 	        configurable: true
 	    });
 	    ;
+	    TimelineController.prototype.subscribeToInformationLoader = function () {
+	        var _this = this;
+	        this.basicInformationLoader
+	            .informationSubject
+	            .subscribe(function (data) { return _this.onNextData(data); }, this.onFailAndClose, this.onFailAndClose);
+	    };
+	    TimelineController.prototype.onNextData = function (data) {
+	        if (data.changed === 'cinema') {
+	            this.selectCurrentMovies();
+	        }
+	    };
+	    TimelineController.prototype.selectCurrentMovies = function () {
+	        var _this = this;
+	        Object.keys(this.basicInformationLoader.selectedItem.movies.filtered).forEach(function (item) {
+	            if (moment(item, 'DD/MM/YYYY').toDate() === _this.basicInformationLoader.selectedTime.toDate()) {
+	                _this.entries = _this.basicInformationLoader.selectedItem.movies.filtered[item];
+	            }
+	        });
+	        if (this.entries.length === 0) {
+	            var firstKey = Object.keys(this.basicInformationLoader.selectedItem.movies.filtered)[0];
+	            this.entries = this.basicInformationLoader.selectedItem.movies.filtered[firstKey];
+	        }
+	        console.log(this.basicInformationLoader, this.entries);
+	    };
+	    TimelineController.prototype.onFailAndClose = function () {
+	        console.log('fail and close');
+	    };
 	    TimelineController.prototype.showVisible = function () {
 	        var _this = this;
 	        var timelineEntries = document.getElementsByClassName('timeline-entry');

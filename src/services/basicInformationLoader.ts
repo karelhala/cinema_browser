@@ -29,4 +29,8 @@ export default class BasicInformationLoader {
   public sendNext(data) {
     this.informationSubject.onNext(data);
   }
+
+  public setAllCinemas(allCinemas) {
+    this.allCinemas = allCinemas;
+  }
 }
