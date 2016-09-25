@@ -9,7 +9,7 @@
     <md-button ng-repeat="item in vm.items"
                aria-label="{{item.tooltip}}"
                class="md-fab md-raised md-mini"
-               ng-click="vm.onClick({item: item})">
+               ng-click="vm.onItemClick(item)">
       <md-tooltip md-direction="{{item.tooltipDirection}}"
                   md-autohide="false">{{item.tooltip}}</md-tooltip>
       <md-icon>{{item.icon}}</md-icon>

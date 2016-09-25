@@ -14478,6 +14478,7 @@
 	            _.each(cinemasMovies.filtered, function (item, key) {
 	                cinemasMovies.filtered[key] = _.groupBy(item, function (movie) { return movie.tm.substr(0, 2); });
 	            });
+	            oneCinema.actionObject = JSON.parse(cinemasMovies.tu);
 	            oneCinema.movies = cinemasMovies;
 	        });
 	        return data.cinemas;
@@ -14718,8 +14719,14 @@
 	    }
 	    SpeedDialController.$inject = ["$window"];
 	    SpeedDialController.prototype.scrollToElement = function (elementId) {
-	        var element = angular.element(document.getElementById(elementId));
-	        this.container.scrollToElementAnimated(element, 0, 400);
+	        if (elementId) {
+	            var element = angular.element(document.getElementById(elementId));
+	            this.container.scrollToElementAnimated(element, 0, 400);
+	        }
+	    };
+	    SpeedDialController.prototype.onItemClick = function (item) {
+	        this.isOpen = !this.isOpen;
+	        this.onClick({ item: item });
 	    };
 	    return SpeedDialController;
 	}());
@@ -14731,7 +14738,7 @@
 /* 129 */
 /***/ function(module, exports) {
 
-	module.exports = "<md-fab-speed-dial md-open=\"vm.isOpen\" md-direction=\"{{vm.direction}}\"\n                   ng-class=\"vm.selectedMode\" class=\"cv-move-speed-dial\">\n  <md-fab-trigger>\n    <md-button class=\"md-icon-button\" aria-label=\"Settings\">\n      <ng-md-icon icon=\"{{vm.isOpen ? 'format_align_left' : 'menu'}}\" ng-attr-style=\"fill: {{fill}}\" options='{\"rotation\": \"none\"}'></ng-md-icon>\n    </md-button>\n  </md-fab-trigger>\n  <md-fab-actions>\n    <md-button ng-repeat=\"item in vm.items\"\n               aria-label=\"{{item.tooltip}}\"\n               class=\"md-fab md-raised md-mini\"\n               ng-click=\"vm.onClick({item: item})\">\n      <md-tooltip md-direction=\"{{item.tooltipDirection}}\"\n                  md-autohide=\"false\">{{item.tooltip}}</md-tooltip>\n      <md-icon>{{item.icon}}</md-icon>\n    </md-button>\n  </md-fab-actions>\n</md-fab-speed-dial>\n"
+	module.exports = "<md-fab-speed-dial md-open=\"vm.isOpen\" md-direction=\"{{vm.direction}}\"\n                   ng-class=\"vm.selectedMode\" class=\"cv-move-speed-dial\">\n  <md-fab-trigger>\n    <md-button class=\"md-icon-button\" aria-label=\"Settings\">\n      <ng-md-icon icon=\"{{vm.isOpen ? 'format_align_left' : 'menu'}}\" ng-attr-style=\"fill: {{fill}}\" options='{\"rotation\": \"none\"}'></ng-md-icon>\n    </md-button>\n  </md-fab-trigger>\n  <md-fab-actions>\n    <md-button ng-repeat=\"item in vm.items\"\n               aria-label=\"{{item.tooltip}}\"\n               class=\"md-fab md-raised md-mini\"\n               ng-click=\"vm.onItemClick(item)\">\n      <md-tooltip md-direction=\"{{item.tooltipDirection}}\"\n                  md-autohide=\"false\">{{item.tooltip}}</md-tooltip>\n      <md-icon>{{item.icon}}</md-icon>\n    </md-button>\n  </md-fab-actions>\n</md-fab-speed-dial>\n"
 
 /***/ },
 /* 130 */
@@ -14940,10 +14947,38 @@
 	"use strict";
 	var TimelineEntryController = (function () {
 	    /* @ngInject */
-	    function TimelineEntryController($window) {
+	    function TimelineEntryController($window, basicInformationLoader) {
 	        this.$window = $window;
+	        this.basicInformationLoader = basicInformationLoader;
+	        this.initOptions();
 	    }
-	    TimelineEntryController.$inject = ["$window"];
+	    TimelineEntryController.$inject = ["$window", "basicInformationLoader"];
+	    TimelineEntryController.prototype.initOptions = function () {
+	        var _this = this;
+	        this.speedDialOptions = [
+	            {
+	                tooltip: 'Info',
+	                tooltipDirection: 'top',
+	                icon: 'info_outline',
+	                type: 'info',
+	                callFn: function (item) { return _this.onInfoClick(item); }
+	            },
+	            {
+	                tooltip: 'Koupit',
+	                tooltipDirection: 'bottom',
+	                icon: 'add_shopping_cart',
+	                type: 'buy',
+	                callFn: function (item) { return _this.onBuyClick(item); }
+	            },
+	            {
+	                tooltip: 'Rezervace',
+	                tooltipDirection: 'top',
+	                icon: 'today',
+	                type: 'reserve',
+	                callFn: function (item) { return _this.onReserveClick(item); }
+	            }
+	        ];
+	    };
 	    TimelineEntryController.prototype.getCurrentClasses = function () {
 	        return {
 	            'left-aligned': this.isLeft && this.$window.innerWidth > 960
@@ -14955,6 +14990,25 @@
 	            'bounce-in': this.entry.isVisible
 	        };
 	    };
+	    TimelineEntryController.prototype.onItemClick = function (item, oneEntry) {
+	        item.callFn(oneEntry);
+	    };
+	    TimelineEntryController.prototype.onInfoClick = function (item) {
+	        console.log('info', item);
+	    };
+	    TimelineEntryController.prototype.onBuyClick = function (item) {
+	        var buyUrl = this.basicInformationLoader.selectedItem.actionObject.ticketUrls.ECOM.ticketUrl;
+	        TimelineEntryController.openNewTab(buyUrl, item);
+	    };
+	    TimelineEntryController.prototype.onReserveClick = function (item) {
+	        var resUrl = this.basicInformationLoader.selectedItem.actionObject.ticketUrls.RES.ticketUrl;
+	        TimelineEntryController.openNewTab(resUrl, item);
+	    };
+	    TimelineEntryController.openNewTab = function (url, item) {
+	        var indexOfVar = url.indexOf('$PrsntCode$');
+	        var win = window.open(url.substr(0, indexOfVar) + item.pc, '_blank');
+	        win.focus();
+	    };
 	    return TimelineEntryController;
 	}());
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -14965,7 +15019,7 @@
 /* 138 */
 /***/ function(module, exports) {
 
-	module.exports = "<article class=\"timeline-entry\" ng-class=\"vm.getCurrentClasses()\" id=\"{{vm.keyData}}\">\n  <div class=\"timeline-entry-inner\">\n    <time class=\"timeline-time\" datetime=\"{{vm.entry.timeObject.format('YYYY-MM-DD')}}\"><span>{{vm.entry.timeObject.format('DD.MM.YYYY')}}</span>\n      <span class=\"cv-time\">{{vm.entry.getTime()}}</span></time>\n    <div class=\"timeline-icon {{vm.entry['color-class']}}\" ng-click=\"vm.entry.isVisible = !vm.entry.isVisible\">\n      <md-button class=\"md-icon-button\" aria-label=\"Settings\">\n        {{vm.keyData}}:00\n      </md-button>\n    </div>\n\n    <div class=\"timeline-label\" ng-class=\"vm.bounce()\">\n      <p ng-repeat=\"oneEntry in vm.entry.data\">{{oneEntry.fn}} <span class=\"cc-time\">{{oneEntry.tm}}</span></p>\n    </div>\n  </div>\n\n</article>\n"
+	module.exports = "<article class=\"timeline-entry\" ng-class=\"vm.getCurrentClasses()\" id=\"{{vm.keyData}}\">\n  <div class=\"timeline-entry-inner\">\n    <time class=\"timeline-time\" datetime=\"{{vm.entry.timeObject.format('YYYY-MM-DD')}}\"><span>{{vm.entry.timeObject.format('DD.MM.YYYY')}}</span>\n      <span class=\"cv-time\">{{vm.entry.getTime()}}</span></time>\n    <div class=\"timeline-icon {{vm.entry['color-class']}}\" ng-click=\"vm.entry.isVisible = !vm.entry.isVisible\">\n      <md-button class=\"md-icon-button\" aria-label=\"Settings\">\n        {{vm.keyData}}:00\n      </md-button>\n    </div>\n\n    <div class=\"timeline-label\" ng-class=\"vm.bounce()\">\n      <div ng-repeat=\"oneEntry in vm.entry.data\" class=\"div-group\">\n        <p>{{oneEntry.fn}} <span class=\"cc-time\">{{oneEntry.tm}}</span></p>\n        <speed-dial direction=\"'left'\" items=\"vm.speedDialOptions\" on-click=\"vm.onItemClick(item, oneEntry)\"></speed-dial>\n      </div>\n    </div>\n  </div>\n\n</article>\n"
 
 /***/ },
 /* 139 */

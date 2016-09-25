@@ -9,7 +9,10 @@
     </div>
 
     <div class="timeline-label" ng-class="vm.bounce()">
-      <p ng-repeat="oneEntry in vm.entry.data">{{oneEntry.fn}} <span class="cc-time">{{oneEntry.tm}}</span></p>
+      <div ng-repeat="oneEntry in vm.entry.data" class="div-group">
+        <p>{{oneEntry.fn}} <span class="cc-time">{{oneEntry.tm}}</span></p>
+        <speed-dial direction="'left'" items="vm.speedDialOptions" on-click="vm.onItemClick(item, oneEntry)"></speed-dial>
+      </div>
     </div>
   </div>
 

@@ -44,6 +44,7 @@ export default class MovieLoader {
       _.each(cinemasMovies.filtered, (item, key) => {
         cinemasMovies.filtered[key] = _.groupBy(item, (movie: any) => {return movie.tm.substr(0,2);});
       });
+      oneCinema.actionObject = JSON.parse(cinemasMovies.tu);
       oneCinema.movies = cinemasMovies;
     });
     return data.cinemas;

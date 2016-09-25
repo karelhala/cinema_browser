@@ -15,7 +15,14 @@ export default class SpeedDialController implements ng.IComponentOptions {
   }
 
   public scrollToElement(elementId: string) {
-    let element = angular.element(document.getElementById(elementId));
-    this.container.scrollToElementAnimated(element, 0, 400);
+    if (elementId) {
+      let element = angular.element(document.getElementById(elementId));
+      this.container.scrollToElementAnimated(element, 0, 400);
+    }
+  }
+
+  public onItemClick(item) {
+    this.isOpen = !this.isOpen;
+    this.onClick({item: item});
   }
 }
