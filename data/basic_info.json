@@ -1,62 +1,77 @@
 [
   {
     "text": "Velký Špalíček",
+    "type": "CZSpalicekP",
     "value": 1010107
   },
   {
     "text": "Olympia",
+    "type": "CZOlympiaP",
     "value": 1010103
   },
   {
     "text": "Flora",
+    "type": "CZFlora",
     "value": 1010105
   },
   {
     "text": "Flora(IMAX)",
+    "type": "CZNovySmichovP",
     "value": 1010101
   },
   {
     "text": "Galaxie",
+    "type": "CZGalaxieP",
     "value": 1010113
   },
   {
     "text": "Letňany",
+    "type": "CZLetnanyP",
     "value": 1010110
   },
   {
     "text": "Nový Smíchov",
+    "type": "CZSmichov",
     "value": 1010101
   },
   {
     "text": "Nový Smíchov (4DX)",
+    "type": "CZNovySmichovP",
     "value": 1010101
   },
   {
     "text": "Slovanský dům",
+    "type": "CZSlovanskyDumP",
     "value": 1010111
   },
   {
     "text": "Zličín",
+    "type": "CZZlicin",
     "value": 1010104
   },
   {
     "text": "Liberec",
+    "type": "CZLiberecP",
     "value": 1010102
   },
   {
     "text": "Ostrava",
+    "type": "CZOstravaP",
     "value": 1010114
   },
   {
     "text": "Pardubice",
+    "type": "CZPardubiceP",
     "value": 1010108
   },
   {
     "text": "Ústí nad Labem",
+    "type": "CZUstiP",
     "value": 1010109
   },
   {
     "text": "Plzeň",
+    "type": "CZPlzenP",
     "value": 1010106
   }
 ]

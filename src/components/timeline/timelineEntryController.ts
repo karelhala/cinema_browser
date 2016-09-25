@@ -8,6 +8,7 @@ export default class TimelineEntryController {
 
   /* @ngInject */
   public constructor(private $window: any, private basicInformationLoader: any) {
+    console.log(this.entry);
     this.initOptions();
   }
 
@@ -59,18 +60,17 @@ export default class TimelineEntryController {
   }
 
   public onBuyClick(item) {
-    const buyUrl = this.basicInformationLoader.selectedItem.actionObject.ticketUrls.ECOM.ticketUrl;
-    TimelineEntryController.openNewTab(buyUrl, item);
+    const buyUrl = `https://sr.cinemacity.cz/SalesCZ/OpenNewSession.aspx?url=default.aspx$key=${this.basicInformationLoader.selectedItem.type}~EC=${item.pc}~u=0`;
+    TimelineEntryController.openNewTab(buyUrl);
   }
 
   public onReserveClick(item) {
-    const resUrl = this.basicInformationLoader.selectedItem.actionObject.ticketUrls.RES.ticketUrl;
-    TimelineEntryController.openNewTab(resUrl, item);
+    const resUrl = `https://sr.cinemacity.cz/ReservationsCZ/OpenNewSession.aspx?url=default.aspx$key=${this.basicInformationLoader.selectedItem.type}~EC=${item.pc}~u=0`;
+    TimelineEntryController.openNewTab(resUrl);
   }
 
-  private static openNewTab(url, item) {
-    const indexOfVar = url.indexOf('$PrsntCode$');
-    var win = window.open(url.substr(0, indexOfVar) + item.pc, '_blank');
+  private static openNewTab(url) {
+    let win = window.open(url, '_blank');
     win.focus();
   }
 }

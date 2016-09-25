@@ -14478,7 +14478,6 @@
 	            _.each(cinemasMovies.filtered, function (item, key) {
 	                cinemasMovies.filtered[key] = _.groupBy(item, function (movie) { return movie.tm.substr(0, 2); });
 	            });
-	            oneCinema.actionObject = JSON.parse(cinemasMovies.tu);
 	            oneCinema.movies = cinemasMovies;
 	        });
 	        return data.cinemas;
@@ -14950,6 +14949,7 @@
 	    function TimelineEntryController($window, basicInformationLoader) {
 	        this.$window = $window;
 	        this.basicInformationLoader = basicInformationLoader;
+	        console.log(this.entry);
 	        this.initOptions();
 	    }
 	    TimelineEntryController.$inject = ["$window", "basicInformationLoader"];
@@ -14997,16 +14997,15 @@
 	        console.log('info', item);
 	    };
 	    TimelineEntryController.prototype.onBuyClick = function (item) {
-	        var buyUrl = this.basicInformationLoader.selectedItem.actionObject.ticketUrls.ECOM.ticketUrl;
-	        TimelineEntryController.openNewTab(buyUrl, item);
+	        var buyUrl = "https://sr.cinemacity.cz/SalesCZ/OpenNewSession.aspx?url=default.aspx$key=" + this.basicInformationLoader.selectedItem.type + "~EC=" + item.pc + "~u=0";
+	        TimelineEntryController.openNewTab(buyUrl);
 	    };
 	    TimelineEntryController.prototype.onReserveClick = function (item) {
-	        var resUrl = this.basicInformationLoader.selectedItem.actionObject.ticketUrls.RES.ticketUrl;
-	        TimelineEntryController.openNewTab(resUrl, item);
+	        var resUrl = "https://sr.cinemacity.cz/ReservationsCZ/OpenNewSession.aspx?url=default.aspx$key=" + this.basicInformationLoader.selectedItem.type + "~EC=" + item.pc + "~u=0";
+	        TimelineEntryController.openNewTab(resUrl);
 	    };
-	    TimelineEntryController.openNewTab = function (url, item) {
-	        var indexOfVar = url.indexOf('$PrsntCode$');
-	        var win = window.open(url.substr(0, indexOfVar) + item.pc, '_blank');
+	    TimelineEntryController.openNewTab = function (url) {
+	        var win = window.open(url, '_blank');
 	        win.focus();
 	    };
 	    return TimelineEntryController;
