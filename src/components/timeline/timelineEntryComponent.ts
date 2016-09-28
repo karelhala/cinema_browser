@@ -10,6 +10,7 @@ export default class TimelineEntryComponent implements ng.IComponentOptions {
   public bindings: any = {
     isLeft: '=',
     entry: '<',
+    selectedCinema: '<',
     keyData: '<'
   };
 }

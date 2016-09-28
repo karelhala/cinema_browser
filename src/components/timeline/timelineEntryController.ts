@@ -5,10 +5,10 @@ export default class TimelineEntryController {
   public keyData: any;
   public entry: any;
   public speedDialOptions: any;
+  public selectedCinema: any;
 
   /* @ngInject */
-  public constructor(private $window: any, private basicInformationLoader: any) {
-    console.log(this.entry);
+  public constructor(private $window: any) {
     this.initOptions();
   }
 
@@ -35,7 +35,7 @@ export default class TimelineEntryController {
         type: 'reserve',
         callFn: (item) => this.onReserveClick(item)
       }
-    ]
+    ];
   }
 
   public getCurrentClasses() {
@@ -60,12 +60,12 @@ export default class TimelineEntryController {
   }
 
   public onBuyClick(item) {
-    const buyUrl = `https://sr.cinemacity.cz/SalesCZ/OpenNewSession.aspx?url=default.aspx$key=${this.basicInformationLoader.selectedItem.type}~EC=${item.pc}~u=0`;
+    const buyUrl = `https://sr.cinemacity.cz/SalesCZ/OpenNewSession.aspx?url=default.aspx$key=${this.selectedCinema.type}~EC=${item.pc}~u=0`;
     TimelineEntryController.openNewTab(buyUrl);
   }
 
   public onReserveClick(item) {
-    const resUrl = `https://sr.cinemacity.cz/ReservationsCZ/OpenNewSession.aspx?url=default.aspx$key=${this.basicInformationLoader.selectedItem.type}~EC=${item.pc}~u=0`;
+    const resUrl = `https://sr.cinemacity.cz/ReservationsCZ/OpenNewSession.aspx?url=default.aspx$key=${this.selectedCinema.type}~EC=${item.pc}~u=0`;
     TimelineEntryController.openNewTab(resUrl);
   }
 

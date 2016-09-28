@@ -14877,6 +14877,7 @@
 	        _.each(this.entries, function (entry, key) {
 	            _this.entries[key] = { data: entry };
 	        });
+	        setTimeout(function () { return _this.showVisible(); });
 	    };
 	    TimelineController.prototype.onFailAndClose = function () {
 	        console.log('fail and close');
@@ -14911,7 +14912,7 @@
 /* 135 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"container\" id=\"cv-timeline-container\">\n  <div class=\"row\">\n    <div class=\"timeline-centered\" ng-class=\"vm.getClass()\">\n      <timeline-entry ng-repeat=\"(key, entry) in vm.entries\"\n                      entry=\"entry\"\n                      key-data=\"key\"\n                      is-left=\"$odd\"></timeline-entry>\n      <article class=\"timeline-entry begin\" ng-if=\"vm.entries.length !== 0\">\n\n        <div class=\"timeline-end\">\n\n          <div class=\"arrow-down\"></div>\n\n        </div>\n\n      </article>\n    </div>\n  </div>\n</div>\n"
+	module.exports = "<div class=\"container\" id=\"cv-timeline-container\">\n  <div class=\"row\">\n    <div class=\"timeline-centered\" ng-class=\"vm.getClass()\">\n      <timeline-entry ng-repeat=\"(key, entry) in vm.entries\"\n                      entry=\"entry\"\n                      key-data=\"key\"\n                      selected-cinema=\"vm.basicInformationLoader.selectedItem\"\n                      is-left=\"$odd\"></timeline-entry>\n      <article class=\"timeline-entry begin\" ng-if=\"vm.entries.length !== 0\">\n\n        <div class=\"timeline-end\">\n\n          <div class=\"arrow-down\"></div>\n\n        </div>\n\n      </article>\n    </div>\n  </div>\n</div>\n"
 
 /***/ },
 /* 136 */
@@ -14929,6 +14930,7 @@
 	        this.bindings = {
 	            isLeft: '=',
 	            entry: '<',
+	            selectedCinema: '<',
 	            keyData: '<'
 	        };
 	    }
@@ -14946,13 +14948,11 @@
 	"use strict";
 	var TimelineEntryController = (function () {
 	    /* @ngInject */
-	    function TimelineEntryController($window, basicInformationLoader) {
+	    function TimelineEntryController($window) {
 	        this.$window = $window;
-	        this.basicInformationLoader = basicInformationLoader;
-	        console.log(this.entry);
 	        this.initOptions();
 	    }
-	    TimelineEntryController.$inject = ["$window", "basicInformationLoader"];
+	    TimelineEntryController.$inject = ["$window"];
 	    TimelineEntryController.prototype.initOptions = function () {
 	        var _this = this;
 	        this.speedDialOptions = [
@@ -14997,11 +14997,11 @@
 	        console.log('info', item);
 	    };
 	    TimelineEntryController.prototype.onBuyClick = function (item) {
-	        var buyUrl = "https://sr.cinemacity.cz/SalesCZ/OpenNewSession.aspx?url=default.aspx$key=" + this.basicInformationLoader.selectedItem.type + "~EC=" + item.pc + "~u=0";
+	        var buyUrl = "https://sr.cinemacity.cz/SalesCZ/OpenNewSession.aspx?url=default.aspx$key=" + this.selectedCinema.type + "~EC=" + item.pc + "~u=0";
 	        TimelineEntryController.openNewTab(buyUrl);
 	    };
 	    TimelineEntryController.prototype.onReserveClick = function (item) {
-	        var resUrl = "https://sr.cinemacity.cz/ReservationsCZ/OpenNewSession.aspx?url=default.aspx$key=" + this.basicInformationLoader.selectedItem.type + "~EC=" + item.pc + "~u=0";
+	        var resUrl = "https://sr.cinemacity.cz/ReservationsCZ/OpenNewSession.aspx?url=default.aspx$key=" + this.selectedCinema.type + "~EC=" + item.pc + "~u=0";
 	        TimelineEntryController.openNewTab(resUrl);
 	    };
 	    TimelineEntryController.openNewTab = function (url) {

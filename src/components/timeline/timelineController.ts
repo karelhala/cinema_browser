@@ -7,7 +7,7 @@ export default class TimelineController {
   private static get offset() {return 100;};
 
   constructor(private timelineLoader: any,
-              private basicInformationLoader: any,
+              public basicInformationLoader: any,
               private $window: any,
               private $scope: any) {
     this.container = angular.element(document.getElementById('content-container'));
@@ -51,6 +51,7 @@ export default class TimelineController {
     _.each(this.entries, (entry, key) => {
       this.entries[key] = {data: entry};
     });
+    setTimeout(() => this.showVisible());
   }
 
   public onFailAndClose() {
