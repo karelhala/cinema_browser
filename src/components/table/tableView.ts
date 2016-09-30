@@ -1,24 +1,19 @@
-///<reference path="../../tsd.d.ts"/>
 import * as moment from 'moment';
-export default class TimelineController {
-  public entries: any[] = [];
-  public timeData: any;
-  private container: any;
-  private static get offset() {return 100;};
-
-  constructor(private timelineLoader: any,
-              public basicInformationLoader: any,
-              private $window: any,
-              private $scope: any) {
-    console.log(this);
-    this.container = angular.element(document.getElementById('content-container'));
-    this.container.on('scroll', () => {
-      this.showVisible();
-    });
+/**
+ *
+ * @memberof
+ * @ngdoc controller
+ * @name tableViewController
+ */
+export class TableViewController {
+  public entries: any[];
+  public width: string;
+  /* @ngInject */
+  constructor(public basicInformationLoader: any) {
+    this.subscribeToInformationLoader();
     if (this.basicInformationLoader.selectedItem) {
       this.selectCurrentMovies();
     }
-    this.subscribeToInformationLoader();
   }
 
   private subscribeToInformationLoader() {
@@ -55,31 +50,25 @@ export default class TimelineController {
     _.each(this.entries, (entry, key) => {
       this.entries[key] = {data: entry};
     });
-    setTimeout(() => this.showVisible());
+    this.width = `${100 / Object.keys(this.entries).length}%`;
   }
 
   public onFailAndClose() {
     console.log('fail and close');
   }
+}
 
-  private showVisible() {
-    const timelineEntries = document.getElementsByClassName('timeline-entry');
-    angular.forEach(timelineEntries, (oneEntry, key) => {
-      if ((Math.abs(oneEntry.getBoundingClientRect().top + TimelineController.offset)) < this.$window.innerHeight) {
-        if (this.entries[oneEntry.id]) {
-          this.entries[oneEntry.id].isVisible = true;
-          this.$scope.$apply();
-          if (key + 1 === this.entries.length) {
-            this.container.off('scroll');
-          }
-        }
-      }
-    });
-  }
-
-  public getClass() {
-    return {
-      'all-right': this.$window.innerWidth < 960
-    };
-  }
+/**
+ * @description
+ * @memberof
+ * @ngdoc component
+ * @example
+ */
+export default class TableViewComponent {
+    public replace: boolean = true;
+    public template = require<string>('./table-view.html');
+    public controller: any = TableViewController;
+    public transclude: boolean = true;
+    public controllerAs: string = 'tableCtrl';
+    public bindings: any = {};
 }

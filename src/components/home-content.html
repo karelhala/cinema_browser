@@ -1,0 +1,14 @@
+<div>
+  <div class="cc-view-switch">
+    <md-button ng-repeat="item in homeCtrl.allViews"
+               aria-label="{{item.tooltip}}"
+               class="md-fab md-raised md-mini"
+               ng-disabled="homeCtrl.currentView.type === item.type"
+               ng-click="homeCtrl.onItemClick(item)">
+      <md-tooltip md-direction="'down'"
+                  md-autohide="false">{{item.tooltip}}</md-tooltip>
+      <md-icon>{{item.icon}}</md-icon>
+    </md-button>
+  </div>
+  <div ui-view=""></div>
+</div>

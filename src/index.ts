@@ -6,7 +6,7 @@ import components from './components/loader';
 import '../node_modules/ng-webworker/src/ng-webworker';
 
 let app = angular.module('karelHalaCV', ['ngMaterial', 'ngMdIcons', 'ui.router', 'ngAnimate', 'duScroll',
-  'ngWebworker']);
+  'ngWebworker', 'ngSanitize']);
 routeConfig(app);
 services(app);
 controllers(app);

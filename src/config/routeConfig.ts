@@ -3,7 +3,8 @@
 export default (module: ng.IModule) => {
   module
   .config(($stateProvider, $locationProvider, $urlRouterProvider) => {
-    $stateProvider.state('home', {
+    $stateProvider.state({
+      name: 'home',
       views: {
         toolbar: {
           template: require<string>('../views/home_toolbar.html'),
@@ -13,6 +14,12 @@ export default (module: ng.IModule) => {
           template: require<string>('../views/home_content.html')
         }
       }
+    })
+    .state('home.timeline', {
+      template: `<timeline></timeline>`
+    })
+    .state('home.table', {
+      template: `<cc-table></cc-table>`
     });
     $urlRouterProvider.otherwise('/');
     $locationProvider.html5Mode({
