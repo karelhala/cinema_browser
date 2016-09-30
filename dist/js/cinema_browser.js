@@ -14912,7 +14912,7 @@
 /* 135 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"container\" id=\"cv-timeline-container\">\n  <div class=\"row\">\n    <div class=\"timeline-centered\" ng-class=\"vm.getClass()\">\n      <timeline-entry ng-repeat=\"(key, entry) in vm.entries\"\n                      entry=\"entry\"\n                      key-data=\"key\"\n                      selected-cinema=\"vm.basicInformationLoader.selectedItem\"\n                      is-left=\"$odd\"></timeline-entry>\n      <article class=\"timeline-entry begin\" ng-if=\"vm.entries.length !== 0\">\n\n        <div class=\"timeline-end\">\n\n          <div class=\"arrow-down\"></div>\n\n        </div>\n\n      </article>\n    </div>\n  </div>\n</div>\n"
+	module.exports = "<div class=\"container\" id=\"cv-timeline-container\">\n  <div class=\"row\">\n    <div class=\"timeline-centered\" ng-class=\"vm.getClass()\">\n      <timeline-entry ng-repeat=\"(key, entry) in vm.entries\"\n                      entry=\"entry\"\n                      key-data=\"key\"\n                      selected-cinema=\"vm.basicInformationLoader.selectedItem\"\n                      is-left=\"$odd\"></timeline-entry>\n      <article class=\"timeline-entry begin\" ng-if=\"vm.entries.length !== 0\">\n\n        <div class=\"timeline-end\">\n\n          <div class=\"arrow-down\"></div>\n\n        </div>\n\n      </article>\n      <div ng-if=\"vm.entries.length === 0\">\n        <h3>Žádná data pro aktuální filtry, prosím vyberte den a alespoň jedno kino.</h3>\n      </div>\n    </div>\n  </div>\n</div>\n"
 
 /***/ },
 /* 136 */
