@@ -46,7 +46,7 @@
 
 	__webpack_require__(1);
 	__webpack_require__(5);
-	module.exports = __webpack_require__(155);
+	module.exports = __webpack_require__(162);
 
 
 /***/ },
@@ -68,7 +68,7 @@
 	var loader_1 = __webpack_require__(9);
 	var loader_2 = __webpack_require__(120);
 	var loader_3 = __webpack_require__(122);
-	__webpack_require__(154);
+	__webpack_require__(161);
 	var app = angular.module('karelHalaCV', ['ngMaterial', 'ngMdIcons', 'ui.router', 'ngAnimate', 'duScroll',
 	    'ngWebworker', 'ngSanitize']);
 	routeConfig_1.default(app);
@@ -14607,9 +14607,9 @@
 	var loader_3 = __webpack_require__(139);
 	var loader_4 = __webpack_require__(143);
 	var loader_5 = __webpack_require__(150);
-	var loader_6 = __webpack_require__(159);
-	var homeContent_1 = __webpack_require__(157);
-	var triggerDrective_1 = __webpack_require__(153);
+	var loader_6 = __webpack_require__(153);
+	var homeContent_1 = __webpack_require__(158);
+	var triggerDrective_1 = __webpack_require__(160);
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = function (module) {
 	    loader_6.default(module);
@@ -15409,6 +15409,282 @@
 
 /***/ },
 /* 153 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	///<reference path="../../tsd.d.ts"/>
+	var tableView_1 = __webpack_require__(154);
+	var tableRecord_1 = __webpack_require__(156);
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = function (module) {
+	    module.component('ccTable', new tableView_1.default);
+	    module.component('ccTableRecord', new tableRecord_1.default);
+	};
+
+
+/***/ },
+/* 154 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var moment = __webpack_require__(11);
+	/**
+	 *
+	 * @memberof
+	 * @ngdoc controller
+	 * @name tableViewController
+	 */
+	var TableViewController = (function () {
+	    /* @ngInject */
+	    function TableViewController(basicInformationLoader) {
+	        this.basicInformationLoader = basicInformationLoader;
+	        this.subscribeToInformationLoader();
+	        if (this.basicInformationLoader.selectedItem) {
+	            this.selectCurrentMovies();
+	        }
+	    }
+	    TableViewController.$inject = ["basicInformationLoader"];
+	    TableViewController.prototype.subscribeToInformationLoader = function () {
+	        var _this = this;
+	        this.basicInformationLoader
+	            .informationSubject
+	            .subscribe(function (data) { return _this.onNextData(data); }, this.onFailAndClose, this.onFailAndClose);
+	    };
+	    TableViewController.prototype.onNextData = function (data) {
+	        if (data.changed === 'cinema' || data.changed === 'date') {
+	            if (this.basicInformationLoader.selectedItem) {
+	                this.selectCurrentMovies();
+	            }
+	        }
+	    };
+	    TableViewController.prototype.selectCurrentMovies = function () {
+	        var _this = this;
+	        this.entries = [];
+	        Object.keys(this.basicInformationLoader.selectedItem.movies.filtered).forEach(function (item) {
+	            var timeData = moment(item, 'DD/MM/YYYY');
+	            if (timeData.toDate().getTime() === _this.basicInformationLoader.selectedTime.toDate().getTime()) {
+	                _this.entries = _this.basicInformationLoader.selectedItem.movies.filtered[item];
+	            }
+	        });
+	        if (this.entries.length === 0) {
+	            var firstKey = Object.keys(this.basicInformationLoader.selectedItem.movies.filtered)[0];
+	            this.entries = this.basicInformationLoader.selectedItem.movies.filtered[firstKey];
+	        }
+	        this.entries = _.cloneDeep(this.entries);
+	        _.each(this.entries, function (entry, key) {
+	            _this.entries[key] = { data: entry };
+	        });
+	        this.width = 100 / Object.keys(this.entries).length + "%";
+	    };
+	    TableViewController.prototype.onFailAndClose = function () {
+	        console.log('fail and close');
+	    };
+	    return TableViewController;
+	}());
+	exports.TableViewController = TableViewController;
+	/**
+	 * @description
+	 * @memberof
+	 * @ngdoc component
+	 * @example
+	 */
+	var TableViewComponent = (function () {
+	    function TableViewComponent() {
+	        this.replace = true;
+	        this.template = __webpack_require__(155);
+	        this.controller = TableViewController;
+	        this.transclude = true;
+	        this.controllerAs = 'tableCtrl';
+	        this.bindings = {};
+	    }
+	    return TableViewComponent;
+	}());
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = TableViewComponent;
+
+
+/***/ },
+/* 155 */
+/***/ function(module, exports) {
+
+	module.exports = "<div ng-if=\"tableCtrl.entries\">\n  <div class=\"table-centered\">\n    <div>\n      <cc-table-record ng-repeat=\"(key, entry) in tableCtrl.entries\"\n                       entry=\"entry\"\n                       key-data=\"key\"\n                       selected-cinema=\"tableCtrl.basicInformationLoader.selectedItem\"\n                       ng-style=\"{'width': tableCtrl.width}\">\n\n      </cc-table-record>\n    </div>\n  </div>\n</div>\n"
+
+/***/ },
+/* 156 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	/**
+	 *
+	 * @memberof
+	 * @ngdoc controller
+	 * @name tableRecordController
+	 */
+	var TableRecordController = (function () {
+	    function TableRecordController() {
+	        this.initOptions();
+	    }
+	    TableRecordController.prototype.initOptions = function () {
+	        var _this = this;
+	        this.speedDialOptions = [
+	            {
+	                tooltip: 'Koupit',
+	                tooltipDirection: 'bottom',
+	                icon: 'add_shopping_cart',
+	                type: 'buy',
+	                callFn: function (item) { return _this.onBuyClick(item); }
+	            },
+	            {
+	                tooltip: 'Rezervace',
+	                tooltipDirection: 'top',
+	                icon: 'today',
+	                type: 'reserve',
+	                callFn: function (item) { return _this.onReserveClick(item); }
+	            },
+	            {
+	                tooltip: 'Info',
+	                tooltipDirection: 'top',
+	                icon: 'info_outline',
+	                type: 'info',
+	                callFn: function (item) { return _this.onInfoClick(item); }
+	            }
+	        ];
+	    };
+	    TableRecordController.prototype.onItemClick = function (item, oneEntry) {
+	        oneEntry.isOpen = !oneEntry.isOpen;
+	        item.callFn(oneEntry);
+	    };
+	    TableRecordController.prototype.onInfoClick = function (item) {
+	        console.log('info', item);
+	    };
+	    TableRecordController.prototype.onBuyClick = function (item) {
+	        var buyUrl = "https://sr.cinemacity.cz/SalesCZ/OpenNewSession.aspx?url=default.aspx$key=" + this.selectedCinema.type + "~EC=" + item.pc + "~u=0";
+	        TableRecordController.openNewTab(buyUrl);
+	    };
+	    TableRecordController.prototype.onReserveClick = function (item) {
+	        var resUrl = "https://sr.cinemacity.cz/ReservationsCZ/OpenNewSession.aspx?url=default.aspx$key=" + this.selectedCinema.type + "~EC=" + item.pc + "~u=0";
+	        TableRecordController.openNewTab(resUrl);
+	    };
+	    TableRecordController.openNewTab = function (url) {
+	        var win = window.open(url, '_blank');
+	        win.focus();
+	    };
+	    return TableRecordController;
+	}());
+	exports.TableRecordController = TableRecordController;
+	/**
+	 * @description
+	 * @memberof
+	 * @ngdoc component
+	 * @example
+	 */
+	var TableRecordComponent = (function () {
+	    function TableRecordComponent() {
+	        this.replace = true;
+	        this.template = __webpack_require__(157);
+	        this.controller = TableRecordController;
+	        this.transclude = true;
+	        this.controllerAs = 'recordCtrl';
+	        this.bindings = {
+	            keyData: '<',
+	            entry: '<',
+	            selectedCinema: '<',
+	            onClick: '&'
+	        };
+	    }
+	    return TableRecordComponent;
+	}());
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = TableRecordComponent;
+
+
+/***/ },
+/* 157 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\"cc-content\">\n  <span>{{recordCtrl.keyData}}:00</span>\n  <div class=\"md-whiteframe-3dp cc-record\" ng-repeat=\"oneEntry in recordCtrl.entry.data\">\n    <div class=\"speed-dial\">\n      <button class=\"md-icon-button md-button md-ink-ripple cc-speed-dial\"\n              type=\"button\"\n              ng-click=\"oneEntry.isOpen = !oneEntry.isOpen\"\n              title=\"Akce\">\n        <ng-md-icon icon=\"{{oneEntry.isOpen ? 'format_align_left' : 'menu'}}\" ng-attr-style=\"fill: {{fill}}\" options='{\"rotation\": \"none\"}'></ng-md-icon>\n      </button>\n      <div class=\"animated cc-buttons\"\n           ng-class=\"{fadeInDown: oneEntry.isOpen, fadeOutTop: !oneEntry.isOpen}\">\n        <button ng-if=\"oneEntry.isOpen\"\n                ng-repeat=\"oneOption in recordCtrl.speedDialOptions\"\n                class=\"md-fab md-raised md-mini md-button md-ink-ripple\"\n                type=\"button\"\n                title=\"{{oneOption.tooltip}}\"\n                ng-click=\"recordCtrl.onItemClick(oneOption, oneEntry)\">\n          <md-icon>{{oneOption.icon}}</md-icon>\n        </button>\n      </div>\n    </div>\n    <p>{{oneEntry.fn}}</p>\n    <span class=\"cc-time\">{{oneEntry.tm}}</span>\n    <div class=\"cc-inline-info\">\n      <span class=\"cc-inline-info cc-tit\" ng-if=\"oneEntry.sb\">Tit</span>\n      <span class=\"cc-inline-info cc-dab\" ng-if=\"oneEntry.db\">Dab</span>\n      <span class=\"cc-inline-info cc-3d\" ng-if=\"oneEntry.td\">3D</span>\n    </div>\n  </div>\n</div>\n"
+
+/***/ },
+/* 158 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	/**
+	 *
+	 * @memberof
+	 * @ngdoc controller
+	 * @name homeContentController
+	 */
+	var HomeContentController = (function () {
+	    /* @ngInject */
+	    function HomeContentController($state, $window) {
+	        this.$state = $state;
+	        this.$window = $window;
+	        this.initViews();
+	        if (this.$window.innerWidth < 680) {
+	            this.currentView = this.allViews[0];
+	            this.$state.transitionTo(this.currentView.route);
+	            this.allViews.splice(1, 1);
+	            console.log(this);
+	        }
+	        else {
+	            this.currentView = this.allViews[1];
+	            this.$state.transitionTo(this.currentView.route);
+	        }
+	    }
+	    HomeContentController.$inject = ["$state", "$window"];
+	    HomeContentController.prototype.initViews = function () {
+	        this.allViews = [
+	            {
+	                type: 'timeline',
+	                route: 'home.timeline',
+	                tooltip: 'Timeline',
+	                icon: 'share'
+	            }, {
+	                type: 'table',
+	                route: 'home.table',
+	                tooltip: 'Table',
+	                icon: 'view_week'
+	            }
+	        ];
+	    };
+	    HomeContentController.prototype.onItemClick = function (item) {
+	        var _this = this;
+	        this.currentView = item;
+	        setTimeout(function () { _this.$state.transitionTo(item.route); });
+	    };
+	    return HomeContentController;
+	}());
+	exports.HomeContentController = HomeContentController;
+	/**
+	 * @description
+	 * @memberof
+	 * @ngdoc component
+	 * @example
+	 */
+	var HomeContentComponent = (function () {
+	    function HomeContentComponent() {
+	        this.replace = true;
+	        this.template = __webpack_require__(159);
+	        this.controller = HomeContentController;
+	        this.transclude = true;
+	        this.controllerAs = 'homeCtrl';
+	        this.bindings = {};
+	    }
+	    return HomeContentComponent;
+	}());
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = HomeContentComponent;
+
+
+/***/ },
+/* 159 */
+/***/ function(module, exports) {
+
+	module.exports = "<div>\n  <div class=\"cc-view-switch\">\n    <md-button ng-repeat=\"item in homeCtrl.allViews\"\n               aria-label=\"{{item.tooltip}}\"\n               class=\"md-fab md-raised md-mini\"\n               ng-disabled=\"homeCtrl.currentView.type === item.type\"\n               ng-click=\"homeCtrl.onItemClick(item)\">\n      <md-tooltip md-direction=\"'down'\"\n                  md-autohide=\"false\">{{item.tooltip}}</md-tooltip>\n      <md-icon>{{item.icon}}</md-icon>\n    </md-button>\n  </div>\n  <div ui-view=\"\"></div>\n</div>\n"
+
+/***/ },
+/* 160 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -15452,7 +15728,7 @@
 
 
 /***/ },
-/* 154 */
+/* 161 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -15743,288 +16019,10 @@
 
 
 /***/ },
-/* 155 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 156 */,
-/* 157 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	/**
-	 *
-	 * @memberof
-	 * @ngdoc controller
-	 * @name homeContentController
-	 */
-	var HomeContentController = (function () {
-	    /* @ngInject */
-	    function HomeContentController($state, $window) {
-	        this.$state = $state;
-	        this.$window = $window;
-	        this.initViews();
-	        if (this.$window.innerWidth < 680) {
-	            this.currentView = this.allViews[0];
-	            this.$state.transitionTo(this.currentView.route);
-	            this.allViews.splice(1, 1);
-	            console.log(this);
-	        }
-	        else {
-	            this.currentView = this.allViews[1];
-	            this.$state.transitionTo(this.currentView.route);
-	        }
-	    }
-	    HomeContentController.$inject = ["$state", "$window"];
-	    HomeContentController.prototype.initViews = function () {
-	        this.allViews = [
-	            {
-	                type: 'timeline',
-	                route: 'home.timeline',
-	                tooltip: 'Timeline',
-	                icon: 'share'
-	            }, {
-	                type: 'table',
-	                route: 'home.table',
-	                tooltip: 'Table',
-	                icon: 'view_week'
-	            }
-	        ];
-	    };
-	    HomeContentController.prototype.onItemClick = function (item) {
-	        var _this = this;
-	        this.currentView = item;
-	        setTimeout(function () { _this.$state.transitionTo(item.route); });
-	    };
-	    return HomeContentController;
-	}());
-	exports.HomeContentController = HomeContentController;
-	/**
-	 * @description
-	 * @memberof
-	 * @ngdoc component
-	 * @example
-	 */
-	var HomeContentComponent = (function () {
-	    function HomeContentComponent() {
-	        this.replace = true;
-	        this.template = __webpack_require__(158);
-	        this.controller = HomeContentController;
-	        this.transclude = true;
-	        this.controllerAs = 'homeCtrl';
-	        this.bindings = {};
-	    }
-	    return HomeContentComponent;
-	}());
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = HomeContentComponent;
-
-
-/***/ },
-/* 158 */
-/***/ function(module, exports) {
-
-	module.exports = "<div>\n  <div class=\"cc-view-switch\">\n    <md-button ng-repeat=\"item in homeCtrl.allViews\"\n               aria-label=\"{{item.tooltip}}\"\n               class=\"md-fab md-raised md-mini\"\n               ng-disabled=\"homeCtrl.currentView.type === item.type\"\n               ng-click=\"homeCtrl.onItemClick(item)\">\n      <md-tooltip md-direction=\"'down'\"\n                  md-autohide=\"false\">{{item.tooltip}}</md-tooltip>\n      <md-icon>{{item.icon}}</md-icon>\n    </md-button>\n  </div>\n  <div ui-view=\"\"></div>\n</div>\n"
-
-/***/ },
-/* 159 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	///<reference path="../../tsd.d.ts"/>
-	var tableView_1 = __webpack_require__(160);
-	var tableRecord_1 = __webpack_require__(163);
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = function (module) {
-	    module.component('ccTable', new tableView_1.default);
-	    module.component('ccTableRecord', new tableRecord_1.default);
-	};
-
-
-/***/ },
-/* 160 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var moment = __webpack_require__(11);
-	/**
-	 *
-	 * @memberof
-	 * @ngdoc controller
-	 * @name tableViewController
-	 */
-	var TableViewController = (function () {
-	    /* @ngInject */
-	    function TableViewController(basicInformationLoader) {
-	        this.basicInformationLoader = basicInformationLoader;
-	        this.subscribeToInformationLoader();
-	        if (this.basicInformationLoader.selectedItem) {
-	            this.selectCurrentMovies();
-	        }
-	    }
-	    TableViewController.$inject = ["basicInformationLoader"];
-	    TableViewController.prototype.subscribeToInformationLoader = function () {
-	        var _this = this;
-	        this.basicInformationLoader
-	            .informationSubject
-	            .subscribe(function (data) { return _this.onNextData(data); }, this.onFailAndClose, this.onFailAndClose);
-	    };
-	    TableViewController.prototype.onNextData = function (data) {
-	        if (data.changed === 'cinema' || data.changed === 'date') {
-	            if (this.basicInformationLoader.selectedItem) {
-	                this.selectCurrentMovies();
-	            }
-	        }
-	    };
-	    TableViewController.prototype.selectCurrentMovies = function () {
-	        var _this = this;
-	        this.entries = [];
-	        Object.keys(this.basicInformationLoader.selectedItem.movies.filtered).forEach(function (item) {
-	            var timeData = moment(item, 'DD/MM/YYYY');
-	            if (timeData.toDate().getTime() === _this.basicInformationLoader.selectedTime.toDate().getTime()) {
-	                _this.entries = _this.basicInformationLoader.selectedItem.movies.filtered[item];
-	            }
-	        });
-	        if (this.entries.length === 0) {
-	            var firstKey = Object.keys(this.basicInformationLoader.selectedItem.movies.filtered)[0];
-	            this.entries = this.basicInformationLoader.selectedItem.movies.filtered[firstKey];
-	        }
-	        this.entries = _.cloneDeep(this.entries);
-	        _.each(this.entries, function (entry, key) {
-	            _this.entries[key] = { data: entry };
-	        });
-	        this.width = 100 / Object.keys(this.entries).length + "%";
-	    };
-	    TableViewController.prototype.onFailAndClose = function () {
-	        console.log('fail and close');
-	    };
-	    return TableViewController;
-	}());
-	exports.TableViewController = TableViewController;
-	/**
-	 * @description
-	 * @memberof
-	 * @ngdoc component
-	 * @example
-	 */
-	var TableViewComponent = (function () {
-	    function TableViewComponent() {
-	        this.replace = true;
-	        this.template = __webpack_require__(162);
-	        this.controller = TableViewController;
-	        this.transclude = true;
-	        this.controllerAs = 'tableCtrl';
-	        this.bindings = {};
-	    }
-	    return TableViewComponent;
-	}());
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = TableViewComponent;
-
-
-/***/ },
-/* 161 */,
 /* 162 */
 /***/ function(module, exports) {
 
-	module.exports = "<div ng-if=\"tableCtrl.entries\">\n  <div class=\"table-centered\">\n    <div>\n      <cc-table-record ng-repeat=\"(key, entry) in tableCtrl.entries\"\n                       entry=\"entry\"\n                       key-data=\"key\"\n                       selected-cinema=\"tableCtrl.basicInformationLoader.selectedItem\"\n                       ng-style=\"{'width': tableCtrl.width}\">\n\n      </cc-table-record>\n    </div>\n  </div>\n</div>\n"
-
-/***/ },
-/* 163 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	/**
-	 *
-	 * @memberof
-	 * @ngdoc controller
-	 * @name tableRecordController
-	 */
-	var TableRecordController = (function () {
-	    function TableRecordController() {
-	        this.initOptions();
-	    }
-	    TableRecordController.prototype.initOptions = function () {
-	        var _this = this;
-	        this.speedDialOptions = [
-	            {
-	                tooltip: 'Koupit',
-	                tooltipDirection: 'bottom',
-	                icon: 'add_shopping_cart',
-	                type: 'buy',
-	                callFn: function (item) { return _this.onBuyClick(item); }
-	            },
-	            {
-	                tooltip: 'Rezervace',
-	                tooltipDirection: 'top',
-	                icon: 'today',
-	                type: 'reserve',
-	                callFn: function (item) { return _this.onReserveClick(item); }
-	            },
-	            {
-	                tooltip: 'Info',
-	                tooltipDirection: 'top',
-	                icon: 'info_outline',
-	                type: 'info',
-	                callFn: function (item) { return _this.onInfoClick(item); }
-	            }
-	        ];
-	    };
-	    TableRecordController.prototype.onItemClick = function (item, oneEntry) {
-	        oneEntry.isOpen = !oneEntry.isOpen;
-	        item.callFn(oneEntry);
-	    };
-	    TableRecordController.prototype.onInfoClick = function (item) {
-	        console.log('info', item);
-	    };
-	    TableRecordController.prototype.onBuyClick = function (item) {
-	        var buyUrl = "https://sr.cinemacity.cz/SalesCZ/OpenNewSession.aspx?url=default.aspx$key=" + this.selectedCinema.type + "~EC=" + item.pc + "~u=0";
-	        TableRecordController.openNewTab(buyUrl);
-	    };
-	    TableRecordController.prototype.onReserveClick = function (item) {
-	        var resUrl = "https://sr.cinemacity.cz/ReservationsCZ/OpenNewSession.aspx?url=default.aspx$key=" + this.selectedCinema.type + "~EC=" + item.pc + "~u=0";
-	        TableRecordController.openNewTab(resUrl);
-	    };
-	    TableRecordController.openNewTab = function (url) {
-	        var win = window.open(url, '_blank');
-	        win.focus();
-	    };
-	    return TableRecordController;
-	}());
-	exports.TableRecordController = TableRecordController;
-	/**
-	 * @description
-	 * @memberof
-	 * @ngdoc component
-	 * @example
-	 */
-	var TableRecordComponent = (function () {
-	    function TableRecordComponent() {
-	        this.replace = true;
-	        this.template = __webpack_require__(164);
-	        this.controller = TableRecordController;
-	        this.transclude = true;
-	        this.controllerAs = 'recordCtrl';
-	        this.bindings = {
-	            keyData: '<',
-	            entry: '<',
-	            selectedCinema: '<',
-	            onClick: '&'
-	        };
-	    }
-	    return TableRecordComponent;
-	}());
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = TableRecordComponent;
-
-
-/***/ },
-/* 164 */
-/***/ function(module, exports) {
-
-	module.exports = "<div class=\"cc-content\">\n  <span>{{recordCtrl.keyData}}:00</span>\n  <div class=\"md-whiteframe-3dp cc-record\" ng-repeat=\"oneEntry in recordCtrl.entry.data\">\n    <div class=\"speed-dial\">\n      <button class=\"md-icon-button md-button md-ink-ripple cc-speed-dial\"\n              type=\"button\"\n              ng-click=\"oneEntry.isOpen = !oneEntry.isOpen\"\n              title=\"Akce\">\n        <ng-md-icon icon=\"{{oneEntry.isOpen ? 'format_align_left' : 'menu'}}\" ng-attr-style=\"fill: {{fill}}\" options='{\"rotation\": \"none\"}'></ng-md-icon>\n      </button>\n      <div class=\"animated cc-buttons\"\n           ng-class=\"{fadeInDown: oneEntry.isOpen, fadeOutTop: !oneEntry.isOpen}\">\n        <button ng-if=\"oneEntry.isOpen\"\n                ng-repeat=\"oneOption in recordCtrl.speedDialOptions\"\n                class=\"md-fab md-raised md-mini md-button md-ink-ripple\"\n                type=\"button\"\n                title=\"{{oneOption.tooltip}}\"\n                ng-click=\"recordCtrl.onItemClick(oneOption, oneEntry)\">\n          <md-icon>{{oneOption.icon}}</md-icon>\n        </button>\n      </div>\n    </div>\n    <p>{{oneEntry.fn}}</p>\n    <span class=\"cc-time\">{{oneEntry.tm}}</span>\n    <div class=\"cc-inline-info\">\n      <span class=\"cc-inline-info cc-tit\" ng-if=\"oneEntry.sb\">Tit</span>\n      <span class=\"cc-inline-info cc-dab\" ng-if=\"oneEntry.db\">Dab</span>\n      <span class=\"cc-inline-info cc-3d\" ng-if=\"oneEntry.td\">3D</span>\n    </div>\n  </div>\n</div>\n"
+	// removed by extract-text-webpack-plugin
 
 /***/ }
 /******/ ]);
