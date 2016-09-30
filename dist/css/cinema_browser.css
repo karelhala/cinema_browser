@@ -71,6 +71,9 @@
   .cv-graph.cv-graph-small {
     height: 100px;
     width: 100%; } }
+
+.cc-speed-dial {
+  top: 7px; }
 /* Custom changes */
 .timeline-end {
   margin-left: -13px;
@@ -307,10 +310,14 @@
   margin: 0;
   line-height: 1.428571429; }
 
-.timeline-centered .timeline-entry .timeline-entry-inner .timeline-label .div-group speed-dial {
+.timeline-centered .timeline-entry .timeline-entry-inner .timeline-label .div-group speed-dial, .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label .div-group .speed-dial {
   position: absolute;
   margin-top: -47px;
   right: 0; }
+
+@media screen and (min-width: 480px) {
+  .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label .div-group {
+    margin-bottom: 17px; } }
 
 .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label p + p {
   margin-top: 15px; }

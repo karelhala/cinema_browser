@@ -14957,13 +14957,6 @@
 	        var _this = this;
 	        this.speedDialOptions = [
 	            {
-	                tooltip: 'Info',
-	                tooltipDirection: 'top',
-	                icon: 'info_outline',
-	                type: 'info',
-	                callFn: function (item) { return _this.onInfoClick(item); }
-	            },
-	            {
 	                tooltip: 'Koupit',
 	                tooltipDirection: 'bottom',
 	                icon: 'add_shopping_cart',
@@ -14976,6 +14969,13 @@
 	                icon: 'today',
 	                type: 'reserve',
 	                callFn: function (item) { return _this.onReserveClick(item); }
+	            },
+	            {
+	                tooltip: 'Info',
+	                tooltipDirection: 'top',
+	                icon: 'info_outline',
+	                type: 'info',
+	                callFn: function (item) { return _this.onInfoClick(item); }
 	            }
 	        ];
 	    };
@@ -14991,6 +14991,7 @@
 	        };
 	    };
 	    TimelineEntryController.prototype.onItemClick = function (item, oneEntry) {
+	        oneEntry.isOpen = !oneEntry.isOpen;
 	        item.callFn(oneEntry);
 	    };
 	    TimelineEntryController.prototype.onInfoClick = function (item) {
@@ -15018,7 +15019,7 @@
 /* 138 */
 /***/ function(module, exports) {
 
-	module.exports = "<article class=\"timeline-entry\" ng-class=\"vm.getCurrentClasses()\" id=\"{{vm.keyData}}\">\n  <div class=\"timeline-entry-inner\">\n    <time class=\"timeline-time\" datetime=\"{{vm.entry.timeObject.format('YYYY-MM-DD')}}\"><span>{{vm.entry.timeObject.format('DD.MM.YYYY')}}</span>\n      <span class=\"cv-time\">{{vm.entry.getTime()}}</span></time>\n    <div class=\"timeline-icon {{vm.entry['color-class']}}\" ng-click=\"vm.entry.isVisible = !vm.entry.isVisible\">\n      <md-button class=\"md-icon-button\" aria-label=\"Settings\">\n        {{vm.keyData}}:00\n      </md-button>\n    </div>\n\n    <div class=\"timeline-label\" ng-class=\"vm.bounce()\">\n      <div ng-repeat=\"oneEntry in vm.entry.data\" class=\"div-group\">\n        <p>{{oneEntry.fn}} <span class=\"cc-time\">{{oneEntry.tm}}</span></p>\n        <speed-dial direction=\"'left'\" items=\"vm.speedDialOptions\" on-click=\"vm.onItemClick(item, oneEntry)\"></speed-dial>\n      </div>\n    </div>\n  </div>\n\n</article>\n"
+	module.exports = "<article class=\"timeline-entry\" ng-class=\"vm.getCurrentClasses()\" id=\"{{vm.keyData}}\">\n  <div class=\"timeline-entry-inner\">\n    <time class=\"timeline-time\" datetime=\"{{vm.entry.timeObject.format('YYYY-MM-DD')}}\"><span>{{vm.entry.timeObject.format('DD.MM.YYYY')}}</span>\n      <span class=\"cv-time\">{{vm.entry.getTime()}}</span></time>\n    <div class=\"timeline-icon {{vm.entry['color-class']}}\" ng-click=\"vm.entry.isVisible = !vm.entry.isVisible\">\n      <md-button class=\"md-icon-button\" aria-label=\"Settings\">\n        {{vm.keyData}}:00\n      </md-button>\n    </div>\n\n    <div class=\"timeline-label\" ng-class=\"vm.bounce()\">\n      <div ng-repeat=\"oneEntry in vm.entry.data\" class=\"div-group\">\n        <p>{{oneEntry.fn}} <span class=\"cc-time\">{{oneEntry.tm}}</span></p>\n        <div class=\"speed-dial\">\n          <button ng-show=\"oneEntry.isOpen\"\n                  ng-repeat=\"oneOption in vm.speedDialOptions\"\n                  class=\"animated fadeInRight md-fab md-raised md-mini md-button md-ink-ripple\"\n                  ng-class=\"{fadeInRight: oneEntry.isOpen, fadeOutRight: !oneEntry.isOpen}\"\n                  type=\"button\"\n                  title=\"{{oneOption.tooltip}}\"\n                  ng-click=\"vm.onItemClick(oneOption, oneEntry)\">\n            <md-icon>{{oneOption.icon}}</md-icon>\n          </button>\n          <button class=\"md-icon-button md-button md-ink-ripple cc-speed-dial\"\n                  type=\"button\"\n                  ng-click=\"oneEntry.isOpen = !oneEntry.isOpen\"\n                  title=\"Akce\">\n            <ng-md-icon icon=\"{{oneEntry.isOpen ? 'format_align_left' : 'menu'}}\" ng-attr-style=\"fill: {{fill}}\" options='{\"rotation\": \"none\"}'></ng-md-icon>\n          </button>\n        </div>\n      </div>\n    </div>\n  </div>\n\n</article>\n"
 
 /***/ },
 /* 139 */

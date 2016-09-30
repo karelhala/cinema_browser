@@ -290,10 +290,17 @@
 }
 
 .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label .div-group {
-  speed-dial {
+  speed-dial, .speed-dial {
     position: absolute;
     margin-top: -47px;
     right: 0;
+  }
+}
+
+
+@media screen and (min-width: 480px) {
+  .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label .div-group {
+    margin-bottom: 17px;
   }
 }
 

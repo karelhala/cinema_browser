@@ -15,13 +15,6 @@ export default class TimelineEntryController {
   public initOptions() {
     this.speedDialOptions = [
       {
-        tooltip: 'Info',
-        tooltipDirection: 'top',
-        icon: 'info_outline',
-        type: 'info',
-        callFn: (item) => this.onInfoClick(item)
-      },
-      {
         tooltip: 'Koupit',
         tooltipDirection: 'bottom',
         icon: 'add_shopping_cart',
@@ -34,6 +27,13 @@ export default class TimelineEntryController {
         icon: 'today',
         type: 'reserve',
         callFn: (item) => this.onReserveClick(item)
+      },
+      {
+        tooltip: 'Info',
+        tooltipDirection: 'top',
+        icon: 'info_outline',
+        type: 'info',
+        callFn: (item) => this.onInfoClick(item)
       }
     ];
   }
@@ -52,6 +52,7 @@ export default class TimelineEntryController {
   }
 
   public onItemClick(item: any, oneEntry) {
+    oneEntry.isOpen = !oneEntry.isOpen;
     item.callFn(oneEntry);
   }
 
