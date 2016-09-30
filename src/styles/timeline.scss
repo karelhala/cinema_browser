@@ -295,6 +295,25 @@
     margin-top: -47px;
     right: 0;
   }
+
+  p {
+    width: 97%;
+  }
+  
+  .cc-inline-info {
+    font-weight: bold;
+    font-size: 12px;
+
+    &.cc-tit {
+      color: #FB8C00;
+    }
+    &.cc-dab {
+      color: #66BB6A;
+    }
+    &.cc-3d {
+      color: #EF5350;
+    }
+  }
 }
 
 

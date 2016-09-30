@@ -10,17 +10,23 @@
 
     <div class="timeline-label" ng-class="vm.bounce()">
       <div ng-repeat="oneEntry in vm.entry.data" class="div-group">
-        <p>{{oneEntry.fn}} <span class="cc-time">{{oneEntry.tm}}</span></p>
+        <p>{{oneEntry.fn}} <span class="cc-time">{{oneEntry.tm}}</span>
+          <span class="cc-inline-info cc-tit" ng-if="oneEntry.sb">Tit</span>
+          <span class="cc-inline-info cc-dab" ng-if="oneEntry.db">Dab</span>
+          <span class="cc-inline-info cc-3d" ng-if="oneEntry.td">3D</span>
+        </p>
         <div class="speed-dial">
-          <button ng-show="oneEntry.isOpen"
-                  ng-repeat="oneOption in vm.speedDialOptions"
-                  class="animated fadeInRight md-fab md-raised md-mini md-button md-ink-ripple"
-                  ng-class="{fadeInRight: oneEntry.isOpen, fadeOutRight: !oneEntry.isOpen}"
-                  type="button"
-                  title="{{oneOption.tooltip}}"
-                  ng-click="vm.onItemClick(oneOption, oneEntry)">
+          <span ng-if="oneEntry.isOpen">
+            <button ng-show="oneEntry.isOpen"
+                    ng-repeat="oneOption in vm.speedDialOptions"
+                    class="animated fadeInRight md-fab md-raised md-mini md-button md-ink-ripple"
+                    ng-class="{fadeInRight: oneEntry.isOpen, fadeOutRight: !oneEntry.isOpen}"
+                    type="button"
+                    title="{{oneOption.tooltip}}"
+                    ng-click="vm.onItemClick(oneOption, oneEntry)">
             <md-icon>{{oneOption.icon}}</md-icon>
           </button>
+          </span>
           <button class="md-icon-button md-button md-ink-ripple cc-speed-dial"
                   type="button"
                   ng-click="oneEntry.isOpen = !oneEntry.isOpen"
