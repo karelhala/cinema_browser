@@ -56,6 +56,10 @@ export class TableViewController {
   public onFailAndClose() {
     console.log('fail and close');
   }
+
+  public getNumberOfRow(key) {
+    return Object.keys(this.entries).indexOf(key) % 4;
+  }
 }
 
 /**

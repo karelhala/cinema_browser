@@ -15479,6 +15479,9 @@
 	    TableViewController.prototype.onFailAndClose = function () {
 	        console.log('fail and close');
 	    };
+	    TableViewController.prototype.getNumberOfRow = function (key) {
+	        return Object.keys(this.entries).indexOf(key) % 4;
+	    };
 	    return TableViewController;
 	}());
 	exports.TableViewController = TableViewController;
@@ -15507,7 +15510,7 @@
 /* 155 */
 /***/ function(module, exports) {
 
-	module.exports = "<div ng-if=\"tableCtrl.entries\">\n  <div class=\"table-centered\">\n    <div>\n      <cc-table-record ng-repeat=\"(key, entry) in tableCtrl.entries\"\n                       entry=\"entry\"\n                       key-data=\"key\"\n                       selected-cinema=\"tableCtrl.basicInformationLoader.selectedItem\"\n                       ng-style=\"{'width': tableCtrl.width}\">\n\n      </cc-table-record>\n    </div>\n  </div>\n</div>\n"
+	module.exports = "<div ng-if=\"tableCtrl.entries\">\n  <div class=\"table-centered\">\n    <div>\n      <div ng-repeat=\"(key, entry) in tableCtrl.entries\" class=\"cc-time-record\" ng-style=\"{'width': tableCtrl.width}\">{{key}}:00</div>\n\n    </div>\n    <div>\n      <cc-table-record ng-repeat=\"(key, entry) in tableCtrl.entries track by $index\"\n                       entry=\"entry\"\n                       key-data=\"key\"\n                       selected-cinema=\"tableCtrl.basicInformationLoader.selectedItem\"\n                       class=\"cc-table-record-{{tableCtrl.getNumberOfRow(key)}}\">\n      </cc-table-record>\n    </div>\n\n  </div>\n</div>\n"
 
 /***/ },
 /* 156 */
@@ -15602,7 +15605,7 @@
 /* 157 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"cc-content\">\n  <span>{{recordCtrl.keyData}}:00</span>\n  <div class=\"md-whiteframe-3dp cc-record\" ng-repeat=\"oneEntry in recordCtrl.entry.data\">\n    <div class=\"speed-dial\">\n      <button class=\"md-icon-button md-button md-ink-ripple cc-speed-dial\"\n              type=\"button\"\n              ng-click=\"oneEntry.isOpen = !oneEntry.isOpen\"\n              title=\"Akce\">\n        <ng-md-icon icon=\"{{oneEntry.isOpen ? 'format_align_left' : 'menu'}}\" ng-attr-style=\"fill: {{fill}}\" options='{\"rotation\": \"none\"}'></ng-md-icon>\n      </button>\n      <div class=\"animated cc-buttons\"\n           ng-class=\"{fadeInDown: oneEntry.isOpen, fadeOutTop: !oneEntry.isOpen}\">\n        <button ng-if=\"oneEntry.isOpen\"\n                ng-repeat=\"oneOption in recordCtrl.speedDialOptions\"\n                class=\"md-fab md-raised md-mini md-button md-ink-ripple\"\n                type=\"button\"\n                title=\"{{oneOption.tooltip}}\"\n                ng-click=\"recordCtrl.onItemClick(oneOption, oneEntry)\">\n          <md-icon>{{oneOption.icon}}</md-icon>\n        </button>\n      </div>\n    </div>\n    <p>{{oneEntry.fn}}</p>\n    <span class=\"cc-time\">{{oneEntry.tm}}</span>\n    <div class=\"cc-inline-info\">\n      <span class=\"cc-inline-info cc-tit\" ng-if=\"oneEntry.sb\">Tit</span>\n      <span class=\"cc-inline-info cc-dab\" ng-if=\"oneEntry.db\">Dab</span>\n      <span class=\"cc-inline-info cc-3d\" ng-if=\"oneEntry.td\">3D</span>\n    </div>\n  </div>\n</div>\n"
+	module.exports = "<div class=\"cc-content\">\n  <div class=\"md-whiteframe-3dp\" >\n    <div class=\"cc-record\" ng-repeat=\"oneEntry in recordCtrl.entry.data\">\n      <div class=\"cc-movie-info\">\n        {{oneEntry.fn}}\n        <span class=\"cc-time\">{{oneEntry.tm}}</span>\n        <span class=\"cc-inline-info cc-tit\" ng-if=\"oneEntry.sb\">Tit</span>\n        <span class=\"cc-inline-info cc-dab\" ng-if=\"oneEntry.db\">Dab</span>\n        <span class=\"cc-inline-info cc-3d\" ng-if=\"oneEntry.td\">3D</span>\n      </div>\n\n      <div class=\"speed-dial\">\n        <button class=\"md-icon-button md-button md-ink-ripple cc-speed-dial\"\n                type=\"button\"\n                ng-click=\"oneEntry.isOpen = !oneEntry.isOpen\"\n                title=\"Akce\">\n          <ng-md-icon icon=\"{{oneEntry.isOpen ? 'format_align_left' : 'menu'}}\" ng-attr-style=\"fill: {{fill}}\" options='{\"rotation\": \"none\"}'></ng-md-icon>\n        </button>\n        <div class=\"animated cc-buttons\"\n             ng-class=\"{fadeInDown: oneEntry.isOpen, fadeOutTop: !oneEntry.isOpen}\">\n          <button ng-if=\"oneEntry.isOpen\"\n                  ng-repeat=\"oneOption in recordCtrl.speedDialOptions\"\n                  class=\"md-fab md-raised md-mini md-button md-ink-ripple\"\n                  type=\"button\"\n                  title=\"{{oneOption.tooltip}}\"\n                  ng-click=\"recordCtrl.onItemClick(oneOption, oneEntry)\">\n            <md-icon>{{oneOption.icon}}</md-icon>\n          </button>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
 
 /***/ },
 /* 158 */

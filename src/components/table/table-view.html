@@ -1,13 +1,17 @@
 <div ng-if="tableCtrl.entries">
   <div class="table-centered">
     <div>
-      <cc-table-record ng-repeat="(key, entry) in tableCtrl.entries"
+      <div ng-repeat="(key, entry) in tableCtrl.entries" class="cc-time-record" ng-style="{'width': tableCtrl.width}">{{key}}:00</div>
+
+    </div>
+    <div>
+      <cc-table-record ng-repeat="(key, entry) in tableCtrl.entries track by $index"
                        entry="entry"
                        key-data="key"
                        selected-cinema="tableCtrl.basicInformationLoader.selectedItem"
-                       ng-style="{'width': tableCtrl.width}">
-
+                       class="cc-table-record-{{tableCtrl.getNumberOfRow(key)}}">
       </cc-table-record>
     </div>
+
   </div>
 </div>
