@@ -32,7 +32,7 @@ export default class TimelineController {
   }
 
   public onNextData(data) {
-    if (data.changed === 'cinema' || data.changed === 'date') {
+    if (data.changed === 'cinema' || data.changed === 'date' || data.changed === 'filtered') {
       if (this.basicInformationLoader.selectedItem) {
         this.selectCurrentMovies();
       }
@@ -52,9 +52,21 @@ export default class TimelineController {
       this.entries = this.basicInformationLoader.selectedItem.movies.filtered[firstKey];
     }
     this.entries = _.cloneDeep(this.entries);
+    if (this.basicInformationLoader.filteredItems.length !== 0) {
+      _.each(this.entries, (entry, key) => {
+        this.entries[key] = entry.filter(movie => {
+          return _.findIndex(this.basicInformationLoader.filteredItems, {fn: movie.fn}) !== -1;
+        });
+      });
+    }
     _.each(this.entries, (entry, key) => {
       this.entries[key] = {data: entry};
     });
+    let tempEntries: any;
+    tempEntries = _.pickBy(this.entries, (entry) => {
+      return entry.data.length !== 0;
+    });
+    this.entries = tempEntries;
     setTimeout(() => this.showVisible());
   }
 

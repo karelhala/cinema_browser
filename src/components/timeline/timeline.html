@@ -1,7 +1,8 @@
 <div class="container" id="cv-timeline-container">
   <div class="row">
     <div class="timeline-centered" ng-class="vm.getClass()">
-      <timeline-entry ng-repeat="(key, entry) in vm.entries"
+      <timeline-entry ng-if="entry.data.length !== 0"
+                      ng-repeat="(key, entry) in vm.entries"
                       entry="entry"
                       key-data="key"
                       selected-cinema="vm.basicInformationLoader.selectedItem"

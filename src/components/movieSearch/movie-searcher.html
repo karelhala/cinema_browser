@@ -1,0 +1,23 @@
+<div class="md-whiteframe-3dp cv-content cc-movie-searcher" id="movie-searcher" layout="column">
+  <md-chips ng-model="seaCtrl.selectedMovies"
+            md-on-add="seaCtrl.onMovieSelected()"
+            md-on-remove="seaCtrl.onMovieSelected()"
+            readonly="false"
+            md-removable="true"
+            md-autocomplete-snap
+            md-require-match="true">
+    <md-autocomplete
+      md-selected-item="seaCtrl.selectedItem"
+      md-search-text="seaCtrl.searchText"
+      md-items="item in seaCtrl.querySearch(seaCtrl.searchText) | uniq: 'fn'"
+      md-item-text="item.fn"
+      placeholder="Hledejte ve filmech">
+      <span md-highlight-text="seaCtrl.searchText">{{item.fn}}</span>
+    </md-autocomplete>
+    <md-chip-template>
+    <span>
+      <strong>{{$chip.fn}}</strong>
+    </span>
+    </md-chip-template>
+  </md-chips>
+</div>

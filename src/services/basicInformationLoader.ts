@@ -5,11 +5,13 @@ export default class BasicInformationLoader {
   private allCinemas: any = {};
   public selectedItem: any;
   public selectedTime: any;
+  public filteredItems: any[];
   public informationSubject: any;
   /* @ngInject */
   constructor(private $http: ng.IHttpService) {
     this.informationSubject = new Rx.Subject();
     this.selectedTime = moment().startOf('day');
+    this.filteredItems = [];
     this.sendNext({changed: 'date'});
   }
 

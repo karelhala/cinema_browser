@@ -318,7 +318,7 @@
 
 
 @media screen and (min-width: 480px) {
-  .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label .div-group {
+  .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label .div-group:not(:last-child) {
     margin-bottom: 17px;
   }
 }
@@ -377,4 +377,8 @@ span.cc-time {
   border-bottom-style: dashed;
   border-bottom-color: #7d7d7d;
   cursor: pointer;
+}
+
+.md-chips>div{
+  width: 100%;
 }
