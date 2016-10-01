@@ -1,16 +1,28 @@
-<div ng-if="tableCtrl.entries">
-  <div class="table-centered">
+<div>
+  <div ng-if="tableCtrl.entries" class="table-centered">
     <div>
       <div ng-repeat="(key, entry) in tableCtrl.entries" class="cc-time-record" ng-style="{'width': tableCtrl.width}">{{key}}:00</div>
 
     </div>
     <div>
-      <cc-table-record ng-repeat="(key, entry) in tableCtrl.entries track by $index"
-                       entry="entry"
-                       key-data="key"
-                       selected-cinema="tableCtrl.basicInformationLoader.selectedItem"
-                       class="cc-table-record-{{tableCtrl.getNumberOfRow(key)}}">
-      </cc-table-record>
+      <div ng-repeat="(key, entry) in tableCtrl.entries"
+           class="cc-table-rows"
+           ng-if="tableCtrl.getNumberOfRow(key) === 0"
+           ng-style="{'width': tableCtrl.rowWidth}"
+           style="display: inline-block;">
+        <cc-table-record class="cc-table-record-{{tableCtrl.getNumberOfRow(key)}}"
+                         ng-if="tableCtrl.entries[tableCtrl.getKeyAsNumber(key)]"
+                         entry="tableCtrl.entries[tableCtrl.getKeyAsNumber(key)]"
+                         selected-cinema="tableCtrl.basicInformationLoader.selectedItem"></cc-table-record>
+        <cc-table-record class="cc-table-record-{{tableCtrl.getNumberOfRow(tableCtrl.getKeyAsNumber(key) + 1)}}"
+                         ng-if="tableCtrl.entries[tableCtrl.getKeyAsNumber(key) + 1]"
+                         entry="tableCtrl.entries[tableCtrl.getKeyAsNumber(key) + 1]"
+                         selected-cinema="tableCtrl.basicInformationLoader.selectedItem"></cc-table-record>
+        <cc-table-record class="cc-table-record-{{tableCtrl.getNumberOfRow(tableCtrl.getKeyAsNumber(key) + 2)}}"
+                         ng-if="tableCtrl.entries[tableCtrl.getKeyAsNumber(key) + 2]"
+                         entry="tableCtrl.entries[tableCtrl.getKeyAsNumber(key) + 2]"
+                         selected-cinema="tableCtrl.basicInformationLoader.selectedItem"></cc-table-record>
+      </div>
     </div>
 
   </div>

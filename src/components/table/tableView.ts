@@ -8,6 +8,7 @@ import * as moment from 'moment';
 export class TableViewController {
   public entries: any[];
   public width: string;
+  public rowWidth: string;
   /* @ngInject */
   constructor(public basicInformationLoader: any) {
     this.subscribeToInformationLoader();
@@ -50,15 +51,21 @@ export class TableViewController {
     _.each(this.entries, (entry, key) => {
       this.entries[key] = {data: entry};
     });
-    this.width = `${100 / Object.keys(this.entries).length}%`;
+    let modRows = Object.keys(this.entries).length % 3;
+    this.width = `${100 / (Object.keys(this.entries).length + modRows + 1)}%`;
+    this.rowWidth = `${(100 / (Object.keys(this.entries).length + modRows + 1)) * 3}%`;
   }
 
   public onFailAndClose() {
     console.log('fail and close');
   }
 
+  public getKeyAsNumber(key) {
+    return parseInt(key);
+  }
+
   public getNumberOfRow(key) {
-    return Object.keys(this.entries).indexOf(key) % 4;
+    return Object.keys(this.entries).indexOf(key + '') % 3;
   }
 }
 

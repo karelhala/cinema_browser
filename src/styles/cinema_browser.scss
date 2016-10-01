@@ -112,6 +112,7 @@
 }
 
 .table-centered {
+  padding-bottom: 10px;
   &:before {
     display: block;
     content: "";
@@ -122,9 +123,8 @@
   }
 
   cc-table-record {
-    float: left;
-    width: 270px;
-    display: inline-flex;
+    width: 68%;
+    display: inline-block;
 
     .cc-content {
       padding-left: 10px;
@@ -176,9 +176,15 @@
   }
 }
 
+.cc-table-rows {
+  vertical-align: top;
+}
+
 .cc-time-record {
   display: inline-flex;
-  &:after {
+  margin-left: 3px;
+
+  .sdf:after {
     content: '';
     position: absolute;
     display: block;
@@ -190,21 +196,10 @@
   }
 }
 
-.cc-table-record-0 {
-  margin-top: 0px;
-}
-
 .cc-table-record-1 {
-  margin-top: 300px;
-  margin-left: -170px;
+  margin-left: 33%;
 }
 
 .cc-table-record-2 {
-  margin-top: 0px;
-  margin-left: -90px;
-}
-
-.cc-table-record-3 {
-  margin-top: 300px;
-  margin-left: -170px;
+  margin-left: 66%;
 }

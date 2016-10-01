@@ -78,50 +78,54 @@
 .cc-view-switch {
   text-align: center; }
 
-.table-centered:before {
-  display: block;
-  content: "";
-  height: 4px;
-  background: #f5f5f6;
-  position: relative;
-  top: 18px; }
+.table-centered {
+  padding-bottom: 10px; }
+  .table-centered:before {
+    display: block;
+    content: "";
+    height: 4px;
+    background: #f5f5f6;
+    position: relative;
+    top: 18px; }
+  .table-centered cc-table-record {
+    width: 68%;
+    display: inline-block; }
+    .table-centered cc-table-record .cc-content {
+      padding-left: 10px;
+      text-align: center; }
+      .table-centered cc-table-record .cc-content .cc-record {
+        margin-top: 10px; }
+        .table-centered cc-table-record .cc-content .cc-record .cc-movie-info {
+          display: inline-block;
+          width: 75%; }
+        .table-centered cc-table-record .cc-content .cc-record .speed-dial {
+          display: inline-block; }
+        .table-centered cc-table-record .cc-content .cc-record .cc-buttons {
+          position: absolute;
+          margin-left: 2.5%; }
+          .table-centered cc-table-record .cc-content .cc-record .cc-buttons button {
+            display: block; }
+        .table-centered cc-table-record .cc-content .cc-record .cc-inline-info {
+          font-weight: bold;
+          font-size: 12px; }
+          .table-centered cc-table-record .cc-content .cc-record .cc-inline-info.cc-tit {
+            color: #FB8C00; }
+          .table-centered cc-table-record .cc-content .cc-record .cc-inline-info.cc-dab {
+            color: #66BB6A; }
+          .table-centered cc-table-record .cc-content .cc-record .cc-inline-info.cc-3d {
+            color: #EF5350; }
+        .table-centered cc-table-record .cc-content .cc-record p {
+          word-break: break-all; }
+      .table-centered cc-table-record .cc-content:last-child {
+        padding-right: 10px; }
 
-.table-centered cc-table-record {
-  float: left;
-  width: 270px;
-  display: inline-flex; }
-  .table-centered cc-table-record .cc-content {
-    padding-left: 10px;
-    text-align: center; }
-    .table-centered cc-table-record .cc-content .cc-record {
-      margin-top: 10px; }
-      .table-centered cc-table-record .cc-content .cc-record .cc-movie-info {
-        display: inline-block;
-        width: 75%; }
-      .table-centered cc-table-record .cc-content .cc-record .speed-dial {
-        display: inline-block; }
-      .table-centered cc-table-record .cc-content .cc-record .cc-buttons {
-        position: absolute;
-        margin-left: 2.5%; }
-        .table-centered cc-table-record .cc-content .cc-record .cc-buttons button {
-          display: block; }
-      .table-centered cc-table-record .cc-content .cc-record .cc-inline-info {
-        font-weight: bold;
-        font-size: 12px; }
-        .table-centered cc-table-record .cc-content .cc-record .cc-inline-info.cc-tit {
-          color: #FB8C00; }
-        .table-centered cc-table-record .cc-content .cc-record .cc-inline-info.cc-dab {
-          color: #66BB6A; }
-        .table-centered cc-table-record .cc-content .cc-record .cc-inline-info.cc-3d {
-          color: #EF5350; }
-      .table-centered cc-table-record .cc-content .cc-record p {
-        word-break: break-all; }
-    .table-centered cc-table-record .cc-content:last-child {
-      padding-right: 10px; }
+.cc-table-rows {
+  vertical-align: top; }
 
 .cc-time-record {
-  display: inline-flex; }
-  .cc-time-record:after {
+  display: inline-flex;
+  margin-left: 3px; }
+  .cc-time-record .sdf:after {
     content: '';
     position: absolute;
     display: block;
@@ -131,20 +135,11 @@
     top: 270px;
     z-index: 0; }
 
-.cc-table-record-0 {
-  margin-top: 0px; }
-
 .cc-table-record-1 {
-  margin-top: 300px;
-  margin-left: -170px; }
+  margin-left: 33%; }
 
 .cc-table-record-2 {
-  margin-top: 0px;
-  margin-left: -90px; }
-
-.cc-table-record-3 {
-  margin-top: 300px;
-  margin-left: -170px; }
+  margin-left: 66%; }
 /* Custom changes */
 .timeline-end {
   margin-left: -13px;
