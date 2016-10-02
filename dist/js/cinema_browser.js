@@ -127,7 +127,7 @@
 /* 8 */
 /***/ function(module, exports) {
 
-	module.exports = "<div>\n  <div class=\"md-whiteframe-3dp cv-content cv-timeline-trend\" id=\"selected-date\" layout=\"column\" layout-align=\"center center\">\n    <cc-date-chooser></cc-date-chooser>\n  </div>\n  <div class=\"md-whiteframe-3dp cv-content cc-selected\"\n       id=\"selected-data\"\n       layout=\"row\"\n       layout-align=\"center center\"\n       ng-controller=\"basicInformationController as basic\">\n    <h1>Zobrazuji filmy v kině\n      <a ng-click=\"basic.onCinemaClicked()\">{{basic.getSelectedItem()? basic.getSelectedItem().text : 'vše'}}</a>,\n      pro datum <a ng-click=\"basic.onDateClicked()\">{{basic.getSelectedDate() ? basic.getSelectedDate() : 'vše'}}</a></h1>\n  </div>\n  <cc-movie-search></cc-movie-search>\n  <div class=\"md-whiteframe-3dp cv-content cv-timeline-trend\" id=\"timeline-trend\" layout=\"column\">\n    <cc-home-content></cc-home-content>\n  </div>\n</div>\n"
+	module.exports = "<div>\r\n  <div class=\"md-whiteframe-3dp cv-content cv-timeline-trend\" id=\"selected-date\" layout=\"column\" layout-align=\"center center\">\r\n    <cc-date-chooser></cc-date-chooser>\r\n  </div>\r\n  <div class=\"md-whiteframe-3dp cv-content cc-selected\"\r\n       id=\"selected-data\"\r\n       layout=\"row\"\r\n       layout-align=\"center center\"\r\n       ng-controller=\"basicInformationController as basic\">\r\n    <h1>Zobrazuji filmy v kině\r\n      <a ng-click=\"basic.onCinemaClicked()\">{{basic.getSelectedItem()? basic.getSelectedItem().text : 'vše'}}</a>,\r\n      pro datum <a ng-click=\"basic.onDateClicked()\">{{basic.getSelectedDate() ? basic.getSelectedDate() : 'vše'}}</a></h1>\r\n  </div>\r\n  <cc-movie-search></cc-movie-search>\r\n  <div class=\"md-whiteframe-3dp cv-content cv-timeline-trend\" id=\"timeline-trend\" layout=\"column\">\r\n    <cc-home-content></cc-home-content>\r\n  </div>\r\n</div>\r\n"
 
 /***/ },
 /* 9 */
@@ -14688,7 +14688,7 @@
 /* 126 */
 /***/ function(module, exports) {
 
-	module.exports = "<md-menu md-position-mode=\"target-right target\">\n  <md-button class=\"md-fab move-down\" aria-label=\"Show basic details\" ng-click=\"vm.openMenu($mdOpenMenu, $event)\">\n    <md-icon>account_circle</md-icon>\n  </md-button>\n  <md-menu-content width=\"6\">\n    <md-menu-item>\n      <span class=\"cv-bold\"></span>\n      <span><img src=\"{{vm.personObject.picture}}\"></span>\n    </md-menu-item>\n    <md-menu-item>\n      <span flex></span>\n    </md-menu-item>\n    <md-menu-item>\n      <span class=\"cv-bold\">Name and Surname</span>\n      <span>{{vm.personObject.name}} {{vm.personObject.surName}}</span>\n    </md-menu-item>\n    <md-menu-divider></md-menu-divider>\n    <md-menu-item>\n      <span class=\"cv-bold\">Birth date</span>\n      <span>{{vm.personObject.dateObject.format('DD.MM.YYYY')}}</span>\n    </md-menu-item>\n    <md-menu-item>\n      <span class=\"cv-bold\">Age</span>\n      <span>{{vm.personObject.getAge()}}</span>\n    </md-menu-item>\n  </md-menu-content>\n</md-menu>\n"
+	module.exports = "<md-menu md-position-mode=\"target-right target\">\r\n  <md-button class=\"md-fab move-down\" aria-label=\"Show basic details\" ng-click=\"vm.openMenu($mdOpenMenu, $event)\">\r\n    <md-icon>account_circle</md-icon>\r\n  </md-button>\r\n  <md-menu-content width=\"6\">\r\n    <md-menu-item>\r\n      <span class=\"cv-bold\"></span>\r\n      <span><img src=\"{{vm.personObject.picture}}\"></span>\r\n    </md-menu-item>\r\n    <md-menu-item>\r\n      <span flex></span>\r\n    </md-menu-item>\r\n    <md-menu-item>\r\n      <span class=\"cv-bold\">Name and Surname</span>\r\n      <span>{{vm.personObject.name}} {{vm.personObject.surName}}</span>\r\n    </md-menu-item>\r\n    <md-menu-divider></md-menu-divider>\r\n    <md-menu-item>\r\n      <span class=\"cv-bold\">Birth date</span>\r\n      <span>{{vm.personObject.dateObject.format('DD.MM.YYYY')}}</span>\r\n    </md-menu-item>\r\n    <md-menu-item>\r\n      <span class=\"cv-bold\">Age</span>\r\n      <span>{{vm.personObject.getAge()}}</span>\r\n    </md-menu-item>\r\n  </md-menu-content>\r\n</md-menu>\r\n"
 
 /***/ },
 /* 127 */
@@ -14751,7 +14751,7 @@
 /* 129 */
 /***/ function(module, exports) {
 
-	module.exports = "<md-fab-speed-dial md-open=\"vm.isOpen\" md-direction=\"{{vm.direction}}\"\n                   ng-class=\"vm.selectedMode\" class=\"cv-move-speed-dial\">\n  <md-fab-trigger>\n    <md-button class=\"md-icon-button\" aria-label=\"Settings\">\n      <ng-md-icon icon=\"{{vm.isOpen ? 'format_align_left' : 'menu'}}\" ng-attr-style=\"fill: {{fill}}\" options='{\"rotation\": \"none\"}'></ng-md-icon>\n    </md-button>\n  </md-fab-trigger>\n  <md-fab-actions>\n    <md-button ng-repeat=\"item in vm.items\"\n               aria-label=\"{{item.tooltip}}\"\n               class=\"md-fab md-raised md-mini\"\n               ng-click=\"vm.onItemClick(item)\">\n      <md-tooltip md-direction=\"{{item.tooltipDirection}}\"\n                  md-autohide=\"false\">{{item.tooltip}}</md-tooltip>\n      <md-icon>{{item.icon}}</md-icon>\n    </md-button>\n  </md-fab-actions>\n</md-fab-speed-dial>\n"
+	module.exports = "<md-fab-speed-dial md-open=\"vm.isOpen\" md-direction=\"{{vm.direction}}\"\r\n                   ng-class=\"vm.selectedMode\" class=\"cv-move-speed-dial\">\r\n  <md-fab-trigger>\r\n    <md-button class=\"md-icon-button\" aria-label=\"Settings\">\r\n      <ng-md-icon icon=\"{{vm.isOpen ? 'format_align_left' : 'menu'}}\" ng-attr-style=\"fill: {{fill}}\" options='{\"rotation\": \"none\"}'></ng-md-icon>\r\n    </md-button>\r\n  </md-fab-trigger>\r\n  <md-fab-actions>\r\n    <md-button ng-repeat=\"item in vm.items\"\r\n               aria-label=\"{{item.tooltip}}\"\r\n               class=\"md-fab md-raised md-mini\"\r\n               ng-click=\"vm.onItemClick(item)\">\r\n      <md-tooltip md-direction=\"{{item.tooltipDirection}}\"\r\n                  md-autohide=\"false\">{{item.tooltip}}</md-tooltip>\r\n      <md-icon>{{item.icon}}</md-icon>\r\n    </md-button>\r\n  </md-fab-actions>\r\n</md-fab-speed-dial>\r\n"
 
 /***/ },
 /* 130 */
@@ -14796,7 +14796,7 @@
 /* 131 */
 /***/ function(module, exports) {
 
-	module.exports = "<md-input-container>\n  <label>{{ctrl.label}}</label>\n  <md-select ng-model=\"ctrl.selectedCinema\" ng-change=\"ctrl.ctrlGetSelected()\">\n    <md-option ng-repeat=\"item in ctrl.selectItems\" value=\"{{item.text}}\">\n      {{item.text}}\n    </md-option>\n  </md-select>\n</md-input-container>\n"
+	module.exports = "<md-input-container>\r\n  <label>{{ctrl.label}}</label>\r\n  <md-select ng-model=\"ctrl.selectedCinema\" ng-change=\"ctrl.ctrlGetSelected()\">\r\n    <md-option ng-repeat=\"item in ctrl.selectItems\" value=\"{{item.text}}\">\r\n      {{item.text}}\r\n    </md-option>\r\n  </md-select>\r\n</md-input-container>\r\n"
 
 /***/ },
 /* 132 */
@@ -14942,7 +14942,7 @@
 /* 135 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"container\" id=\"cv-timeline-container\">\n  <div class=\"row\">\n    <div class=\"timeline-centered\" ng-class=\"vm.getClass()\">\n      <timeline-entry ng-if=\"entry.data.length !== 0\"\n                      ng-repeat=\"(key, entry) in vm.entries\"\n                      entry=\"entry\"\n                      key-data=\"key\"\n                      selected-cinema=\"vm.basicInformationLoader.selectedItem\"\n                      is-left=\"$odd\"></timeline-entry>\n      <article class=\"timeline-entry begin\" ng-if=\"vm.entries.length !== 0\">\n\n        <div class=\"timeline-end\">\n\n          <div class=\"arrow-down\"></div>\n\n        </div>\n\n      </article>\n      <div ng-if=\"vm.entries.length === 0\">\n        <h3>Žádná data pro aktuální filtry, prosím vyberte den a alespoň jedno kino.</h3>\n      </div>\n    </div>\n  </div>\n</div>\n"
+	module.exports = "<div class=\"container\" id=\"cv-timeline-container\">\r\n  <div class=\"row\">\r\n    <div class=\"timeline-centered\" ng-class=\"vm.getClass()\">\r\n      <timeline-entry ng-if=\"entry.data.length !== 0\"\r\n                      ng-repeat=\"(key, entry) in vm.entries\"\r\n                      entry=\"entry\"\r\n                      key-data=\"key\"\r\n                      selected-cinema=\"vm.basicInformationLoader.selectedItem\"\r\n                      is-left=\"$odd\"></timeline-entry>\r\n      <article class=\"timeline-entry begin\" ng-if=\"vm.entries.length !== 0\">\r\n\r\n        <div class=\"timeline-end\">\r\n\r\n          <div class=\"arrow-down\"></div>\r\n\r\n        </div>\r\n\r\n      </article>\r\n      <div ng-if=\"vm.entries.length === 0\">\r\n        <h3>Žádná data pro aktuální filtry, prosím vyberte den a alespoň jedno kino.</h3>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ },
 /* 136 */
@@ -15049,7 +15049,7 @@
 /* 138 */
 /***/ function(module, exports) {
 
-	module.exports = "<article class=\"timeline-entry\" ng-class=\"vm.getCurrentClasses()\" id=\"{{vm.keyData}}\">\n  <div class=\"timeline-entry-inner\">\n    <time class=\"timeline-time\" datetime=\"{{vm.entry.timeObject.format('YYYY-MM-DD')}}\"><span>{{vm.entry.timeObject.format('DD.MM.YYYY')}}</span>\n      <span class=\"cv-time\">{{vm.entry.getTime()}}</span></time>\n    <div class=\"timeline-icon {{vm.entry['color-class']}}\" ng-click=\"vm.entry.isVisible = !vm.entry.isVisible\">\n      <md-button class=\"md-icon-button\" aria-label=\"Settings\">\n        {{vm.keyData}}:00\n      </md-button>\n    </div>\n\n    <div class=\"timeline-label\" ng-class=\"vm.bounce()\">\n      <div ng-repeat=\"oneEntry in vm.entry.data\" class=\"div-group\">\n        <p>{{oneEntry.fn}} <span class=\"cc-time\">{{oneEntry.tm}}</span>\n          <span class=\"cc-inline-info cc-tit\" ng-if=\"oneEntry.sb\">Tit</span>\n          <span class=\"cc-inline-info cc-dab\" ng-if=\"oneEntry.db\">Dab</span>\n          <span class=\"cc-inline-info cc-3d\" ng-if=\"oneEntry.td\">3D</span>\n        </p>\n        <div class=\"speed-dial\">\n          <span ng-if=\"oneEntry.isOpen\">\n            <button ng-show=\"oneEntry.isOpen\"\n                    ng-repeat=\"oneOption in vm.speedDialOptions\"\n                    class=\"animated fadeInRight md-fab md-raised md-mini md-button md-ink-ripple\"\n                    ng-class=\"{fadeInRight: oneEntry.isOpen, fadeOutRight: !oneEntry.isOpen}\"\n                    type=\"button\"\n                    title=\"{{oneOption.tooltip}}\"\n                    ng-click=\"vm.onItemClick(oneOption, oneEntry)\">\n            <md-icon>{{oneOption.icon}}</md-icon>\n          </button>\n          </span>\n          <button class=\"md-icon-button md-button md-ink-ripple cc-speed-dial\"\n                  type=\"button\"\n                  ng-click=\"oneEntry.isOpen = !oneEntry.isOpen\"\n                  title=\"Akce\">\n            <ng-md-icon icon=\"{{oneEntry.isOpen ? 'format_align_left' : 'menu'}}\" ng-attr-style=\"fill: {{fill}}\" options='{\"rotation\": \"none\"}'></ng-md-icon>\n          </button>\n        </div>\n      </div>\n    </div>\n  </div>\n\n</article>\n"
+	module.exports = "<article class=\"timeline-entry\" ng-class=\"vm.getCurrentClasses()\" id=\"{{vm.keyData}}\">\r\n  <div class=\"timeline-entry-inner\">\r\n    <time class=\"timeline-time\" datetime=\"{{vm.entry.timeObject.format('YYYY-MM-DD')}}\"><span>{{vm.entry.timeObject.format('DD.MM.YYYY')}}</span>\r\n      <span class=\"cv-time\">{{vm.entry.getTime()}}</span></time>\r\n    <div class=\"timeline-icon {{vm.entry['color-class']}}\" ng-click=\"vm.entry.isVisible = !vm.entry.isVisible\">\r\n      <md-button class=\"md-icon-button\" aria-label=\"Settings\">\r\n        {{vm.keyData}}:00\r\n      </md-button>\r\n    </div>\r\n\r\n    <div class=\"timeline-label\" ng-class=\"vm.bounce()\">\r\n      <div ng-repeat=\"oneEntry in vm.entry.data\" class=\"div-group\">\r\n        <p>{{oneEntry.fn}} <span class=\"cc-time\">{{oneEntry.tm}}</span>\r\n          <span class=\"cc-inline-info cc-tit\" ng-if=\"oneEntry.sb\">Tit</span>\r\n          <span class=\"cc-inline-info cc-dab\" ng-if=\"oneEntry.db\">Dab</span>\r\n          <span class=\"cc-inline-info cc-3d\" ng-if=\"oneEntry.td\">3D</span>\r\n        </p>\r\n        <div class=\"speed-dial\">\r\n          <span ng-if=\"oneEntry.isOpen\">\r\n            <button ng-show=\"oneEntry.isOpen\"\r\n                    ng-repeat=\"oneOption in vm.speedDialOptions\"\r\n                    class=\"animated fadeInRight md-fab md-raised md-mini md-button md-ink-ripple\"\r\n                    ng-class=\"{fadeInRight: oneEntry.isOpen, fadeOutRight: !oneEntry.isOpen}\"\r\n                    type=\"button\"\r\n                    title=\"{{oneOption.tooltip}}\"\r\n                    ng-click=\"vm.onItemClick(oneOption, oneEntry)\">\r\n            <md-icon>{{oneOption.icon}}</md-icon>\r\n          </button>\r\n          </span>\r\n          <button class=\"md-icon-button md-button md-ink-ripple cc-speed-dial\"\r\n                  type=\"button\"\r\n                  ng-click=\"oneEntry.isOpen = !oneEntry.isOpen\"\r\n                  title=\"Akce\">\r\n            <ng-md-icon icon=\"{{oneEntry.isOpen ? 'format_align_left' : 'menu'}}\" ng-attr-style=\"fill: {{fill}}\" options='{\"rotation\": \"none\"}'></ng-md-icon>\r\n          </button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n\r\n</article>\r\n"
 
 /***/ },
 /* 139 */
@@ -15120,7 +15120,7 @@
 /* 142 */
 /***/ function(module, exports) {
 
-	module.exports = "<md-icon ng-repeat=\"contact in vm.contactsData\"\n         md-svg-src=\"{{contact.iconSrc}}\"\n         aria-label=\"{{contact.title}}\"\n         ng-click=\"vm.contactClicked(contact)\"\n         class=\"cv-contact {{contact.class}}\"\n></md-icon>\n"
+	module.exports = "<md-icon ng-repeat=\"contact in vm.contactsData\"\r\n         md-svg-src=\"{{contact.iconSrc}}\"\r\n         aria-label=\"{{contact.title}}\"\r\n         ng-click=\"vm.contactClicked(contact)\"\r\n         class=\"cv-contact {{contact.class}}\"\r\n></md-icon>\r\n"
 
 /***/ },
 /* 143 */
@@ -15238,7 +15238,7 @@
 /* 147 */
 /***/ function(module, exports) {
 
-	module.exports = "<md-card>\n  <md-card-title>\n    <md-card-title-text>\n      <span class=\"md-headline\">{{vm.tileTitle}}</span>\n    </md-card-title-text>\n  </md-card-title>\n  <md-card-content layout=\"row\" layout-align=\"space-between\">\n    <div class=\"card-media cv-graph\">\n      <basic-graph type=\"vm.tileData.graphData.type\"\n                   data=\"vm.tileData.graphData.data\"\n                   colors=\"vm.tileData.graphData.colors\"\n                   names=\"vm.tileData.graphData.names\" id=\"{{vm.graphId}}\">\n      </basic-graph>\n    </div>\n    <md-card-actions layout=\"column\">\n      <md-button class=\"md-icon-button\" aria-label=\"Settings\">\n        <md-icon>mode_comment</md-icon>\n      </md-button>\n      <speed-dial items=\"vm.speedDialItems\" direction=\"'down'\" on-click=\"vm.onSpeedDialClick(item)\"></speed-dial>\n    </md-card-actions>\n  </md-card-content>\n</md-card>\n"
+	module.exports = "<md-card>\r\n  <md-card-title>\r\n    <md-card-title-text>\r\n      <span class=\"md-headline\">{{vm.tileTitle}}</span>\r\n    </md-card-title-text>\r\n  </md-card-title>\r\n  <md-card-content layout=\"row\" layout-align=\"space-between\">\r\n    <div class=\"card-media cv-graph\">\r\n      <basic-graph type=\"vm.tileData.graphData.type\"\r\n                   data=\"vm.tileData.graphData.data\"\r\n                   colors=\"vm.tileData.graphData.colors\"\r\n                   names=\"vm.tileData.graphData.names\" id=\"{{vm.graphId}}\">\r\n      </basic-graph>\r\n    </div>\r\n    <md-card-actions layout=\"column\">\r\n      <md-button class=\"md-icon-button\" aria-label=\"Settings\">\r\n        <md-icon>mode_comment</md-icon>\r\n      </md-button>\r\n      <speed-dial items=\"vm.speedDialItems\" direction=\"'down'\" on-click=\"vm.onSpeedDialClick(item)\"></speed-dial>\r\n    </md-card-actions>\r\n  </md-card-content>\r\n</md-card>\r\n"
 
 /***/ },
 /* 148 */
@@ -15420,7 +15420,7 @@
 /* 152 */
 /***/ function(module, exports) {
 
-	module.exports = "<div>\n  <md-button ng-repeat=\"date in vm.allDates\"\n             class=\"md-fab md-mini md-primary\"\n             ng-disabled=\"date.isSelected\"\n             ng-click=\"vm.onDateClicked(date)\">\n    {{date.title}}\n  </md-button>\n</div>\n"
+	module.exports = "<div>\r\n  <md-button ng-repeat=\"date in vm.allDates\"\r\n             class=\"md-fab md-mini md-primary\"\r\n             ng-disabled=\"date.isSelected\"\r\n             ng-click=\"vm.onDateClicked(date)\">\r\n    {{date.title}}\r\n  </md-button>\r\n</div>\r\n"
 
 /***/ },
 /* 153 */
@@ -15453,6 +15453,7 @@
 	    /* @ngInject */
 	    function TableViewController(basicInformationLoader) {
 	        this.basicInformationLoader = basicInformationLoader;
+	        this.currentRow = 0;
 	        this.subscribeToInformationLoader();
 	        if (this.basicInformationLoader.selectedItem) {
 	            this.selectCurrentMovies();
@@ -15500,6 +15501,14 @@
 	        this.width = 100 / (Object.keys(this.entries).length + modRows + 1) + "%";
 	        this.rowWidth = (100 / (Object.keys(this.entries).length + modRows + 1)) * 3 + "%";
 	    };
+	    TableViewController.prototype.initRow = function () {
+	        this.currentRow = 0;
+	        return true;
+	    };
+	    TableViewController.prototype.addRow = function () {
+	        this.currentRow++;
+	        return true;
+	    };
 	    TableViewController.prototype.onFailAndClose = function () {
 	        console.log('fail and close');
 	    };
@@ -15537,7 +15546,7 @@
 /* 155 */
 /***/ function(module, exports) {
 
-	module.exports = "<div>\n  <div ng-if=\"tableCtrl.entries\" class=\"table-centered\">\n    <div>\n      <div ng-repeat=\"(key, entry) in tableCtrl.entries\" class=\"cc-time-record\" ng-style=\"{'width': tableCtrl.width}\">{{key}}:00</div>\n\n    </div>\n    <div>\n      <div ng-repeat=\"(key, entry) in tableCtrl.entries\"\n           class=\"cc-table-rows\"\n           ng-if=\"tableCtrl.getNumberOfRow(key) === 0\"\n           ng-style=\"{'width': tableCtrl.rowWidth}\"\n           style=\"display: inline-block;\">\n        <cc-table-record class=\"cc-table-record-{{tableCtrl.getNumberOfRow(key)}}\"\n                         ng-if=\"tableCtrl.entries[tableCtrl.getKeyAsNumber(key)]\"\n                         entry=\"tableCtrl.entries[tableCtrl.getKeyAsNumber(key)]\"\n                         selected-cinema=\"tableCtrl.basicInformationLoader.selectedItem\"></cc-table-record>\n        <cc-table-record class=\"cc-table-record-{{tableCtrl.getNumberOfRow(tableCtrl.getKeyAsNumber(key) + 1)}}\"\n                         ng-if=\"tableCtrl.entries[tableCtrl.getKeyAsNumber(key) + 1]\"\n                         entry=\"tableCtrl.entries[tableCtrl.getKeyAsNumber(key) + 1]\"\n                         selected-cinema=\"tableCtrl.basicInformationLoader.selectedItem\"></cc-table-record>\n        <cc-table-record class=\"cc-table-record-{{tableCtrl.getNumberOfRow(tableCtrl.getKeyAsNumber(key) + 2)}}\"\n                         ng-if=\"tableCtrl.entries[tableCtrl.getKeyAsNumber(key) + 2]\"\n                         entry=\"tableCtrl.entries[tableCtrl.getKeyAsNumber(key) + 2]\"\n                         selected-cinema=\"tableCtrl.basicInformationLoader.selectedItem\"></cc-table-record>\n      </div>\n    </div>\n\n  </div>\n</div>\n"
+	module.exports = "<div>\n  <div ng-if=\"tableCtrl.entries\" class=\"table-centered\">\n    <div>\n      <div ng-repeat=\"(key, entry) in tableCtrl.entries\" class=\"cc-time-record\" ng-style=\"{'width': tableCtrl.width}\">{{key}}:00</div>\n\n    </div>\n    <div>\n      <div ng-repeat=\"(key, entry) in tableCtrl.entries\"\n           class=\"cc-table-rows\"\n           ng-if=\"tableCtrl.getNumberOfRow(key) === 0 && (tableCtrl.currentRow = 0) == 0\"\n           ng-model=\"rowNumber\"\n           ng-style=\"{'width': tableCtrl.rowWidth}\"\n           style=\"display: inline-block;\">\n        <ng-repeat ng-repeat=\"row in [0, 1, 2]\">\n          <cc-table-record ng-init=\"tableCtrl.currentRow = tableCtrl.currentRow + 1; rowNumber = tableCtrl.currentRow\"\n                           ng-if=\"tableCtrl.entries[tableCtrl.getKeyAsNumber(key) + row]\"\n                           class=\"cc-table-record-{{rowNumber - 1}}\"\n                           entry=\"tableCtrl.entries[tableCtrl.getKeyAsNumber(key) + row]\"\n                           selected-cinema=\"tableCtrl.basicInformationLoader.selectedItem\"></cc-table-record>\n        </ng-repeat>\n        <!---->\n        <!---->\n                         <!---->\n                         <!---->\n                         <!---->\n        <!--<cc-table-record class=\"cc-table-record-{{tableCtrl.getNumberOfRow(tableCtrl.getKeyAsNumber(key) + 2)}}\"-->\n                         <!--ng-if=\"tableCtrl.entries[tableCtrl.getKeyAsNumber(key) + 2]\"-->\n                         <!--entry=\"tableCtrl.entries[tableCtrl.getKeyAsNumber(key) + 2]\"-->\n                         <!--selected-cinema=\"tableCtrl.basicInformationLoader.selectedItem\"></cc-table-record>-->\n      </div>\n    </div>\n\n  </div>\n</div>\n"
 
 /***/ },
 /* 156 */
@@ -15632,7 +15641,7 @@
 /* 157 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"cc-content\">\n  <div class=\"md-whiteframe-3dp\" >\n    <div class=\"cc-record\" ng-repeat=\"oneEntry in recordCtrl.entry.data\">\n      <div class=\"cc-movie-info\">\n        {{oneEntry.fn}}\n        <span class=\"cc-time\">{{oneEntry.tm}}</span>\n        <span class=\"cc-inline-info cc-tit\" ng-if=\"oneEntry.sb\">Tit</span>\n        <span class=\"cc-inline-info cc-dab\" ng-if=\"oneEntry.db\">Dab</span>\n        <span class=\"cc-inline-info cc-3d\" ng-if=\"oneEntry.td\">3D</span>\n      </div>\n\n      <div class=\"speed-dial\">\n        <button class=\"md-icon-button md-button md-ink-ripple cc-speed-dial\"\n                type=\"button\"\n                ng-click=\"oneEntry.isOpen = !oneEntry.isOpen\"\n                title=\"Akce\">\n          <ng-md-icon icon=\"{{oneEntry.isOpen ? 'format_align_left' : 'menu'}}\" ng-attr-style=\"fill: {{fill}}\" options='{\"rotation\": \"none\"}'></ng-md-icon>\n        </button>\n        <div class=\"animated cc-buttons\"\n             ng-class=\"{fadeInDown: oneEntry.isOpen, fadeOutTop: !oneEntry.isOpen}\">\n          <button ng-if=\"oneEntry.isOpen\"\n                  ng-repeat=\"oneOption in recordCtrl.speedDialOptions\"\n                  class=\"md-fab md-raised md-mini md-button md-ink-ripple\"\n                  type=\"button\"\n                  title=\"{{oneOption.tooltip}}\"\n                  ng-click=\"recordCtrl.onItemClick(oneOption, oneEntry)\">\n            <md-icon>{{oneOption.icon}}</md-icon>\n          </button>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
+	module.exports = "<div class=\"cc-content\">\r\n  <div class=\"md-whiteframe-3dp\" >\r\n    <div class=\"cc-record\" ng-repeat=\"oneEntry in recordCtrl.entry.data\">\r\n      <div class=\"cc-movie-info\">\r\n        {{oneEntry.fn}}\r\n        <span class=\"cc-time\">{{oneEntry.tm}}</span>\r\n        <span class=\"cc-inline-info cc-tit\" ng-if=\"oneEntry.sb\">Tit</span>\r\n        <span class=\"cc-inline-info cc-dab\" ng-if=\"oneEntry.db\">Dab</span>\r\n        <span class=\"cc-inline-info cc-3d\" ng-if=\"oneEntry.td\">3D</span>\r\n      </div>\r\n\r\n      <div class=\"speed-dial\">\r\n        <button class=\"md-icon-button md-button md-ink-ripple cc-speed-dial\"\r\n                type=\"button\"\r\n                ng-click=\"oneEntry.isOpen = !oneEntry.isOpen\"\r\n                title=\"Akce\">\r\n          <ng-md-icon icon=\"{{oneEntry.isOpen ? 'format_align_left' : 'menu'}}\" ng-attr-style=\"fill: {{fill}}\" options='{\"rotation\": \"none\"}'></ng-md-icon>\r\n        </button>\r\n        <div class=\"animated cc-buttons\"\r\n             ng-class=\"{fadeInDown: oneEntry.isOpen, fadeOutTop: !oneEntry.isOpen}\">\r\n          <button ng-if=\"oneEntry.isOpen\"\r\n                  ng-repeat=\"oneOption in recordCtrl.speedDialOptions\"\r\n                  class=\"md-fab md-raised md-mini md-button md-ink-ripple\"\r\n                  type=\"button\"\r\n                  title=\"{{oneOption.tooltip}}\"\r\n                  ng-click=\"recordCtrl.onItemClick(oneOption, oneEntry)\">\r\n            <md-icon>{{oneOption.icon}}</md-icon>\r\n          </button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ },
 /* 158 */
@@ -15727,7 +15736,7 @@
 /* 160 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"md-whiteframe-3dp cv-content cc-movie-searcher\" id=\"movie-searcher\" layout=\"column\">\n  <md-chips ng-model=\"seaCtrl.selectedMovies\"\n            md-on-add=\"seaCtrl.onMovieSelected()\"\n            md-on-remove=\"seaCtrl.onMovieSelected()\"\n            readonly=\"false\"\n            md-removable=\"true\"\n            md-autocomplete-snap\n            md-require-match=\"true\">\n    <md-autocomplete\n      md-selected-item=\"seaCtrl.selectedItem\"\n      md-search-text=\"seaCtrl.searchText\"\n      md-items=\"item in seaCtrl.querySearch(seaCtrl.searchText) | uniq: 'fn'\"\n      md-item-text=\"item.fn\"\n      placeholder=\"Hledejte ve filmech\">\n      <span md-highlight-text=\"seaCtrl.searchText\">{{item.fn}}</span>\n    </md-autocomplete>\n    <md-chip-template>\n    <span>\n      <strong>{{$chip.fn}}</strong>\n    </span>\n    </md-chip-template>\n  </md-chips>\n</div>\n"
+	module.exports = "<div class=\"md-whiteframe-3dp cv-content cc-movie-searcher\" id=\"movie-searcher\" layout=\"column\">\r\n  <md-chips ng-model=\"seaCtrl.selectedMovies\"\r\n            md-on-add=\"seaCtrl.onMovieSelected()\"\r\n            md-on-remove=\"seaCtrl.onMovieSelected()\"\r\n            readonly=\"false\"\r\n            md-removable=\"true\"\r\n            md-autocomplete-snap\r\n            md-require-match=\"true\">\r\n    <md-autocomplete\r\n      md-selected-item=\"seaCtrl.selectedItem\"\r\n      md-search-text=\"seaCtrl.searchText\"\r\n      md-items=\"item in seaCtrl.querySearch(seaCtrl.searchText) | uniq: 'fn'\"\r\n      md-item-text=\"item.fn\"\r\n      placeholder=\"Hledejte ve filmech\">\r\n      <span md-highlight-text=\"seaCtrl.searchText\">{{item.fn}}</span>\r\n    </md-autocomplete>\r\n    <md-chip-template>\r\n    <span>\r\n      <strong>{{$chip.fn}}</strong>\r\n    </span>\r\n    </md-chip-template>\r\n  </md-chips>\r\n</div>\r\n"
 
 /***/ },
 /* 161 */
@@ -15806,7 +15815,7 @@
 /* 162 */
 /***/ function(module, exports) {
 
-	module.exports = "<div>\n  <div class=\"cc-view-switch\">\n    <md-button ng-repeat=\"item in homeCtrl.allViews\"\n               aria-label=\"{{item.tooltip}}\"\n               class=\"md-fab md-raised md-mini\"\n               ng-disabled=\"homeCtrl.currentView.type === item.type\"\n               ng-click=\"homeCtrl.onItemClick(item)\">\n      <md-tooltip md-direction=\"'down'\"\n                  md-autohide=\"false\">{{item.tooltip}}</md-tooltip>\n      <md-icon>{{item.icon}}</md-icon>\n    </md-button>\n  </div>\n  <div ui-view=\"\"></div>\n</div>\n"
+	module.exports = "<div>\r\n  <div class=\"cc-view-switch\">\r\n    <md-button ng-repeat=\"item in homeCtrl.allViews\"\r\n               aria-label=\"{{item.tooltip}}\"\r\n               class=\"md-fab md-raised md-mini\"\r\n               ng-disabled=\"homeCtrl.currentView.type === item.type\"\r\n               ng-click=\"homeCtrl.onItemClick(item)\">\r\n      <md-tooltip md-direction=\"'down'\"\r\n                  md-autohide=\"false\">{{item.tooltip}}</md-tooltip>\r\n      <md-icon>{{item.icon}}</md-icon>\r\n    </md-button>\r\n  </div>\r\n  <div ui-view=\"\"></div>\r\n</div>\r\n"
 
 /***/ },
 /* 163 */

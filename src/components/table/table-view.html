@@ -7,21 +7,26 @@
     <div>
       <div ng-repeat="(key, entry) in tableCtrl.entries"
            class="cc-table-rows"
-           ng-if="tableCtrl.getNumberOfRow(key) === 0"
+           ng-if="tableCtrl.getNumberOfRow(key) === 0 && (tableCtrl.currentRow = 0) == 0"
+           ng-model="rowNumber"
            ng-style="{'width': tableCtrl.rowWidth}"
            style="display: inline-block;">
-        <cc-table-record class="cc-table-record-{{tableCtrl.getNumberOfRow(key)}}"
-                         ng-if="tableCtrl.entries[tableCtrl.getKeyAsNumber(key)]"
-                         entry="tableCtrl.entries[tableCtrl.getKeyAsNumber(key)]"
-                         selected-cinema="tableCtrl.basicInformationLoader.selectedItem"></cc-table-record>
-        <cc-table-record class="cc-table-record-{{tableCtrl.getNumberOfRow(tableCtrl.getKeyAsNumber(key) + 1)}}"
-                         ng-if="tableCtrl.entries[tableCtrl.getKeyAsNumber(key) + 1]"
-                         entry="tableCtrl.entries[tableCtrl.getKeyAsNumber(key) + 1]"
-                         selected-cinema="tableCtrl.basicInformationLoader.selectedItem"></cc-table-record>
-        <cc-table-record class="cc-table-record-{{tableCtrl.getNumberOfRow(tableCtrl.getKeyAsNumber(key) + 2)}}"
-                         ng-if="tableCtrl.entries[tableCtrl.getKeyAsNumber(key) + 2]"
-                         entry="tableCtrl.entries[tableCtrl.getKeyAsNumber(key) + 2]"
-                         selected-cinema="tableCtrl.basicInformationLoader.selectedItem"></cc-table-record>
+        <ng-repeat ng-repeat="row in [0, 1, 2]">
+          <cc-table-record ng-init="tableCtrl.currentRow = tableCtrl.currentRow + 1; rowNumber = tableCtrl.currentRow"
+                           ng-if="tableCtrl.entries[tableCtrl.getKeyAsNumber(key) + row]"
+                           class="cc-table-record-{{rowNumber - 1}}"
+                           entry="tableCtrl.entries[tableCtrl.getKeyAsNumber(key) + row]"
+                           selected-cinema="tableCtrl.basicInformationLoader.selectedItem"></cc-table-record>
+        </ng-repeat>
+        <!---->
+        <!---->
+                         <!---->
+                         <!---->
+                         <!---->
+        <!--<cc-table-record class="cc-table-record-{{tableCtrl.getNumberOfRow(tableCtrl.getKeyAsNumber(key) + 2)}}"-->
+                         <!--ng-if="tableCtrl.entries[tableCtrl.getKeyAsNumber(key) + 2]"-->
+                         <!--entry="tableCtrl.entries[tableCtrl.getKeyAsNumber(key) + 2]"-->
+                         <!--selected-cinema="tableCtrl.basicInformationLoader.selectedItem"></cc-table-record>-->
       </div>
     </div>
 

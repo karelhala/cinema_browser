@@ -9,6 +9,7 @@ export class TableViewController {
   public entries: any[];
   public width: string;
   public rowWidth: string;
+  public currentRow: number = 0;
   /* @ngInject */
   constructor(public basicInformationLoader: any) {
     this.subscribeToInformationLoader();
@@ -62,6 +63,16 @@ export class TableViewController {
     let modRows = Object.keys(this.entries).length % 3;
     this.width = `${100 / (Object.keys(this.entries).length + modRows + 1)}%`;
     this.rowWidth = `${(100 / (Object.keys(this.entries).length + modRows + 1)) * 3}%`;
+  }
+
+  public initRow() {
+    this.currentRow = 0;
+    return true;
+  }
+
+  public addRow() {
+    this.currentRow++;
+    return true;
   }
 
   public onFailAndClose() {
