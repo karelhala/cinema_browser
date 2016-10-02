@@ -7,7 +7,8 @@
 export class SearcherController {
   public movies: any[] = [];
   public selectedMovies: any[] = [];
-
+  public searchText = '';
+  public a;
   /* @ngInject */
   constructor(public basicInformationLoader: any, private $scope: any) {
     this.subscribeToInformationLoader();
@@ -34,10 +35,13 @@ export class SearcherController {
   public onMovieSelected() {
     this.basicInformationLoader.filteredItems = this.selectedMovies;
     this.basicInformationLoader.sendNext({changed: 'filtered'});
+    setTimeout(() => {
+      document.querySelector('#autoCompleteId')['blur']();
+    },0);
   }
 
   public querySearch(searchText) {
-    return searchText ? this.movies.filter(this.createFilterFor(searchText)) : [];
+    return searchText ? this.movies.filter(this.createFilterFor(searchText)) : this.movies;
   }
 
   public createFilterFor(query) {

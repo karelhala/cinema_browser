@@ -8,9 +8,11 @@
             md-require-match="true">
     <md-autocomplete
       md-selected-item="seaCtrl.selectedItem"
+      md-input-id="autoCompleteId"
       md-search-text="seaCtrl.searchText"
       md-items="item in seaCtrl.querySearch(seaCtrl.searchText) | uniq: 'fn'"
       md-item-text="item.fn"
+      md-min-length="0"
       placeholder="Hledejte ve filmech">
       <span md-highlight-text="seaCtrl.searchText">{{item.fn}}</span>
     </md-autocomplete>

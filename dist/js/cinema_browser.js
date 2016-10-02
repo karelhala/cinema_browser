@@ -15641,7 +15641,7 @@
 /* 157 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"cc-content\">\r\n  <div class=\"md-whiteframe-3dp\" >\r\n    <div class=\"cc-record\" ng-repeat=\"oneEntry in recordCtrl.entry.data\">\r\n      <div class=\"cc-movie-info\">\r\n        {{oneEntry.fn}}\r\n        <span class=\"cc-time\">{{oneEntry.tm}}</span>\r\n        <span class=\"cc-inline-info cc-tit\" ng-if=\"oneEntry.sb\">Tit</span>\r\n        <span class=\"cc-inline-info cc-dab\" ng-if=\"oneEntry.db\">Dab</span>\r\n        <span class=\"cc-inline-info cc-3d\" ng-if=\"oneEntry.td\">3D</span>\r\n      </div>\r\n\r\n      <div class=\"speed-dial\">\r\n        <button class=\"md-icon-button md-button md-ink-ripple cc-speed-dial\"\r\n                type=\"button\"\r\n                ng-click=\"oneEntry.isOpen = !oneEntry.isOpen\"\r\n                title=\"Akce\">\r\n          <ng-md-icon icon=\"{{oneEntry.isOpen ? 'format_align_left' : 'menu'}}\" ng-attr-style=\"fill: {{fill}}\" options='{\"rotation\": \"none\"}'></ng-md-icon>\r\n        </button>\r\n        <div class=\"animated cc-buttons\"\r\n             ng-class=\"{fadeInDown: oneEntry.isOpen, fadeOutTop: !oneEntry.isOpen}\">\r\n          <button ng-if=\"oneEntry.isOpen\"\r\n                  ng-repeat=\"oneOption in recordCtrl.speedDialOptions\"\r\n                  class=\"md-fab md-raised md-mini md-button md-ink-ripple\"\r\n                  type=\"button\"\r\n                  title=\"{{oneOption.tooltip}}\"\r\n                  ng-click=\"recordCtrl.onItemClick(oneOption, oneEntry)\">\r\n            <md-icon>{{oneOption.icon}}</md-icon>\r\n          </button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+	module.exports = "<div class=\"cc-content\">\n  <div class=\"md-whiteframe-3dp\" >\n    <div class=\"cc-record\" ng-repeat=\"oneEntry in recordCtrl.entry.data\">\n      <div class=\"speed-dial\">\n        <div class=\"animated cc-buttons\"\n             ng-class=\"{fadeInLeft: oneEntry.isOpen, fadeOutRight: !oneEntry.isOpen}\">\n          <button ng-if=\"oneEntry.isOpen\"\n                  ng-repeat=\"oneOption in recordCtrl.speedDialOptions\"\n                  class=\"md-fab md-raised md-mini md-button md-ink-ripple\"\n                  type=\"button\"\n                  title=\"{{oneOption.tooltip}}\"\n                  ng-click=\"recordCtrl.onItemClick(oneOption, oneEntry)\">\n            <md-icon>{{oneOption.icon}}</md-icon>\n          </button>\n        </div>\n        <button class=\"md-icon-button md-button md-ink-ripple cc-speed-dial\"\n                type=\"button\"\n                ng-click=\"oneEntry.isOpen = !oneEntry.isOpen\"\n                title=\"Akce\">\n          <ng-md-icon icon=\"{{oneEntry.isOpen ? 'format_align_left' : 'menu'}}\" ng-attr-style=\"fill: {{fill}}\" options='{\"rotation\": \"none\"}'></ng-md-icon>\n        </button>\n      </div>\n      <div class=\"cc-movie-info\">\n        {{oneEntry.fn}}\n        <span class=\"cc-time\">{{oneEntry.tm}}</span>\n        <span class=\"cc-inline-info cc-tit\" ng-if=\"oneEntry.sb\">Tit</span>\n        <span class=\"cc-inline-info cc-dab\" ng-if=\"oneEntry.db\">Dab</span>\n        <span class=\"cc-inline-info cc-3d\" ng-if=\"oneEntry.td\">3D</span>\n      </div>\n    </div>\n  </div>\n</div>\n"
 
 /***/ },
 /* 158 */
@@ -15674,6 +15674,7 @@
 	        this.$scope = $scope;
 	        this.movies = [];
 	        this.selectedMovies = [];
+	        this.searchText = '';
 	        this.subscribeToInformationLoader();
 	    }
 	    SearcherController.$inject = ["basicInformationLoader", "$scope"];
@@ -15694,9 +15695,12 @@
 	    SearcherController.prototype.onMovieSelected = function () {
 	        this.basicInformationLoader.filteredItems = this.selectedMovies;
 	        this.basicInformationLoader.sendNext({ changed: 'filtered' });
+	        setTimeout(function () {
+	            document.querySelector('#autoCompleteId')['blur']();
+	        }, 0);
 	    };
 	    SearcherController.prototype.querySearch = function (searchText) {
-	        return searchText ? this.movies.filter(this.createFilterFor(searchText)) : [];
+	        return searchText ? this.movies.filter(this.createFilterFor(searchText)) : this.movies;
 	    };
 	    SearcherController.prototype.createFilterFor = function (query) {
 	        var lowercaseQuery = angular.lowercase(query);
@@ -15736,7 +15740,7 @@
 /* 160 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"md-whiteframe-3dp cv-content cc-movie-searcher\" id=\"movie-searcher\" layout=\"column\">\r\n  <md-chips ng-model=\"seaCtrl.selectedMovies\"\r\n            md-on-add=\"seaCtrl.onMovieSelected()\"\r\n            md-on-remove=\"seaCtrl.onMovieSelected()\"\r\n            readonly=\"false\"\r\n            md-removable=\"true\"\r\n            md-autocomplete-snap\r\n            md-require-match=\"true\">\r\n    <md-autocomplete\r\n      md-selected-item=\"seaCtrl.selectedItem\"\r\n      md-search-text=\"seaCtrl.searchText\"\r\n      md-items=\"item in seaCtrl.querySearch(seaCtrl.searchText) | uniq: 'fn'\"\r\n      md-item-text=\"item.fn\"\r\n      placeholder=\"Hledejte ve filmech\">\r\n      <span md-highlight-text=\"seaCtrl.searchText\">{{item.fn}}</span>\r\n    </md-autocomplete>\r\n    <md-chip-template>\r\n    <span>\r\n      <strong>{{$chip.fn}}</strong>\r\n    </span>\r\n    </md-chip-template>\r\n  </md-chips>\r\n</div>\r\n"
+	module.exports = "<div class=\"md-whiteframe-3dp cv-content cc-movie-searcher\" id=\"movie-searcher\" layout=\"column\">\n  <md-chips ng-model=\"seaCtrl.selectedMovies\"\n            md-on-add=\"seaCtrl.onMovieSelected()\"\n            md-on-remove=\"seaCtrl.onMovieSelected()\"\n            readonly=\"false\"\n            md-removable=\"true\"\n            md-autocomplete-snap\n            md-require-match=\"true\">\n    <md-autocomplete\n      md-selected-item=\"seaCtrl.selectedItem\"\n      md-input-id=\"autoCompleteId\"\n      md-search-text=\"seaCtrl.searchText\"\n      md-items=\"item in seaCtrl.querySearch(seaCtrl.searchText) | uniq: 'fn'\"\n      md-item-text=\"item.fn\"\n      md-min-length=\"0\"\n      placeholder=\"Hledejte ve filmech\">\n      <span md-highlight-text=\"seaCtrl.searchText\">{{item.fn}}</span>\n    </md-autocomplete>\n    <md-chip-template>\n    <span>\n      <strong>{{$chip.fn}}</strong>\n    </span>\n    </md-chip-template>\n  </md-chips>\n</div>\n"
 
 /***/ },
 /* 161 */
