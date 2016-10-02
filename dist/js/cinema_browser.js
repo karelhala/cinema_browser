@@ -15700,7 +15700,7 @@
 	        }, 0);
 	    };
 	    SearcherController.prototype.querySearch = function (searchText) {
-	        return searchText ? this.movies.filter(this.createFilterFor(searchText)) : this.movies;
+	        return searchText ? this.movies.filter(this.createFilterFor(searchText)) : [];
 	    };
 	    SearcherController.prototype.createFilterFor = function (query) {
 	        var lowercaseQuery = angular.lowercase(query);

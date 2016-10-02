@@ -41,7 +41,7 @@ export class SearcherController {
   }
 
   public querySearch(searchText) {
-    return searchText ? this.movies.filter(this.createFilterFor(searchText)) : this.movies;
+    return searchText ? this.movies.filter(this.createFilterFor(searchText)) : [];
   }
 
   public createFilterFor(query) {
