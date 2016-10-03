@@ -139,7 +139,11 @@
   margin-left: 33%; }
 
 .cc-table-record-2 {
-  margin-left: 66%; }
+  margin-left: 66%;
+  z-index: 1;
+  position: relative; }
+  .cc-table-record-2 .cc-buttons {
+    margin-left: 15.5% !important; }
 /* Custom changes */
 .timeline-end {
   margin-left: -13px;
