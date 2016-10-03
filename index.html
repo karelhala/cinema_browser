@@ -19,6 +19,15 @@
         <div ui-view="content"></div>
     </div>
 </md-content>
+<noscript>
+    <style type="text/css">
+        md-content {display:none;}
+        md-toolbar {display:none;}
+    </style>
+    <div class="noscriptmsg">
+        You don't have javascript enabled.  Good luck with that.
+    </div>
+</noscript>
 <!-- Angular Material requires Angular.js Libraries -->
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-filter/0.5.11/angular-filter.js"></script>
