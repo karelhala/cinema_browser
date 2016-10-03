@@ -9,7 +9,7 @@ First of all this is pure JS project so you need Node.js and it's written in Typ
 ##### Node.js installation
   * Go to https://nodejs.org/en/ and install desired version (the newer the better)
   * For Fedora users: 
-  ```bash
+  ```
   $ sudo dnf install npm -y
   ```
 Check version of node installed `node -v` and if it's lower than 5.x.x you need to update it.
@@ -17,7 +17,7 @@ Check version of node installed `node -v` and if it's lower than 5.x.x you need 
 
 ##### Typings installation
  * Since this project is using typescript we also need to install typings to global scope 
- ```bash
+ ```
  $ npm install -g typings
  ```
 
@@ -26,11 +26,12 @@ Check version of node installed `node -v` and if it's lower than 5.x.x you need 
   ```
   $ npm install -g webpack
   ```
+  
 ### Run project
 Clone this repository and navigate to it.
 
 When running this project for first time or after long time of inactivity run installation so you get the dependencies.
-```bash
+```
 $ npm install
 ```
 
