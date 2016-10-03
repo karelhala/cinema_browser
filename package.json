@@ -57,6 +57,7 @@
     "tslint": "3.6.0",
     "tslint-loader": "2.1.1",
     "typescript": "1.8.9",
+    "typings": "^1.4.0",
     "ui-router": "^1.0.0-alpha0",
     "url-loader": "^0.5.7",
     "webpack": "1.12.14"
