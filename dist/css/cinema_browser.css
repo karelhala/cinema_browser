@@ -94,10 +94,15 @@
       padding-left: 10px;
       text-align: center; }
       .table-centered cc-table-record .cc-content .cc-record {
-        margin-top: 10px; }
+        margin-top: 10px;
+        text-align: initial; }
         .table-centered cc-table-record .cc-content .cc-record .cc-movie-info {
           display: inline-block;
-          width: 75%; }
+          margin-left: 15px; }
+          .table-centered cc-table-record .cc-content .cc-record .cc-movie-info p {
+            word-break: normal;
+            margin-bottom: 0;
+            margin-top: 0; }
         .table-centered cc-table-record .cc-content .cc-record .speed-dial {
           display: inline-block; }
         .table-centered cc-table-record .cc-content .cc-record .cc-buttons {
@@ -382,7 +387,7 @@
 
 .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label .div-group speed-dial, .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label .div-group .speed-dial {
   position: absolute;
-  margin-top: -47px;
+  margin-top: -40px;
   right: 0; }
 
 .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label .div-group p {

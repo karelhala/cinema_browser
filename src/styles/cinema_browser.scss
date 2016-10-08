@@ -132,10 +132,16 @@
 
       .cc-record {
         margin-top: 10px;
+        text-align: initial;
 
         .cc-movie-info {
           display: inline-block;
-          width: 75%;
+          margin-left: 15px;
+          p {
+            word-break: normal;
+            margin-bottom: 0;
+            margin-top: 0;
+          }
         }
 
         .speed-dial {
