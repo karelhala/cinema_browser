@@ -21,13 +21,13 @@
           </button>
         </div>
         <span class="cc-time">{{oneEntry.tm}}</span>
+        <span class="cc-inline-info cc-tit" ng-if="oneEntry.sb">Tit</span>
+        <span class="cc-inline-info cc-dab" ng-if="oneEntry.db">Dab</span>
+        <span class="cc-inline-info cc-3d" ng-if="oneEntry.td">3D</span>
       </div>
 
       <div class="cc-movie-info">
         <p>{{oneEntry.fn}}</p>
-        <span class="cc-inline-info cc-tit" ng-if="oneEntry.sb">Tit</span>
-        <span class="cc-inline-info cc-dab" ng-if="oneEntry.db">Dab</span>
-        <span class="cc-inline-info cc-3d" ng-if="oneEntry.td">3D</span>
       </div>
     </div>
   </div>
