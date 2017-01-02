@@ -13,18 +13,16 @@ export default class BasicInformationController {
   public minDate: any;
   public maxDate: any;
   /* @ngInject */
-  constructor(private basicInformationLoader: any, private movieLoader: any) {
+  constructor(private basicInformationLoader: any, private movieLoader: any, private $q: any) {
     this.minDate = new Date();
     this.maxDate = moment().add(4, 'day').startOf('day').toDate();
     this.label = 'Kino';
-    this.movieLoader
-      .getMovies()
-      .then(() => this.basicInformationLoader.getCinemas())
-      .then((cinemas) => {
-        this.items = this.movieLoader.filterCinemaData({cinemas: cinemas, movies:  this.movieLoader.allMovies[1]});
-        this.basicInformationLoader.setAllCinemas(this.items);
-        return cinemas;
-      });
+    const movies = this.movieLoader.getMovies();
+    const cinemas = this.basicInformationLoader.getCinemas();
+    this.$q.all([movies, cinemas]).then(responseData => {
+      this.items = this.movieLoader.filterCinemaData({cinemas: responseData[1], movies: responseData[0]});
+      this.basicInformationLoader.setAllCinemas(this.items);
+    });
     this.cinemaDate = this.basicInformationLoader.selectedTime.toDate();
     this.subscribeToInformationLoader();
   }

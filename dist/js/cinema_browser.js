@@ -14476,6 +14476,8 @@
 	        this.Webworker = Webworker;
 	        this.$http = $http;
 	        this.$q = $q;
+	        this.enMoviesUrl = 'http://www.cinemacity.cz/en/upcommingJSON?includeVenueName=true&days=5&showExpired=true';
+	        this.czMoviesUrl = 'http://www.cinemacity.cz/upcommingJSON?includeVenueName=true&days=5&showExpired=true';
 	        this.cinemaWorker = Webworker.create(this.filterCinemaData);
 	    }
 	    MovieLoader.$inject = ["Webworker", "$http", "$q"];
@@ -14487,16 +14489,17 @@
 	    //Use this api to load movie info: http://www.omdbapi.com/t=en_text
 	    MovieLoader.prototype.loadMovies = function () {
 	        var _this = this;
-	        var enMovies = this.$http.get('data/allMovies.json').then(function (responseData) {
-	            return responseData.data;
-	        });
-	        var czMovies = this.$http.get('data/allMoviesCZ.json').then(function (responseData) {
-	            return responseData.data;
-	        });
+	        var enMovies = this.fetchMovies(this.enMoviesUrl);
+	        var czMovies = this.fetchMovies(this.czMoviesUrl);
 	        return this.$q.all([enMovies, czMovies]).then(function (data) {
 	            _this.allMovies = data;
 	            return data[1];
 	        });
+	    };
+	    MovieLoader.prototype.fetchMovies = function (moviesUrl) {
+	        var query = "select * from json where url=\"" + moviesUrl + "\"";
+	        var url = "http://query.yahooapis.com/v1/public/yql?q=" + encodeURIComponent(query) + "&format=json&callback=JSON_CALLBACK";
+	        return this.$http.jsonp(url).then(function (responseData) { return responseData.data.query.results.json; });
 	    };
 	    MovieLoader.prototype.filterMoviesAndSites = function (allCinemas) {
 	        return this.cinemaWorker.run({ cinemas: allCinemas, movies: this.allMovies[1] });
@@ -14504,7 +14507,7 @@
 	    MovieLoader.prototype.filterCinemaData = function (data) {
 	        // importScripts('https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.15.0/lodash.js');
 	        _.each(data.cinemas, function (oneCinema) {
-	            var cinemasMovies = _.filter(data.movies.sites, { si: oneCinema.value })[0];
+	            var cinemasMovies = _.filter(data.movies.sites, { si: oneCinema.value + "" })[0];
 	            cinemasMovies.filtered = _.groupBy(cinemasMovies.pr, function (item) { return item.dt.substr(0, item.dt.indexOf(' ')); });
 	            _.each(cinemasMovies.filtered, function (item, key) {
 	                cinemasMovies.filtered[key] = _.groupBy(item, function (movie) { return movie.tm.substr(0, 2); });
@@ -14541,28 +14544,27 @@
 	var moment = __webpack_require__(10);
 	var BasicInformationController = (function () {
 	    /* @ngInject */
-	    function BasicInformationController(basicInformationLoader, movieLoader) {
+	    function BasicInformationController(basicInformationLoader, movieLoader, $q) {
 	        var _this = this;
 	        this.basicInformationLoader = basicInformationLoader;
 	        this.movieLoader = movieLoader;
+	        this.$q = $q;
 	        this.direction = 'down';
 	        this.activateSelect = false;
 	        this.activateDatePicker = false;
 	        this.minDate = new Date();
 	        this.maxDate = moment().add(4, 'day').startOf('day').toDate();
 	        this.label = 'Kino';
-	        this.movieLoader
-	            .getMovies()
-	            .then(function () { return _this.basicInformationLoader.getCinemas(); })
-	            .then(function (cinemas) {
-	            _this.items = _this.movieLoader.filterCinemaData({ cinemas: cinemas, movies: _this.movieLoader.allMovies[1] });
+	        var movies = this.movieLoader.getMovies();
+	        var cinemas = this.basicInformationLoader.getCinemas();
+	        this.$q.all([movies, cinemas]).then(function (responseData) {
+	            _this.items = _this.movieLoader.filterCinemaData({ cinemas: responseData[1], movies: responseData[0] });
 	            _this.basicInformationLoader.setAllCinemas(_this.items);
-	            return cinemas;
 	        });
 	        this.cinemaDate = this.basicInformationLoader.selectedTime.toDate();
 	        this.subscribeToInformationLoader();
 	    }
-	    BasicInformationController.$inject = ["basicInformationLoader", "movieLoader"];
+	    BasicInformationController.$inject = ["basicInformationLoader", "movieLoader", "$q"];
 	    BasicInformationController.prototype.subscribeToInformationLoader = function () {
 	        var _this = this;
 	        this.basicInformationLoader
