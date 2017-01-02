@@ -15075,7 +15075,6 @@
 	    TimelineEntryController.prototype.showDialog = function (itemData, infoData) {
 	        this.$mdDialog.show({
 	            clickOutsideToClose: true,
-	            fullscreen: true,
 	            template: "<md-dialog aria-label=\"" + itemData.fn + "\">\n                  <form ng-cloak>\n                      <md-toolbar>\n                        <div class=\"md-toolbar-tools\">\n                          <h2>" + itemData.fn + "</h2>\n                          <span flex></span>\n                          <md-button class=\"md-icon-button\" ng-click=\"cancel()\">\n                            <md-icon aria-label=\"Close dialog\">clear</md-icon>\n                          </md-button>\n                        </div>\n                      </md-toolbar>\n                      <md-dialog-content style=\"padding: 10px;\">\n                        <div style=\"display: inline-block\">\n                          <img src=\"" + infoData.movieInfo.img.src + "\">\n                        </div>\n                        <div style=\"display: inline-block; vertical-align: top;\">\n                          <div><span>CSFD: </span><span>" + infoData.movieRating + "</span></div>\n                          <div>\n                            " + infoData.basicData + "\n                          </div>\n                          <div>\n                            <h3>Popis:</h3>\n                            <div style=\"width: 950px;\">\n                              " + infoData.plotInfo.content + "\n                            </div>\n                          </div>\n                        </div>\n                      </md-dialog-content>\n                  </form>\n      </md-dialog>",
 	            controller: function DialogController($scope, $mdDialog) {
 	                $scope.closeDialog = function () {
@@ -15104,9 +15103,15 @@
 	    };
 	    TimelineEntryController.prototype.onInfoClick = function (item) {
 	        var _this = this;
-	        this.movieLoader.getMovieInfo(item.fn).then(function (data) {
-	            _this.showDialog(item, data);
-	        });
+	        if (!item.hasOwnProperty('infoData')) {
+	            this.movieLoader.getMovieInfo(item.fn).then(function (data) {
+	                item.infoData = data;
+	                _this.showDialog(item, data);
+	            });
+	        }
+	        else {
+	            this.showDialog(item, item.infoData);
+	        }
 	    };
 	    TimelineEntryController.prototype.onBuyClick = function (item) {
 	        var buyUrl = "https://sr.cinemacity.cz/SalesCZ/OpenNewSession.aspx?url=default.aspx$key=" + this.selectedCinema.type + "~EC=" + item.pc + "~u=0";
@@ -15677,7 +15682,6 @@
 	    TableRecordController.prototype.showDialog = function (itemData, infoData) {
 	        this.$mdDialog.show({
 	            clickOutsideToClose: true,
-	            fullscreen: true,
 	            template: "<md-dialog aria-label=\"" + itemData.fn + "\">\n                  <form ng-cloak>\n                      <md-toolbar>\n                        <div class=\"md-toolbar-tools\">\n                          <h2>" + itemData.fn + "</h2>\n                          <span flex></span>\n                          <md-button class=\"md-icon-button\" ng-click=\"cancel()\">\n                            <md-icon aria-label=\"Close dialog\">clear</md-icon>\n                          </md-button>\n                        </div>\n                      </md-toolbar>\n                      <md-dialog-content style=\"padding: 10px;\">\n                        <div style=\"display: inline-block\">\n                          <img src=\"" + infoData.movieInfo.img.src + "\">\n                        </div>\n                        <div style=\"display: inline-block; vertical-align: top; width: 90%\">\n                          <div><span>CSFD: </span><span>" + infoData.movieRating + "</span></div>\n                          <div>\n                            " + infoData.basicData + "\n                          </div>\n                          <div>\n                            <h3>Popis:</h3>\n                            <div>\n                              " + infoData.plotInfo.content + "\n                            </div>\n                          </div>\n                        </div>\n                      </md-dialog-content>\n                  </form>\n      </md-dialog>",
 	            controller: function DialogController($scope, $mdDialog) {
 	                $scope.closeDialog = function () {
@@ -15695,9 +15699,15 @@
 	    };
 	    TableRecordController.prototype.onInfoClick = function (item) {
 	        var _this = this;
-	        this.movieLoader.getMovieInfo(item.fn).then(function (data) {
-	            _this.showDialog(item, data);
-	        });
+	        if (!item.hasOwnProperty('infoData')) {
+	            this.movieLoader.getMovieInfo(item.fn).then(function (data) {
+	                item.infoData = data;
+	                _this.showDialog(item, data);
+	            });
+	        }
+	        else {
+	            this.showDialog(item, item.infoData);
+	        }
 	    };
 	    TableRecordController.prototype.onBuyClick = function (item) {
 	        var buyUrl = "https://sr.cinemacity.cz/SalesCZ/OpenNewSession.aspx?url=default.aspx$key=" + this.selectedCinema.type + "~EC=" + item.pc + "~u=0";

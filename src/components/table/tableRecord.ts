@@ -43,7 +43,6 @@ export class TableRecordController {
   public showDialog(itemData, infoData) {
     this.$mdDialog.show({
       clickOutsideToClose: true,
-      fullscreen: true,
       template: `<md-dialog aria-label="${itemData.fn}">
                   <form ng-cloak>
                       <md-toolbar>
@@ -92,9 +91,14 @@ export class TableRecordController {
   }
 
   public onInfoClick(item) {
-    this.movieLoader.getMovieInfo(item.fn).then(data => {
-      this.showDialog(item, data);
-    });
+    if (!item.hasOwnProperty('infoData')) {
+      this.movieLoader.getMovieInfo(item.fn).then(data => {
+        item.infoData = data;
+        this.showDialog(item, data);
+      });
+    } else {
+      this.showDialog(item, item.infoData);
+    }
   }
 
   public onBuyClick(item) {
