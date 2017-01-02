@@ -59,14 +59,14 @@ export class TableRecordController {
                         <div style="display: inline-block">
                           <img src="${infoData.movieInfo.img.src}">
                         </div>
-                        <div style="display: inline-block; vertical-align: top;">
+                        <div style="display: inline-block; vertical-align: top; width: 90%">
                           <div><span>CSFD: </span><span>${infoData.movieRating}</span></div>
                           <div>
                             ${infoData.basicData}
                           </div>
                           <div>
                             <h3>Popis:</h3>
-                            <div style="width: 950px;">
+                            <div>
                               ${infoData.plotInfo.content}
                             </div>
                           </div>
