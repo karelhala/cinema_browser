@@ -30,7 +30,7 @@ export default class MovieLoader {
 
   private fetchMovies(moviesUrl) {
     let query = `select * from json where url="${moviesUrl}"`;
-    let url = `http://query.yahooapis.com/v1/public/yql?q=${encodeURIComponent(query)}&format=json&callback=JSON_CALLBACK`;
+    let url = `https://query.yahooapis.com/v1/public/yql?q=${encodeURIComponent(query)}&format=json&callback=JSON_CALLBACK`;
     return this.$http.jsonp(url).then(responseData => responseData.data.query.results.json);
   }
 

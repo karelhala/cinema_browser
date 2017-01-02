@@ -14498,7 +14498,7 @@
 	    };
 	    MovieLoader.prototype.fetchMovies = function (moviesUrl) {
 	        var query = "select * from json where url=\"" + moviesUrl + "\"";
-	        var url = "http://query.yahooapis.com/v1/public/yql?q=" + encodeURIComponent(query) + "&format=json&callback=JSON_CALLBACK";
+	        var url = "https://query.yahooapis.com/v1/public/yql?q=" + encodeURIComponent(query) + "&format=json&callback=JSON_CALLBACK";
 	        return this.$http.jsonp(url).then(function (responseData) { return responseData.data.query.results.json; });
 	    };
 	    MovieLoader.prototype.filterMoviesAndSites = function (allCinemas) {
