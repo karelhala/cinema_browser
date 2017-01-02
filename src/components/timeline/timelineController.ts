@@ -6,11 +6,11 @@ export default class TimelineController {
   private container: any;
   private static get offset() {return 100;};
 
+  /* @ngInject */
   constructor(private timelineLoader: any,
               public basicInformationLoader: any,
               private $window: any,
               private $scope: any) {
-    console.log(this);
     this.container = angular.element(document.getElementById('content-container'));
     this.container.on('scroll', () => {
       this.showVisible();

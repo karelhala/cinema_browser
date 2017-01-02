@@ -9,7 +9,8 @@ export class TableRecordController {
   public speedDialOptions: any[];
   public selectedCinema: any;
 
-  constructor() {
+  /* @ngInject */
+  constructor(private movieLoader: any, public $mdDialog: any) {
     this.initOptions();
   }
 
@@ -39,13 +40,61 @@ export class TableRecordController {
     ];
   }
 
+  public showDialog(itemData, infoData) {
+    this.$mdDialog.show({
+      clickOutsideToClose: true,
+      fullscreen: true,
+      template: `<md-dialog aria-label="${itemData.fn}">
+                  <form ng-cloak>
+                      <md-toolbar>
+                        <div class="md-toolbar-tools">
+                          <h2>${itemData.fn}</h2>
+                          <span flex></span>
+                          <md-button class="md-icon-button" ng-click="cancel()">
+                            <md-icon aria-label="Close dialog">clear</md-icon>
+                          </md-button>
+                        </div>
+                      </md-toolbar>
+                      <md-dialog-content style="padding: 10px;">
+                        <div style="display: inline-block">
+                          <img src="${infoData.movieInfo.img.src}">
+                        </div>
+                        <div style="display: inline-block; vertical-align: top;">
+                          <div><span>CSFD: </span><span>${infoData.movieRating}</span></div>
+                          <div>
+                            ${infoData.basicData}
+                          </div>
+                          <div>
+                            <h3>Popis:</h3>
+                            <div style="width: 950px;">
+                              ${infoData.plotInfo.content}
+                            </div>
+                          </div>
+                        </div>
+                      </md-dialog-content>
+                  </form>
+      </md-dialog>`,
+      controller: function DialogController($scope, $mdDialog) {
+        $scope.closeDialog = function() {
+          $mdDialog.hide();
+        };
+
+        $scope.cancel = function() {
+          $mdDialog.cancel();
+        };
+      }
+    });
+  }
+
   public onItemClick(item: any, oneEntry) {
     oneEntry.isOpen = !oneEntry.isOpen;
     item.callFn(oneEntry);
   }
 
   public onInfoClick(item) {
-    console.log('info', item);
+    this.movieLoader.getMovieInfo(item.fn).then(data => {
+      this.showDialog(item, data);
+    });
   }
 
   public onBuyClick(item) {

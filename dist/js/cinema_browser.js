@@ -14478,6 +14478,9 @@
 	        this.$q = $q;
 	        this.enMoviesUrl = 'http://www.cinemacity.cz/en/upcommingJSON?includeVenueName=true&days=5&showExpired=true';
 	        this.czMoviesUrl = 'http://www.cinemacity.cz/upcommingJSON?includeVenueName=true&days=5&showExpired=true';
+	        this.searchPath = '//*[@id="search-films"]//li';
+	        this.ratingPath = '//*[@id="rating"]//h2';
+	        this.plotPath = '//*[@id="plots"]/div[2]/ul/li[1]/div[1]';
 	        this.cinemaWorker = Webworker.create(this.filterCinemaData);
 	    }
 	    MovieLoader.$inject = ["Webworker", "$http", "$q"];
@@ -14496,10 +14499,42 @@
 	            return data[1];
 	        });
 	    };
+	    MovieLoader.prototype.getMovieInfo = function (movieName) {
+	        var _this = this;
+	        var query = "select * from html where url='http://www.csfd.cz/hledat/?q=" + encodeURI(movieName) + "' and xpath='" + this.searchPath + "'";
+	        var url = MovieLoader.yahooUrl(query);
+	        return this.$http.jsonp(url).then(function (data) {
+	            var movieInfo = data.data.query.results.li[0].a;
+	            var basicInfo = data.data.query.results.li[0].div.p[0];
+	            var movieRating = _this.fetchMovieRating('http://www.csfd.cz' + movieInfo.href + 'prehled');
+	            var plotInfo = _this.fetchMovieInfo('http://www.csfd.cz' + movieInfo.href + 'prehled');
+	            return _this.$q.all([movieRating, plotInfo]).then(function (dataPayload) {
+	                return {
+	                    movieRating: dataPayload[0],
+	                    plotInfo: dataPayload[1],
+	                    basicData: basicInfo,
+	                    movieInfo: movieInfo
+	                };
+	            });
+	        });
+	    };
+	    MovieLoader.prototype.fetchMovieRating = function (movieUrl) {
+	        var query = "select * from html where url='" + encodeURI(movieUrl) + "' and xpath='" + this.ratingPath + "'";
+	        var url = MovieLoader.yahooUrl(query);
+	        return this.$http.jsonp(url).then(function (data) { return data.data.query.results.h2.content; });
+	    };
+	    MovieLoader.prototype.fetchMovieInfo = function (movieUrl) {
+	        var query = "select * from html where url='" + encodeURI(movieUrl) + "' and xpath='" + this.plotPath + "'";
+	        var url = MovieLoader.yahooUrl(query);
+	        return this.$http.jsonp(url).then(function (data) { return data.data.query.results.div; });
+	    };
 	    MovieLoader.prototype.fetchMovies = function (moviesUrl) {
 	        var query = "select * from json where url=\"" + moviesUrl + "\"";
-	        var url = "https://query.yahooapis.com/v1/public/yql?q=" + encodeURIComponent(query) + "&format=json&callback=JSON_CALLBACK";
+	        var url = MovieLoader.yahooUrl(query);
 	        return this.$http.jsonp(url).then(function (responseData) { return responseData.data.query.results.json; });
+	    };
+	    MovieLoader.yahooUrl = function (q) {
+	        return "https://query.yahooapis.com/v1/public/yql?q=" + encodeURIComponent(q) + "&format=json&callback=JSON_CALLBACK";
 	    };
 	    MovieLoader.prototype.filterMoviesAndSites = function (allCinemas) {
 	        return this.cinemaWorker.run({ cinemas: allCinemas, movies: this.allMovies[1] });
@@ -14507,7 +14542,7 @@
 	    MovieLoader.prototype.filterCinemaData = function (data) {
 	        // importScripts('https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.15.0/lodash.js');
 	        _.each(data.cinemas, function (oneCinema) {
-	            var cinemasMovies = _.filter(data.movies.sites, { si: oneCinema.value + "" })[0];
+	            var cinemasMovies = _.filter(data.movies.sites, { si: oneCinema.value + '' })[0];
 	            cinemasMovies.filtered = _.groupBy(cinemasMovies.pr, function (item) { return item.dt.substr(0, item.dt.indexOf(' ')); });
 	            _.each(cinemasMovies.filtered, function (item, key) {
 	                cinemasMovies.filtered[key] = _.groupBy(item, function (movie) { return movie.tm.substr(0, 2); });
@@ -14867,6 +14902,7 @@
 	///<reference path="../../tsd.d.ts"/>
 	var moment = __webpack_require__(10);
 	var TimelineController = (function () {
+	    /* @ngInject */
 	    function TimelineController(timelineLoader, basicInformationLoader, $window, $scope) {
 	        var _this = this;
 	        this.timelineLoader = timelineLoader;
@@ -14874,7 +14910,6 @@
 	        this.$window = $window;
 	        this.$scope = $scope;
 	        this.entries = [];
-	        console.log(this);
 	        this.container = angular.element(document.getElementById('content-container'));
 	        this.container.on('scroll', function () {
 	            _this.showVisible();
@@ -14884,6 +14919,7 @@
 	        }
 	        this.subscribeToInformationLoader();
 	    }
+	    TimelineController.$inject = ["timelineLoader", "basicInformationLoader", "$window", "$scope"];
 	    Object.defineProperty(TimelineController, "offset", {
 	        get: function () { return 100; },
 	        enumerable: true,
@@ -15003,11 +15039,13 @@
 	"use strict";
 	var TimelineEntryController = (function () {
 	    /* @ngInject */
-	    function TimelineEntryController($window) {
+	    function TimelineEntryController($window, movieLoader, $mdDialog) {
 	        this.$window = $window;
+	        this.movieLoader = movieLoader;
+	        this.$mdDialog = $mdDialog;
 	        this.initOptions();
 	    }
-	    TimelineEntryController.$inject = ["$window"];
+	    TimelineEntryController.$inject = ["$window", "movieLoader", "$mdDialog"];
 	    TimelineEntryController.prototype.initOptions = function () {
 	        var _this = this;
 	        this.speedDialOptions = [
@@ -15034,6 +15072,21 @@
 	            }
 	        ];
 	    };
+	    TimelineEntryController.prototype.showDialog = function (itemData, infoData) {
+	        this.$mdDialog.show({
+	            clickOutsideToClose: true,
+	            fullscreen: true,
+	            template: "<md-dialog aria-label=\"" + itemData.fn + "\">\n                  <form ng-cloak>\n                      <md-toolbar>\n                        <div class=\"md-toolbar-tools\">\n                          <h2>" + itemData.fn + "</h2>\n                          <span flex></span>\n                          <md-button class=\"md-icon-button\" ng-click=\"cancel()\">\n                            <md-icon aria-label=\"Close dialog\">clear</md-icon>\n                          </md-button>\n                        </div>\n                      </md-toolbar>\n                      <md-dialog-content style=\"padding: 10px;\">\n                        <div style=\"display: inline-block\">\n                          <img src=\"" + infoData.movieInfo.img.src + "\">\n                        </div>\n                        <div style=\"display: inline-block; vertical-align: top;\">\n                          <div><span>CSFD: </span><span>" + infoData.movieRating + "</span></div>\n                          <div>\n                            " + infoData.basicData + "\n                          </div>\n                          <div>\n                            <h3>Popis:</h3>\n                            <div style=\"width: 950px;\">\n                              " + infoData.plotInfo.content + "\n                            </div>\n                          </div>\n                        </div>\n                      </md-dialog-content>\n                  </form>\n      </md-dialog>",
+	            controller: function DialogController($scope, $mdDialog) {
+	                $scope.closeDialog = function () {
+	                    $mdDialog.hide();
+	                };
+	                $scope.cancel = function () {
+	                    $mdDialog.cancel();
+	                };
+	            }
+	        });
+	    };
 	    TimelineEntryController.prototype.getCurrentClasses = function () {
 	        return {
 	            'left-aligned': this.isLeft && this.$window.innerWidth > 960
@@ -15050,7 +15103,10 @@
 	        item.callFn(oneEntry);
 	    };
 	    TimelineEntryController.prototype.onInfoClick = function (item) {
-	        console.log('info', item);
+	        var _this = this;
+	        this.movieLoader.getMovieInfo(item.fn).then(function (data) {
+	            _this.showDialog(item, data);
+	        });
 	    };
 	    TimelineEntryController.prototype.onBuyClick = function (item) {
 	        var buyUrl = "https://sr.cinemacity.cz/SalesCZ/OpenNewSession.aspx?url=default.aspx$key=" + this.selectedCinema.type + "~EC=" + item.pc + "~u=0";
@@ -15585,9 +15641,13 @@
 	 * @name tableRecordController
 	 */
 	var TableRecordController = (function () {
-	    function TableRecordController() {
+	    /* @ngInject */
+	    function TableRecordController(movieLoader, $mdDialog) {
+	        this.movieLoader = movieLoader;
+	        this.$mdDialog = $mdDialog;
 	        this.initOptions();
 	    }
+	    TableRecordController.$inject = ["movieLoader", "$mdDialog"];
 	    TableRecordController.prototype.initOptions = function () {
 	        var _this = this;
 	        this.speedDialOptions = [
@@ -15614,12 +15674,30 @@
 	            }
 	        ];
 	    };
+	    TableRecordController.prototype.showDialog = function (itemData, infoData) {
+	        this.$mdDialog.show({
+	            clickOutsideToClose: true,
+	            fullscreen: true,
+	            template: "<md-dialog aria-label=\"" + itemData.fn + "\">\n                  <form ng-cloak>\n                      <md-toolbar>\n                        <div class=\"md-toolbar-tools\">\n                          <h2>" + itemData.fn + "</h2>\n                          <span flex></span>\n                          <md-button class=\"md-icon-button\" ng-click=\"cancel()\">\n                            <md-icon aria-label=\"Close dialog\">clear</md-icon>\n                          </md-button>\n                        </div>\n                      </md-toolbar>\n                      <md-dialog-content style=\"padding: 10px;\">\n                        <div style=\"display: inline-block\">\n                          <img src=\"" + infoData.movieInfo.img.src + "\">\n                        </div>\n                        <div style=\"display: inline-block; vertical-align: top;\">\n                          <div><span>CSFD: </span><span>" + infoData.movieRating + "</span></div>\n                          <div>\n                            " + infoData.basicData + "\n                          </div>\n                          <div>\n                            <h3>Popis:</h3>\n                            <div style=\"width: 950px;\">\n                              " + infoData.plotInfo.content + "\n                            </div>\n                          </div>\n                        </div>\n                      </md-dialog-content>\n                  </form>\n      </md-dialog>",
+	            controller: function DialogController($scope, $mdDialog) {
+	                $scope.closeDialog = function () {
+	                    $mdDialog.hide();
+	                };
+	                $scope.cancel = function () {
+	                    $mdDialog.cancel();
+	                };
+	            }
+	        });
+	    };
 	    TableRecordController.prototype.onItemClick = function (item, oneEntry) {
 	        oneEntry.isOpen = !oneEntry.isOpen;
 	        item.callFn(oneEntry);
 	    };
 	    TableRecordController.prototype.onInfoClick = function (item) {
-	        console.log('info', item);
+	        var _this = this;
+	        this.movieLoader.getMovieInfo(item.fn).then(function (data) {
+	            _this.showDialog(item, data);
+	        });
 	    };
 	    TableRecordController.prototype.onBuyClick = function (item) {
 	        var buyUrl = "https://sr.cinemacity.cz/SalesCZ/OpenNewSession.aspx?url=default.aspx$key=" + this.selectedCinema.type + "~EC=" + item.pc + "~u=0";
