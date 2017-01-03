@@ -12,4 +12,4 @@ export default (module: ng.IModule) => {
       return m.isValid() ? m.toDate() : new Date(NaN);
     };
   });
-}
+};

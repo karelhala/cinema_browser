@@ -30,5 +30,5 @@ export default class TriggerDirective implements ng.IDirective {
     let directive: ng.IDirectiveFactory = () => new TriggerDirective();
     directive.$inject = [];
     return directive;
-  };
+  }
 }

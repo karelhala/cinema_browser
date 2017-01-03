@@ -30,4 +30,4 @@ export default (module: ng.IModule) => {
     .run(($state) => {
       $state.go('home');
     });
-}
+};

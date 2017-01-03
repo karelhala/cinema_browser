@@ -1,4 +1,5 @@
 ///<reference path="../../tsd.d.ts"/>
+import * as _ from 'lodash';
 import * as moment from 'moment';
 export default class TimelineController {
   public entries: any[] = [];

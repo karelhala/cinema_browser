@@ -40,8 +40,7 @@ export default class BasicGraphDirective implements ng.IDirective {
         scope.chart.transform(controller.type);
       }
     });
-    //console.log(element);
-  };
+  }
 
   public static Factory = () => {
     let directive = () => new BasicGraphDirective();
@@ -49,5 +48,5 @@ export default class BasicGraphDirective implements ng.IDirective {
     directive.$inject = [];
 
     return directive;
-  };
+  }
 }

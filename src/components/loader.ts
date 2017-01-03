@@ -20,4 +20,4 @@ export default (module: ng.IModule) => {
   dateChoosers(module);
   module.directive('ccTrigger', TriggerDirective.Factory());
   module.component('ccHomeContent', new HomeContent);
-}
+};

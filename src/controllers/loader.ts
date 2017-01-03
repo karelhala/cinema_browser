@@ -3,4 +3,4 @@ import BasicInformationController from './basicInformationControler';
 
 export default (module: ng.IModule) => {
   module.controller('basicInformationController', BasicInformationController);
-}
+};

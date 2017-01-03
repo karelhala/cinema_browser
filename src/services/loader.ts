@@ -13,4 +13,4 @@ export default (module: ng.IModule) => {
   module.service('jobsLoader', JobsLoader);
   module.service('schoolLoader', SchoolLoader);
   module.service('movieLoader', MovieLoader);
-}
+};

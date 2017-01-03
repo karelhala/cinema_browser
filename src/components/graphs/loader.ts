@@ -8,4 +8,4 @@ export default (module: ng.IModule) => {
   module.directive('basicGraph', BasicGraphDirective.Factory());
   module.component('workTile', new GraphTileComponent(WorkTileController));
   module.component('schoolTile', new GraphTileComponent(SchoolTileController));
-}
+};

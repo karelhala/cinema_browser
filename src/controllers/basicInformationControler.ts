@@ -2,7 +2,6 @@
 import * as moment from 'moment';
 
 export default class BasicInformationController {
-  private personData: any;
   public direction: string = 'down';
   public label: string;
   public items: any[];
@@ -12,6 +11,7 @@ export default class BasicInformationController {
   public activateDatePicker: boolean = false;
   public minDate: any;
   public maxDate: any;
+
   /* @ngInject */
   constructor(private basicInformationLoader: any, private movieLoader: any, private $q: any) {
     this.minDate = new Date();
@@ -89,4 +89,3 @@ export default class BasicInformationController {
     this.basicInformationLoader.sendNext({clicked: 'date'});
   }
 }
-

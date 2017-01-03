@@ -1,4 +1,5 @@
 ///<reference path="../../tsd.d.ts"/>
+import * as _ from 'lodash';
 class SelectController {
   public selectItems: any[];
   public label: any[];
@@ -27,5 +28,5 @@ export default class SelectComponent implements ng.IDirective {
     let directive: ng.IDirectiveFactory = () => new SelectComponent();
     directive.$inject = [];
     return directive;
-  };
+  }
 }

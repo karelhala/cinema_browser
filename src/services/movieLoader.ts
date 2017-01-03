@@ -1,4 +1,5 @@
 ///<reference path="../tsd.d.ts"/>
+import * as _ from 'lodash';
 import * as moment from 'moment';
 
 export default class MovieLoader {
@@ -21,8 +22,6 @@ export default class MovieLoader {
     });
   }
 
-  //Use this api to load movie info: http://www.omdbapi.com/t=en_text
-
   private loadMovies() {
     const enMovies = this.fetchMovies(this.enMoviesUrl);
     const czMovies = this.fetchMovies(this.czMoviesUrl);
@@ -33,7 +32,7 @@ export default class MovieLoader {
   }
 
   public getMovieInfo(movieName) {
-    let query = `select * from html where url='http://www.csfd.cz/hledat/?q=${encodeURI(movieName)}' and xpath='${this.searchPath}'`;
+    let query = MovieLoader.yahooQuery(`http://www.csfd.cz/hledat/?q=${movieName}`, this.searchPath);
     let url = MovieLoader.yahooUrl(query);
     return this.$http.jsonp(url).then(data => {
       let movieInfo = data.data.query.results.li[0].a;
@@ -52,13 +51,13 @@ export default class MovieLoader {
   }
 
   private fetchMovieRating(movieUrl) {
-    let query = `select * from html where url='${encodeURI(movieUrl)}' and xpath='${this.ratingPath}'`;
+    let query = MovieLoader.yahooQuery(movieUrl, this.ratingPath);
     let url = MovieLoader.yahooUrl(query);
     return this.$http.jsonp(url).then(data => data.data.query.results.h2.content);
   }
 
   private fetchMovieInfo(movieUrl) {
-    let query = `select * from html where url='${encodeURI(movieUrl)}' and xpath='${this.plotPath}'`;
+    let query = MovieLoader.yahooQuery(movieUrl, this.plotPath);
     let url = MovieLoader.yahooUrl(query);
     return this.$http.jsonp(url).then(data => data.data.query.results.div);
   }
@@ -73,20 +72,36 @@ export default class MovieLoader {
     return `https://query.yahooapis.com/v1/public/yql?q=${encodeURIComponent(q)}&format=json&callback=JSON_CALLBACK`;
   }
 
+  private static yahooQuery(url, xpath) {
+    return `select * from html where url='${encodeURI(url)}' and xpath='${xpath}'`;
+
+  }
+
   public filterMoviesAndSites(allCinemas) {
     return this.cinemaWorker.run({cinemas: allCinemas, movies: this.allMovies[1]});
   }
 
   public filterCinemaData(data: any) {
-    // importScripts('https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.15.0/lodash.js');
-    _.each(data.cinemas, (oneCinema: any) => {
-      let cinemasMovies: any = _.filter(data.movies.sites, {si: oneCinema.value + ''})[0];
-      cinemasMovies.filtered = _.groupBy(cinemasMovies.pr, (item: any) => item.dt.substr(0, item.dt.indexOf(' ')));
-      _.each(cinemasMovies.filtered, (item, key) => {
-        cinemasMovies.filtered[key] = _.groupBy(item, (movie: any) => {return movie.tm.substr(0,2);});
+    return data.cinemas
+      .map(oneCinema => {
+        return {movies: MovieLoader.filterMovieSites(data.movies, oneCinema), ...oneCinema};
       });
-      oneCinema.movies = cinemasMovies;
-    });
-    return data.cinemas;
+  }
+
+  private static filterMovieSites(movies, oneCinema): any {
+    return _
+      .chain(movies.sites)
+      .filter(oneSite => oneSite.si === oneCinema.value + '')
+      .reduce((result, site: any) => {
+        return {filtered: MovieLoader.groupByDateTime(site.pr), ...site};
+      }, {}).value();
+  }
+
+  private static groupByDateTime(screenings) {
+    return _
+      .chain(screenings)
+      .groupBy((item: any) => item.dt.substr(0, item.dt.indexOf(' '))) //will group by date
+      .mapValues(itemValues => _.groupBy(itemValues, ((movie: any) => movie.tm.substr(0,2)))) // will group by time
+      .value();
   }
 }
