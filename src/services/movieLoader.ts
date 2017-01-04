@@ -1,9 +1,7 @@
 ///<reference path="../tsd.d.ts"/>
 import * as _ from 'lodash';
-import * as moment from 'moment';
 
 export default class MovieLoader {
-  private cinemaWorker: any;
   public allMovies: any;
   private enMoviesUrl = 'http://www.cinemacity.cz/en/upcommingJSON?includeVenueName=true&days=5&showExpired=true';
   private czMoviesUrl = 'http://www.cinemacity.cz/upcommingJSON?includeVenueName=true&days=5&showExpired=true';
@@ -12,8 +10,7 @@ export default class MovieLoader {
   private plotPath = '//*[@id="plots"]/div[2]/ul/li[1]/div[1]';
 
   /* @ngInject */
-  constructor(private Webworker: any, private $http: any, private $q: any) {
-    this.cinemaWorker = Webworker.create(this.filterCinemaData);
+  constructor(private $http: any, private $q: any) {
   }
 
   public getMovies() {
@@ -75,10 +72,6 @@ export default class MovieLoader {
   private static yahooQuery(url, xpath) {
     return `select * from html where url='${encodeURI(url)}' and xpath='${xpath}'`;
 
-  }
-
-  public filterMoviesAndSites(allCinemas) {
-    return this.cinemaWorker.run({cinemas: allCinemas, movies: this.allMovies[1]});
   }
 
   public filterCinemaData(data: any) {
