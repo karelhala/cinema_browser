@@ -5,7 +5,7 @@ import services from './services/loader';
 import controllers from './controllers/loader';
 import components from './components/loader';
 
-let app = angular.module('karelHalaCV', ['ngMaterial', 'ngMdIcons', 'ui.router', 'ngAnimate', 'ngSanitize']);
+let app = angular.module('karelHalaCV', ['ngMaterial', 'ngMdIcons', 'ui.router', 'ngAnimate']);
 routeConfig(app);
 dateConfig(app);
 services(app);

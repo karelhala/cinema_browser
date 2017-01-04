@@ -29,7 +29,7 @@ export default class BasicInformationLoader {
   }
 
   public sendNext(data) {
-    this.informationSubject.onNext(data);
+    this.informationSubject.next(data);
   }
 
   public setAllCinemas(allCinemas) {

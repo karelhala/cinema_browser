@@ -3,6 +3,7 @@ import * as _ from 'lodash';
 
 export default class MovieLoader {
   public allMovies: any;
+  private moviePromise;
   private enMoviesUrl = 'http://www.cinemacity.cz/en/upcommingJSON?includeVenueName=true&days=5&showExpired=true';
   private czMoviesUrl = 'http://www.cinemacity.cz/upcommingJSON?includeVenueName=true&days=5&showExpired=true';
   private searchPath = '//*[@id="search-films"]//li';
@@ -14,17 +15,18 @@ export default class MovieLoader {
   }
 
   public getMovies() {
-    return this.loadMovies().then((allMovies) => {
-      return allMovies;
-    });
+    if (!this.moviePromise) {
+      this.moviePromise = this.loadMovies().then((allMovies) => {
+        return allMovies;
+      });
+    }
+    return this.moviePromise;
   }
 
   private loadMovies() {
-    const enMovies = this.fetchMovies(this.enMoviesUrl);
-    const czMovies = this.fetchMovies(this.czMoviesUrl);
-    return this.$q.all([enMovies, czMovies]).then((data) => {
+    return this.fetchMovies(this.czMoviesUrl).then(data => {
       this.allMovies = data;
-      return data[1];
+      return data;
     });
   }
 

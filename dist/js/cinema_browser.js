@@ -69,7 +69,7 @@
 	var loader_1 = __webpack_require__(11);
 	var loader_2 = __webpack_require__(19);
 	var loader_3 = __webpack_require__(21);
-	var app = angular.module('karelHalaCV', ['ngMaterial', 'ngMdIcons', 'ui.router', 'ngAnimate', 'ngSanitize']);
+	var app = angular.module('karelHalaCV', ['ngMaterial', 'ngMdIcons', 'ui.router', 'ngAnimate']);
 	routeConfig_1.default(app);
 	dateConfig_1.default(app);
 	loader_1.default(app);
@@ -210,7 +210,7 @@
 	        });
 	    };
 	    BasicInformationLoader.prototype.sendNext = function (data) {
-	        this.informationSubject.onNext(data);
+	        this.informationSubject.next(data);
 	    };
 	    BasicInformationLoader.prototype.setAllCinemas = function (allCinemas) {
 	        this.allCinemas = allCinemas;
@@ -449,17 +449,18 @@
 	        this.plotPath = '//*[@id="plots"]/div[2]/ul/li[1]/div[1]';
 	    }
 	    MovieLoader.prototype.getMovies = function () {
-	        return this.loadMovies().then(function (allMovies) {
-	            return allMovies;
-	        });
+	        if (!this.moviePromise) {
+	            this.moviePromise = this.loadMovies().then(function (allMovies) {
+	                return allMovies;
+	            });
+	        }
+	        return this.moviePromise;
 	    };
 	    MovieLoader.prototype.loadMovies = function () {
 	        var _this = this;
-	        var enMovies = this.fetchMovies(this.enMoviesUrl);
-	        var czMovies = this.fetchMovies(this.czMoviesUrl);
-	        return this.$q.all([enMovies, czMovies]).then(function (data) {
+	        return this.fetchMovies(this.czMoviesUrl).then(function (data) {
 	            _this.allMovies = data;
-	            return data[1];
+	            return data;
 	        });
 	    };
 	    MovieLoader.prototype.getMovieInfo = function (movieName) {
@@ -1056,14 +1057,14 @@
 	        this.$mdDialog.show({
 	            clickOutsideToClose: true,
 	            template: "<md-dialog aria-label=\"" + itemData.fn + "\">\n                  <form ng-cloak>\n                      <md-toolbar>\n                        <div class=\"md-toolbar-tools\">\n                          <h2>" + itemData.fn + "</h2>\n                          <span flex></span>\n                          <md-button class=\"md-icon-button\" ng-click=\"cancel()\">\n                            <md-icon aria-label=\"Close dialog\">clear</md-icon>\n                          </md-button>\n                        </div>\n                      </md-toolbar>\n                      <md-dialog-content style=\"padding: 10px;\">\n                        <div style=\"display: inline-block\">\n                          <img src=\"" + infoData.movieInfo.img.src + "\">\n                        </div>\n                        <div style=\"display: inline-block; vertical-align: top;\">\n                          <div><span>CSFD: </span><span>" + infoData.movieRating + "</span></div>\n                          <div>\n                            " + infoData.basicData + "\n                          </div>\n                          <div>\n                            <h3>Popis:</h3>\n                            <div style=\"width: 950px;\">\n                              " + infoData.plotInfo.content + "\n                            </div>\n                          </div>\n                        </div>\n                      </md-dialog-content>\n                  </form>\n      </md-dialog>",
-	            controller: function DialogController($scope, $mdDialog) {
-	                $scope.closeDialog = function () {
-	                    $mdDialog.hide();
-	                };
-	                $scope.cancel = function () {
-	                    $mdDialog.cancel();
-	                };
-	            }
+	            controller: ['$scope', '$mdDialog', function DialogController($scope, $mdDialog) {
+	                    $scope.closeDialog = function () {
+	                        $mdDialog.hide();
+	                    };
+	                    $scope.cancel = function () {
+	                        $mdDialog.cancel();
+	                    };
+	                }]
 	        });
 	    };
 	    TimelineEntryController.prototype.getCurrentClasses = function () {
@@ -1663,14 +1664,14 @@
 	        this.$mdDialog.show({
 	            clickOutsideToClose: true,
 	            template: "<md-dialog aria-label=\"" + itemData.fn + "\">\n                  <form ng-cloak>\n                      <md-toolbar>\n                        <div class=\"md-toolbar-tools\">\n                          <h2>" + itemData.fn + "</h2>\n                          <span flex></span>\n                          <md-button class=\"md-icon-button\" ng-click=\"cancel()\">\n                            <md-icon aria-label=\"Close dialog\">clear</md-icon>\n                          </md-button>\n                        </div>\n                      </md-toolbar>\n                      <md-dialog-content style=\"padding: 10px;\">\n                        <div style=\"display: inline-block\">\n                          <img src=\"" + infoData.movieInfo.img.src + "\">\n                        </div>\n                        <div style=\"display: inline-block; vertical-align: top; width: 90%\">\n                          <div><span>CSFD: </span><span>" + infoData.movieRating + "</span></div>\n                          <div>\n                            " + infoData.basicData + "\n                          </div>\n                          <div>\n                            <h3>Popis:</h3>\n                            <div>\n                              " + infoData.plotInfo.content + "\n                            </div>\n                          </div>\n                        </div>\n                      </md-dialog-content>\n                  </form>\n      </md-dialog>",
-	            controller: function DialogController($scope, $mdDialog) {
-	                $scope.closeDialog = function () {
-	                    $mdDialog.hide();
-	                };
-	                $scope.cancel = function () {
-	                    $mdDialog.cancel();
-	                };
-	            }
+	            controller: ['$scope', '$mdDialog', function DialogController($scope, $mdDialog) {
+	                    $scope.closeDialog = function () {
+	                        $mdDialog.hide();
+	                    };
+	                    $scope.cancel = function () {
+	                        $mdDialog.cancel();
+	                    };
+	                }]
 	        });
 	    };
 	    TableRecordController.prototype.onItemClick = function (item, oneEntry) {
@@ -1921,6 +1922,8 @@
 	"use strict";
 	///<reference path="../tsd.d.ts"/>
 	var TriggerLink = (function () {
+	    /* @ngInject */
+	    TriggerLink.$inject = ["scope", "element"];
 	    function TriggerLink(scope, element) {
 	        scope.$watch('activate', function (isActive) {
 	            if (isActive) {

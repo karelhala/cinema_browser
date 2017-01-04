@@ -71,7 +71,7 @@ export default class TimelineEntryController {
                       </md-dialog-content>
                   </form>
       </md-dialog>`,
-      controller: function DialogController($scope, $mdDialog) {
+      controller: ['$scope', '$mdDialog', function DialogController($scope, $mdDialog) {
         $scope.closeDialog = function() {
           $mdDialog.hide();
         };
@@ -79,7 +79,7 @@ export default class TimelineEntryController {
         $scope.cancel = function() {
           $mdDialog.cancel();
         };
-      }
+      }]
     });
   }
 

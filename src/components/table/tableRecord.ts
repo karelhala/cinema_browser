@@ -73,7 +73,7 @@ export class TableRecordController {
                       </md-dialog-content>
                   </form>
       </md-dialog>`,
-      controller: function DialogController($scope, $mdDialog) {
+      controller: ['$scope', '$mdDialog', function DialogController($scope, $mdDialog) {
         $scope.closeDialog = function() {
           $mdDialog.hide();
         };
@@ -81,7 +81,7 @@ export class TableRecordController {
         $scope.cancel = function() {
           $mdDialog.cancel();
         };
-      }
+      }]
     });
   }
 

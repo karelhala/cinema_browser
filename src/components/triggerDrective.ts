@@ -1,5 +1,6 @@
 ///<reference path="../tsd.d.ts"/>
 class TriggerLink {
+  /* @ngInject */
   constructor(scope, element) {
     scope.$watch('activate', (isActive) => {
       if (isActive) {
