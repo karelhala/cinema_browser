@@ -5,28 +5,25 @@ export default (module: ng.IModule) => {
   .config(($stateProvider, $locationProvider, $urlRouterProvider) => {
     $stateProvider.state({
       name: 'home',
-      views: {
-        toolbar: {
-          template: require<string>('../views/home_toolbar.html'),
-          controller: 'basicInformationController as basic'
-        },
-        content: {
-          template: require<string>('../views/home_content.html')
-        }
-      }
+      template: require<string>('../views/home_content.html'),
+      controller: 'basicInformationController as basic'
     })
-    .state('home.timeline', {
+    .state({
+      name: 'cinema',
+      template: require<string>('../views/cinema_content.html'),
+    })
+    .state('cinema.timeline', {
       template: `<timeline></timeline>`
     })
-    .state('home.table', {
+    .state('cinema.table', {
       template: `<cc-table></cc-table>`
     });
     $urlRouterProvider.otherwise('/');
     $locationProvider.html5Mode({
-      enabled: false,
-      requireBase: false
-    });
-  })
+        enabled: false,
+        requireBase: false
+      });
+    })
     .run(($state) => {
       $state.go('home');
     });

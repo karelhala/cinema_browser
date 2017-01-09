@@ -69,7 +69,7 @@
 	var loader_1 = __webpack_require__(11);
 	var loader_2 = __webpack_require__(19);
 	var loader_3 = __webpack_require__(21);
-	var app = angular.module('karelHalaCV', ['ngMaterial', 'ngMdIcons', 'ui.router', 'ngAnimate']);
+	var app = angular.module('karelHalaCV', ['ngMaterial', 'ngMdIcons', 'ui.router', 'ngAnimate', 'angular.filter']);
 	routeConfig_1.default(app);
 	dateConfig_1.default(app);
 	loader_1.default(app);
@@ -89,20 +89,17 @@
 	        .config(["$stateProvider", "$locationProvider", "$urlRouterProvider", function ($stateProvider, $locationProvider, $urlRouterProvider) {
 	        $stateProvider.state({
 	            name: 'home',
-	            views: {
-	                toolbar: {
-	                    template: __webpack_require__(7),
-	                    controller: 'basicInformationController as basic'
-	                },
-	                content: {
-	                    template: __webpack_require__(8)
-	                }
-	            }
+	            template: __webpack_require__(8),
+	            controller: 'basicInformationController as basic'
 	        })
-	            .state('home.timeline', {
+	            .state({
+	            name: 'cinema',
+	            template: __webpack_require__(65),
+	        })
+	            .state('cinema.timeline', {
 	            template: "<timeline></timeline>"
 	        })
-	            .state('home.table', {
+	            .state('cinema.table', {
 	            template: "<cc-table></cc-table>"
 	        });
 	        $urlRouterProvider.otherwise('/');
@@ -118,16 +115,11 @@
 
 
 /***/ },
-/* 7 */
-/***/ function(module, exports) {
-
-	module.exports = "<div ng-controller=\"basicInformationController as basic\">\n  <div class=\"md-toolbar-tools\" layout=\"row\" layout-align=\"center center\" >\n    <cc-trigger activate=\"basic.activateDatePicker\"\n                event-name=\"click\"\n                element-name=\"button\">\n      <md-datepicker\n        ng-model=\"basic.cinemaDate\"\n        md-placeholder=\"Enter date\"\n        class=\"cc-toolbar-item cc-datepicker\"\n        md-min-date=\"basic.minDate\"\n        md-max-date=\"basic.maxDate\"\n        md-open-on-focus\n        ng-change=\"basic.dateChanged()\">\n      </md-datepicker>\n    </cc-trigger>\n\n    <cc-select\n      select-items=\"basic.items\"\n      label=\"basic.label\"\n      on-change=\"basic.onCinemaSelect(item)\"\n      class=\"cc-toolbar-item\"\n      cc-trigger\n      activate=\"basic.activateSelect\"\n      event-name=\"click\"\n      element-name=\"md-select\"\n    ></cc-select>\n  </div>\n</div>\n"
-
-/***/ },
+/* 7 */,
 /* 8 */
 /***/ function(module, exports) {
 
-	module.exports = "<div>\n  <div class=\"md-whiteframe-3dp cv-content cv-date-choose\" id=\"selected-date\" layout=\"column\" layout-align=\"center center\">\n    <cc-date-chooser></cc-date-chooser>\n  </div>\n  <div class=\"md-whiteframe-3dp cv-content cc-selected\"\n       id=\"selected-data\"\n       layout=\"row\"\n       layout-align=\"center center\"\n       ng-controller=\"basicInformationController as basic\">\n    <h1>Zobrazuji filmy v kině\n      <a ng-click=\"basic.onCinemaClicked()\">{{basic.getSelectedItem()? basic.getSelectedItem().text : 'vše'}}</a>,\n      pro datum <a ng-click=\"basic.onDateClicked()\">{{basic.getSelectedDate() ? basic.getSelectedDate() : 'vše'}}</a></h1>\n  </div>\n  <cc-movie-search></cc-movie-search>\n  <div class=\"md-whiteframe-3dp cv-content cv-timeline-trend\" id=\"timeline-trend\" layout=\"column\">\n    <cc-home-content></cc-home-content>\n  </div>\n</div>\n"
+	module.exports = "<div class=\"md-whiteframe-3dp cinema-selector\">\n  <md-grid-list\n    md-cols-xs=\"1\" md-cols-sm=\"2\"\n    md-cols-md=\"3\" md-cols-gt-md=\"4\"\n    md-gutter=\"8px\" md-gutter-gt-sm=\"4px\"\n    md-row-height=\"40px\">\n    <md-grid-tile ng-repeat=\"(key, item) in basic.groupedItems\"\n                  md-rowspan=\"{{item.length + 1}}\"\n                  md-colspan-sm=\"1\"\n                  md-colspan-xs=\"1\">\n      <cc-locator items=\"item\" location=\"key\" on-cinema-selected=\"basic.onCinemaSelect(item)\"></cc-locator>\n    </md-grid-tile>\n  </md-grid-list>\n</div>\n"
 
 /***/ },
 /* 9 */
@@ -556,6 +548,7 @@
 	"use strict";
 	///<reference path="../tsd.d.ts"/>
 	var moment = __webpack_require__(10);
+	var _ = __webpack_require__(18);
 	var BasicInformationController = (function () {
 	    /* @ngInject */
 	    BasicInformationController.$inject = ["basicInformationLoader", "movieLoader", "$q"];
@@ -574,6 +567,7 @@
 	        var cinemas = this.basicInformationLoader.getCinemas();
 	        this.$q.all([movies, cinemas]).then(function (responseData) {
 	            _this.items = _this.movieLoader.filterCinemaData({ cinemas: responseData[1], movies: responseData[0] });
+	            _this.groupedItems = _.groupBy(_this.items, 'location');
 	            _this.basicInformationLoader.setAllCinemas(_this.items);
 	        });
 	        this.cinemaDate = this.basicInformationLoader.selectedTime.toDate();
@@ -651,6 +645,8 @@
 	var loader_7 = __webpack_require__(57);
 	var homeContent_1 = __webpack_require__(60);
 	var triggerDrective_1 = __webpack_require__(62);
+	var toolbarComponent_1 = __webpack_require__(66);
+	var cinemaLocator_1 = __webpack_require__(70);
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = function (module) {
 	    loader_7.default(module);
@@ -662,6 +658,8 @@
 	    loader_5.default(module);
 	    module.directive('ccTrigger', triggerDrective_1.default.Factory());
 	    module.component('ccHomeContent', new homeContent_1.default);
+	    module.component('ccToolbar', new toolbarComponent_1.default);
+	    module.component('ccLocator', new cinemaLocator_1.default);
 	};
 
 
@@ -801,6 +799,7 @@
 	var _ = __webpack_require__(18);
 	var SelectController = (function () {
 	    function SelectController() {
+	        console.log(this);
 	    }
 	    SelectController.prototype.ctrlGetSelected = function () {
 	        this.onChange({
@@ -818,6 +817,7 @@
 	        this.bindToController = {
 	            selectItems: '<',
 	            label: '<',
+	            active: '<',
 	            onChange: '&'
 	        };
 	    }
@@ -836,7 +836,7 @@
 /* 30 */
 /***/ function(module, exports) {
 
-	module.exports = "<md-input-container>\n  <label>{{ctrl.label}}</label>\n  <md-select ng-model=\"ctrl.selectedCinema\" ng-change=\"ctrl.ctrlGetSelected()\">\n    <md-option ng-repeat=\"item in ctrl.selectItems\" value=\"{{item.text}}\">\n      {{item.text}}\n    </md-option>\n  </md-select>\n</md-input-container>\n"
+	module.exports = "<md-input-container>\n  <label>{{ctrl.label}}</label>\n  <md-select ng-model=\"ctrl.selectedCinema\" ng-change=\"ctrl.ctrlGetSelected()\">\n    <md-option ng-repeat=\"item in ctrl.selectItems\" ng-value=\"item.text\">\n      {{item.text}}\n    </md-option>\n  </md-select>\n</md-input-container>\n"
 
 /***/ },
 /* 31 */
@@ -1853,12 +1853,12 @@
 	    function HomeContentController($state, $window) {
 	        this.$state = $state;
 	        this.$window = $window;
+	        location.hash = '#timeline-trend';
 	        this.initViews();
 	        if (this.$window.innerWidth < 680) {
 	            this.currentView = this.allViews[0];
 	            this.$state.transitionTo(this.currentView.route);
 	            this.allViews.splice(1, 1);
-	            console.log(this);
 	        }
 	        else {
 	            this.currentView = this.allViews[1];
@@ -1869,12 +1869,12 @@
 	        this.allViews = [
 	            {
 	                type: 'timeline',
-	                route: 'home.timeline',
+	                route: 'cinema.timeline',
 	                tooltip: 'Timeline',
 	                icon: 'share'
 	            }, {
 	                type: 'table',
-	                route: 'home.table',
+	                route: 'cinema.table',
 	                tooltip: 'Table',
 	                icon: 'view_week'
 	            }
@@ -1966,6 +1966,91 @@
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 64 */,
+/* 65 */
+/***/ function(module, exports) {
+
+	module.exports = "<div>\n  <div class=\"md-whiteframe-3dp cv-content cv-date-choose\" id=\"selected-date\" layout=\"column\" layout-align=\"center center\">\n    <cc-date-chooser></cc-date-chooser>\n  </div>\n  <div class=\"md-whiteframe-3dp cv-content cc-selected\"\n       id=\"selected-data\"\n       layout=\"row\"\n       layout-align=\"center center\"\n       ng-controller=\"basicInformationController as basic\">\n    <h1>Zobrazuji filmy v kině\n      <a ng-click=\"basic.onCinemaClicked()\">{{basic.getSelectedItem()? basic.getSelectedItem().text : 'vše'}}</a>,\n      pro datum <a ng-click=\"basic.onDateClicked()\">{{basic.getSelectedDate() ? basic.getSelectedDate() : 'vše'}}</a></h1>\n  </div>\n  <cc-movie-search></cc-movie-search>\n  <div class=\"md-whiteframe-3dp cv-content cv-timeline-trend\" id=\"timeline-trend\" layout=\"column\">\n    <cc-home-content></cc-home-content>\n  </div>\n</div>\n"
+
+/***/ },
+/* 66 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var ToolbarComponent = (function () {
+	    function ToolbarComponent() {
+	        this.replace = true;
+	        this.template = __webpack_require__(67);
+	        this.controller = 'basicInformationController as basic';
+	        this.controllerAs = 'vm';
+	        this.bindings = {};
+	    }
+	    return ToolbarComponent;
+	}());
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = ToolbarComponent;
+
+
+/***/ },
+/* 67 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\"md-toolbar-tools\" layout=\"row\" layout-align=\"center center\" >\n  <cc-trigger activate=\"basic.activateDatePicker\"\n              event-name=\"click\"\n              element-name=\"button\">\n    <md-datepicker\n      ng-model=\"basic.cinemaDate\"\n      md-placeholder=\"Enter date\"\n      class=\"cc-toolbar-item cc-datepicker\"\n      md-min-date=\"basic.minDate\"\n      md-max-date=\"basic.maxDate\"\n      md-open-on-focus\n      ng-change=\"basic.dateChanged()\">\n    </md-datepicker>\n  </cc-trigger>\n\n  <cc-select\n    active=\"basic.basicInformationLoader.selectedItem\"\n    select-items=\"basic.items\"\n    label=\"basic.label\"\n    on-change=\"basic.onCinemaSelect(item)\"\n    class=\"cc-toolbar-item\"\n    cc-trigger\n    activate=\"basic.activateSelect\"\n    event-name=\"click\"\n    element-name=\"md-select\"\n  ></cc-select>\n</div>\n"
+
+/***/ },
+/* 68 */,
+/* 69 */
+/***/ function(module, exports) {
+
+	module.exports = "<div layout=\"column\" layout-fill class=\"content-pane\">\n  <div class=\"header\" flex=\"vm.flexValue\">\n    <h2 class=\"md-title\">{{vm.location}}</h2></div>\n  <div ng-repeat=\"item in vm.items\" flex=\"vm.flexValue\" class=\"cinema-link\" ng-class=\"{active: item.active}\">\n    <a class=\"md-title\"\n       ng-click=\"vm.onItemClick(item)\"\n       ng-mouseleave=\"item.active = false\"\n       ng-mouseenter=\"item.active = true\">\n      {{item.text}} <md-icon ng-show=\"item.active\">keyboard_arrow_right</md-icon>\n    </a>\n  </div>\n</div>\n"
+
+/***/ },
+/* 70 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var CinemaLocatorController = (function () {
+	    /* @ngInject */
+	    CinemaLocatorController.$inject = ["$state"];
+	    function CinemaLocatorController($state) {
+	        this.$state = $state;
+	    }
+	    CinemaLocatorController.prototype.$onInit = function () {
+	        this.recalculateFlex();
+	    };
+	    CinemaLocatorController.prototype.$onChanges = function (changesObj) {
+	        if (changesObj.hasOwnProperty('items')) {
+	            this.recalculateFlex();
+	        }
+	    };
+	    CinemaLocatorController.prototype.recalculateFlex = function () {
+	        this.flexValue = (this.items.length + 1 / 100);
+	    };
+	    CinemaLocatorController.prototype.onItemClick = function (item) {
+	        this.onCinemaSelected({ item: item });
+	        this.$state.go('cinema');
+	    };
+	    return CinemaLocatorController;
+	}());
+	var CinemaLocatorComponent = (function () {
+	    function CinemaLocatorComponent() {
+	        this.replace = true;
+	        this.template = __webpack_require__(69);
+	        this.controller = CinemaLocatorController;
+	        this.controllerAs = 'vm';
+	        this.bindings = {
+	            location: '<',
+	            items: '<',
+	            onCinemaSelected: '&'
+	        };
+	    }
+	    return CinemaLocatorComponent;
+	}());
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = CinemaLocatorComponent;
+
 
 /***/ }
 /******/ ]);

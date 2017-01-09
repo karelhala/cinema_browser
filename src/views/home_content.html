@@ -1,18 +1,14 @@
-<div>
-  <div class="md-whiteframe-3dp cv-content cv-date-choose" id="selected-date" layout="column" layout-align="center center">
-    <cc-date-chooser></cc-date-chooser>
-  </div>
-  <div class="md-whiteframe-3dp cv-content cc-selected"
-       id="selected-data"
-       layout="row"
-       layout-align="center center"
-       ng-controller="basicInformationController as basic">
-    <h1>Zobrazuji filmy v kině
-      <a ng-click="basic.onCinemaClicked()">{{basic.getSelectedItem()? basic.getSelectedItem().text : 'vše'}}</a>,
-      pro datum <a ng-click="basic.onDateClicked()">{{basic.getSelectedDate() ? basic.getSelectedDate() : 'vše'}}</a></h1>
-  </div>
-  <cc-movie-search></cc-movie-search>
-  <div class="md-whiteframe-3dp cv-content cv-timeline-trend" id="timeline-trend" layout="column">
-    <cc-home-content></cc-home-content>
-  </div>
+<div class="md-whiteframe-3dp cinema-selector">
+  <md-grid-list
+    md-cols-xs="1" md-cols-sm="2"
+    md-cols-md="3" md-cols-gt-md="4"
+    md-gutter="8px" md-gutter-gt-sm="4px"
+    md-row-height="40px">
+    <md-grid-tile ng-repeat="(key, item) in basic.groupedItems"
+                  md-rowspan="{{item.length + 1}}"
+                  md-colspan-sm="1"
+                  md-colspan-xs="1">
+      <cc-locator items="item" location="key" on-cinema-selected="basic.onCinemaSelect(item)"></cc-locator>
+    </md-grid-tile>
+  </md-grid-list>
 </div>

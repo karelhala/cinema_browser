@@ -1,0 +1,12 @@
+<div layout="column" layout-fill class="content-pane">
+  <div class="header" flex="vm.flexValue">
+    <h2 class="md-title">{{vm.location}}</h2></div>
+  <div ng-repeat="item in vm.items" flex="vm.flexValue" class="cinema-link" ng-class="{active: item.active}">
+    <a class="md-title"
+       ng-click="vm.onItemClick(item)"
+       ng-mouseleave="item.active = false"
+       ng-mouseenter="item.active = true">
+      {{item.text}} <md-icon ng-show="item.active">keyboard_arrow_right</md-icon>
+    </a>
+  </div>
+</div>

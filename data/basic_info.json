@@ -2,76 +2,91 @@
   {
     "text": "Velký Špalíček",
     "type": "CZSpalicekP",
-    "value": 1010107
+    "value": 1010107,
+    "location": "Brno"
   },
   {
     "text": "Olympia",
     "type": "CZOlympiaP",
-    "value": 1010103
+    "value": 1010103,
+    "location": "Brno"
   },
   {
     "text": "Flora",
     "type": "CZFlora",
-    "value": 1010105
+    "value": 1010105,
+    "location": "Praha"
   },
   {
     "text": "Flora(IMAX)",
     "type": "CZNovySmichovP",
-    "value": 1010101
+    "value": 1010101,
+    "location": "Praha"
   },
   {
     "text": "Galaxie",
     "type": "CZGalaxieP",
-    "value": 1010113
+    "value": 1010113,
+    "location": "Praha"
   },
   {
     "text": "Letňany",
     "type": "CZLetnanyP",
-    "value": 1010110
+    "value": 1010110,
+    "location": "Praha"
   },
   {
     "text": "Nový Smíchov",
     "type": "CZSmichov",
-    "value": 1010101
+    "value": 1010101,
+    "location": "Praha"
   },
   {
     "text": "Nový Smíchov (4DX)",
     "type": "CZNovySmichovP",
-    "value": 1010101
+    "value": 1010101,
+    "location": "Praha"
   },
   {
     "text": "Slovanský dům",
     "type": "CZSlovanskyDumP",
-    "value": 1010111
+    "value": 1010111,
+    "location": "Praha"
   },
   {
     "text": "Zličín",
     "type": "CZZlicin",
-    "value": 1010104
+    "value": 1010104,
+    "location": "Praha"
   },
   {
     "text": "Liberec",
     "type": "CZLiberecP",
-    "value": 1010102
+    "value": 1010102,
+    "location": "Liberec"
   },
   {
     "text": "Ostrava",
     "type": "CZOstravaP",
-    "value": 1010114
+    "value": 1010114,
+    "location": "Ostrava"
   },
   {
     "text": "Pardubice",
     "type": "CZPardubiceP",
-    "value": 1010108
+    "value": 1010108,
+    "location": "Pardubice"
   },
   {
     "text": "Ústí nad Labem",
     "type": "CZUstiP",
-    "value": 1010109
+    "value": 1010109,
+    "location": "Ústí nad Labem"
   },
   {
     "text": "Plzeň",
     "type": "CZPlzenP",
-    "value": 1010106
+    "value": 1010106,
+    "location": "Plzeň"
   }
 ]

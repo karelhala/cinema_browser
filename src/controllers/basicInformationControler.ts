@@ -1,5 +1,6 @@
 ///<reference path="../tsd.d.ts"/>
 import * as moment from 'moment';
+import * as _ from 'lodash';
 
 export default class BasicInformationController {
   public direction: string = 'down';
@@ -9,11 +10,12 @@ export default class BasicInformationController {
   public cinemaDate: any;
   public activateSelect: boolean = false;
   public activateDatePicker: boolean = false;
+  public groupedItems: any;
   public minDate: any;
   public maxDate: any;
 
   /* @ngInject */
-  constructor(private basicInformationLoader: any, private movieLoader: any, private $q: any) {
+  constructor(public basicInformationLoader: any, private movieLoader: any, private $q: any) {
     this.minDate = new Date();
     this.maxDate = moment().add(4, 'day').startOf('day').toDate();
     this.label = 'Kino';
@@ -21,6 +23,7 @@ export default class BasicInformationController {
     const cinemas = this.basicInformationLoader.getCinemas();
     this.$q.all([movies, cinemas]).then(responseData => {
       this.items = this.movieLoader.filterCinemaData({cinemas: responseData[1], movies: responseData[0]});
+      this.groupedItems = _.groupBy(this.items, 'location');
       this.basicInformationLoader.setAllCinemas(this.items);
     });
     this.cinemaDate = this.basicInformationLoader.selectedTime.toDate();

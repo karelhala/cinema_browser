@@ -7,6 +7,10 @@ class SelectController {
   public selectedCinema: any;
   public element;
 
+  constructor() {
+    console.log(this);
+  }
+
   public ctrlGetSelected() {
     this.onChange({
       item: _.find(this.selectItems, {text: this.selectedCinema})
@@ -21,6 +25,7 @@ export default class SelectComponent implements ng.IDirective {
   public bindToController: any = {
     selectItems: '<',
     label: '<',
+    active: '<',
     onChange: '&'
   };
 

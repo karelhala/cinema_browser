@@ -9,12 +9,12 @@ export class HomeContentController {
   public currentView: any;
   /* @ngInject */
   constructor(private $state: any, private $window: any) {
+    location.hash = '#timeline-trend';
     this.initViews();
     if (this.$window.innerWidth < 680) {
       this.currentView = this.allViews[0];
       this.$state.transitionTo(this.currentView.route);
       this.allViews.splice(1,1);
-      console.log(this);
     } else {
       this.currentView = this.allViews[1];
       this.$state.transitionTo(this.currentView.route);
@@ -25,12 +25,12 @@ export class HomeContentController {
     this.allViews = [
       {
         type: 'timeline',
-        route: 'home.timeline',
+        route: 'cinema.timeline',
         tooltip: 'Timeline',
         icon: 'share'
       }, {
         type: 'table',
-        route: 'home.table',
+        route: 'cinema.table',
         tooltip: 'Table',
         icon: 'view_week'
       }

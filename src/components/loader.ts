@@ -9,6 +9,8 @@ import searcher from './movieSearch/loader';
 import HomeContent from './homeContent';
 
 import TriggerDirective from './triggerDrective';
+import ToolbarComponent from './toolbarComponent';
+import CinemaLocatorComponent from './cinemaLocator';
 
 export default (module: ng.IModule) => {
   searcher(module);
@@ -20,4 +22,6 @@ export default (module: ng.IModule) => {
   dateChoosers(module);
   module.directive('ccTrigger', TriggerDirective.Factory());
   module.component('ccHomeContent', new HomeContent);
+  module.component('ccToolbar', new ToolbarComponent);
+  module.component('ccLocator', new CinemaLocatorComponent);
 };
