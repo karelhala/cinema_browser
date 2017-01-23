@@ -25,7 +25,7 @@ var webpack = require('webpack'),
     }),
     new webpack.optimize.CommonsChunkPlugin(
       settings.appName,
-      settings.distFolder + '/' + settings.javascriptFolder + '/' + settings.appName + settings.isMinified(production)
+      settings.distFolder + '/' + settings.javascriptFolder + '/' + settings.appName + settings.isMinified(false)
     ),
     new ExtractTextPlugin(settings.stylesheetPath),
     new NgAnnotatePlugin({add: true})
