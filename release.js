@@ -53,5 +53,5 @@ const encodeFile = async (filename) => Buffer.from(await readFile(filename)).toS
         content: content,
         debug: true,
         ...sha && { sha }
-    }).then(() => {}, console.log)
+    }).then(() => { }, console.log)
 })();
