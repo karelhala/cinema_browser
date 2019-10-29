@@ -6,6 +6,7 @@ node_modules/
 typings/
 *.css.map
 *.js.map
+.env
 
 # idea files
 .idea/
